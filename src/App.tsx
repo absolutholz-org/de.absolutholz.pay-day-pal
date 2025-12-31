@@ -7,6 +7,9 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
+  collection,
+  addDoc,
+  getDocs,
 } from 'firebase/firestore';
 import {
   RotateCcw,
@@ -16,6 +19,10 @@ import {
   ChevronUp,
   Settings,
   X,
+  Plus,
+  Users,
+  ArrowLeft,
+  Trash2,
 } from 'lucide-react';
 
 const firebaseConfig = {
@@ -32,7 +39,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Constants
-const CHORES = [
+const DEFAULT_CHORES = [
   {
     id: 'make-bed',
     label: 'Make Bed',
@@ -115,11 +122,6 @@ const BASE_DAYS = [
   'Saturday',
 ];
 
-const CHILDREN = [
-  { id: 'dominic', name: 'Dominic' },
-  { id: 'veronica', name: 'Verônica' },
-];
-
 // Styled Components
 const Container = styled.div`
   width: 100%;
@@ -136,7 +138,7 @@ const Header = styled.header`
   position: relative;
 `;
 
-const SettingsButton = styled.button`
+const IconButton = styled.button`
   position: absolute;
   top: 0;
   right: 0;
@@ -150,6 +152,11 @@ const SettingsButton = styled.button`
   &:hover {
     color: #2c3e50;
   }
+`;
+
+const BackButton = styled(IconButton)`
+  right: auto;
+  left: 0;
 `;
 
 const Title = styled.h1`
@@ -470,29 +477,103 @@ const Select = styled.select`
   }
 `;
 
+const Card = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ecf0f1;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const CardTitle = styled.h3`
+  font-size: 1.25rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+`;
+
+const CardMeta = styled.div`
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #bdc3c7;
+  font-size: 1rem;
+  font-family: inherit;
+  color: #2c3e50;
+  background-color: white;
+  margin-bottom: 1rem;
+
+  &:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+`;
+
 type ChoreData = {
   [key: string]: number;
 };
 
-function App() {
+type Member = {
+  id: string;
+  name: string;
+};
+
+type Chore = {
+  id: string;
+  label: string;
+  value: number;
+  frequency: string;
+  effort: string;
+};
+
+type HouseholdSettings = {
+  weekStartDay: number;
+};
+
+type Household = {
+  id: string;
+  name: string;
+  members: Member[];
+  chores: Chore[];
+  settings: HouseholdSettings;
+};
+
+function HouseholdTracker({
+  household,
+  onBack,
+}: {
+  household: Household;
+  onBack: () => void;
+}) {
   const [choreData, setChoreData] = useState<ChoreData>({});
   const [isSettingsOpen, setIsSettingsOpen] = useState(
     () => window.location.pathname === '/settings'
   );
-  const [activeChild, setActiveChild] = useState(() => {
-    const saved = localStorage.getItem('payDayPal_activeChild');
-    if (saved && CHILDREN.some((c) => c.id === saved)) {
+  const [activeChild, setActiveChild] = useState<string>(() => {
+    const saved = localStorage.getItem(`payDayPal_activeChild_${household.id}`);
+    if (saved && household.members.some((c) => c.id === saved)) {
       return saved;
     }
-    return CHILDREN[0].id;
+    return household.members[0]?.id || '';
   });
-  const [weekStartDay, setWeekStartDay] = useState(() => {
-    const saved = localStorage.getItem('payDayPal_weekStartDay');
-    if (saved !== null) {
-      return parseInt(saved, 10);
-    }
-    return 1; // Default to Monday
-  });
+  const [weekStartDay, setWeekStartDay] = useState(
+    household.settings.weekStartDay
+  );
   const [expandedDayIndex, setExpandedDayIndex] = useState<number | null>(
     () => {
       const saved = localStorage.getItem('payDayPal_expandedDayIndex');
@@ -504,6 +585,8 @@ function App() {
     }
   );
   const [loading, setLoading] = useState(true);
+
+  const chores = household.chores;
 
   const orderedDays = useMemo(() => {
     const days = [];
@@ -521,49 +604,33 @@ function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Sync settings to Local Storage and Firebase
+  // Sync settings to Local Storage and Firebase (Household Config)
   useEffect(() => {
-    localStorage.setItem('payDayPal_activeChild', activeChild);
-    localStorage.setItem('payDayPal_weekStartDay', String(weekStartDay));
-    debugger;
+    localStorage.setItem(`payDayPal_activeChild_${household.id}`, activeChild);
+
     const syncToFirebase = async () => {
       try {
-        const configRef = doc(db, 'households', 'config');
-        await setDoc(configRef, { activeChild, weekStartDay }, { merge: true });
+        // We update the household document itself for settings
+        const householdRef = doc(db, 'households', household.id);
+        await updateDoc(householdRef, {
+          'settings.weekStartDay': weekStartDay,
+        });
       } catch (error) {
         console.error('Error syncing settings to Firebase:', error);
       }
     };
-    syncToFirebase();
-  }, [activeChild, weekStartDay]);
-
-  // Listen for external activeChild changes
-  useEffect(() => {
-    const configRef = doc(db, 'households', 'config');
-    const unsubscribe = onSnapshot(configRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        if (
-          data.activeChild &&
-          CHILDREN.some((c) => c.id === data.activeChild)
-        ) {
-          setActiveChild((prev) =>
-            prev !== data.activeChild ? data.activeChild : prev
-          );
-        }
-        if (typeof data.weekStartDay === 'number') {
-          setWeekStartDay((prev) =>
-            prev !== data.weekStartDay ? data.weekStartDay : prev
-          );
-        }
-      }
-    });
-    return () => unsubscribe();
-  }, []);
+    // Debounce or only sync on change? For now, simple sync.
+    if (weekStartDay !== household.settings.weekStartDay) syncToFirebase();
+  }, [
+    activeChild,
+    weekStartDay,
+    household.id,
+    household.settings.weekStartDay,
+  ]);
 
   useEffect(() => {
     setLoading(true);
-    const docRef = doc(db, 'households', activeChild);
+    const docRef = doc(db, 'households', household.id, 'activity', activeChild);
     const unsubscribe = onSnapshot(
       docRef,
       (docSnap) => {
@@ -580,7 +647,7 @@ function App() {
       }
     );
     return () => unsubscribe();
-  }, [activeChild]);
+  }, [activeChild, household.id]);
 
   const toggleDay = (index: number) => {
     setExpandedDayIndex((prev) => {
@@ -606,7 +673,13 @@ function App() {
     setChoreData(newData);
 
     try {
-      const docRef = doc(db, 'households', activeChild);
+      const docRef = doc(
+        db,
+        'households',
+        household.id,
+        'activity',
+        activeChild
+      );
       await updateDoc(docRef, { [key]: newVal });
     } catch (error) {
       console.error('Error updating chore:', error);
@@ -614,7 +687,7 @@ function App() {
   };
 
   const resetWeek = async () => {
-    const childName = CHILDREN.find((c) => c.id === activeChild)?.name;
+    const childName = household.members.find((c) => c.id === activeChild)?.name;
     if (
       window.confirm(
         `Are you sure you want to reset the week for ${childName}?`
@@ -622,7 +695,13 @@ function App() {
     ) {
       setChoreData({});
       try {
-        const docRef = doc(db, 'households', activeChild);
+        const docRef = doc(
+          db,
+          'households',
+          household.id,
+          'activity',
+          activeChild
+        );
         await setDoc(docRef, {});
       } catch (error) {
         console.error('Error resetting week:', error);
@@ -632,7 +711,7 @@ function App() {
 
   const calculateTotal = () => {
     let total = 0;
-    CHORES.forEach((chore) => {
+    chores.forEach((chore) => {
       orderedDays.forEach((_, dayIndex) => {
         const count = Number(choreData[`${chore.id}-${dayIndex}`] || 0);
         total += chore.value * count;
@@ -658,7 +737,7 @@ function App() {
   const getDayStats = (dayIndex: number) => {
     let tasks = 0;
     let earnings = 0;
-    CHORES.forEach((chore) => {
+    chores.forEach((chore) => {
       const count = Number(choreData[`${chore.id}-${dayIndex}`] || 0);
       tasks += count;
       earnings += count * chore.value;
@@ -669,20 +748,23 @@ function App() {
   return (
     <Container>
       <Header>
-        <SettingsButton
+        <BackButton onClick={onBack}>
+          <ArrowLeft size={24} />
+        </BackButton>
+        <IconButton
           onClick={() => {
             window.history.pushState(null, '', '/settings');
             setIsSettingsOpen(true);
           }}
         >
           <Settings size={24} />
-        </SettingsButton>
-        <Title>The Pay-Day Pal</Title>
+        </IconButton>
+        <Title>{household.name}</Title>
         <Subtitle>Track chores and earn your allowance!</Subtitle>
       </Header>
 
       <TabContainer>
-        {CHILDREN.map((child) => (
+        {household.members.map((child) => (
           <TabButton
             key={child.id}
             active={activeChild === child.id}
@@ -732,7 +814,7 @@ function App() {
               {expandedDayIndex === dayIndex && (
                 <AccordionContent>
                   <ChoreList>
-                    {CHORES.map((chore) => (
+                    {chores.map((chore) => (
                       <React.Fragment key={chore.id}>
                         {(() => {
                           const count = Number(
@@ -826,6 +908,203 @@ function App() {
           </SettingsContainer>
         </SettingsPage>
       )}
+    </Container>
+  );
+}
+
+function App() {
+  const [view, setView] = useState<'list' | 'create' | 'app'>('list');
+  const [households, setHouseholds] = useState<Household[]>([]);
+  const [currentHousehold, setCurrentHousehold] = useState<Household | null>(
+    null
+  );
+  const [loading, setLoading] = useState(true);
+
+  // Create Household Form State
+  const [newHouseholdName, setNewHouseholdName] = useState('');
+  const [newMembers, setNewMembers] = useState<string[]>(['']);
+  const [newWeekStart, setNewWeekStart] = useState(1);
+
+  useEffect(() => {
+    const fetchHouseholds = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'households'));
+        const loadedHouseholds: Household[] = [];
+        querySnapshot.forEach((doc) => {
+          // Simple validation/casting
+          const data = doc.data() as Omit<Household, 'id'>;
+          loadedHouseholds.push({ id: doc.id, ...data });
+        });
+        setHouseholds(loadedHouseholds);
+
+        // Auto-select if saved in local storage
+        const savedId = localStorage.getItem('payDayPal_selectedHouseholdId');
+        if (savedId) {
+          const found = loadedHouseholds.find((h) => h.id === savedId);
+          if (found) {
+            setCurrentHousehold(found);
+            setView('app');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading households:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHouseholds();
+  }, []);
+
+  const handleCreateHousehold = async () => {
+    if (!newHouseholdName.trim()) return alert('Please enter a household name');
+    const validMembers = newMembers
+      .filter((m) => m.trim())
+      .map((name) => ({
+        id: name.toLowerCase().replace(/\s+/g, '-'),
+        name,
+      }));
+
+    if (validMembers.length === 0)
+      return alert('Please add at least one member');
+
+    const newHousehold: Omit<Household, 'id'> = {
+      name: newHouseholdName,
+      members: validMembers,
+      chores: DEFAULT_CHORES,
+      settings: { weekStartDay: newWeekStart },
+    };
+
+    try {
+      const docRef = await addDoc(collection(db, 'households'), newHousehold);
+      const created = { id: docRef.id, ...newHousehold };
+      setHouseholds([...households, created]);
+      setCurrentHousehold(created);
+      localStorage.setItem('payDayPal_selectedHouseholdId', created.id);
+      setView('app');
+    } catch (error) {
+      console.error('Error creating household:', error);
+      alert('Failed to create household');
+    }
+  };
+
+  const handleSelectHousehold = (household: Household) => {
+    setCurrentHousehold(household);
+    localStorage.setItem('payDayPal_selectedHouseholdId', household.id);
+    setView('app');
+  };
+
+  const handleBackToHouseholds = () => {
+    setCurrentHousehold(null);
+    localStorage.removeItem('payDayPal_selectedHouseholdId');
+    setView('list');
+  };
+
+  if (loading) return <Container>Loading...</Container>;
+
+  if (view === 'app' && currentHousehold) {
+    return (
+      <HouseholdTracker
+        household={currentHousehold}
+        onBack={handleBackToHouseholds}
+      />
+    );
+  }
+
+  if (view === 'create') {
+    return (
+      <Container>
+        <Header>
+          <BackButton onClick={() => setView('list')}>
+            <ArrowLeft size={24} />
+          </BackButton>
+          <Title>New Household</Title>
+        </Header>
+        <FormGroup>
+          <Label>Household Name</Label>
+          <Input
+            placeholder="e.g. The Smiths"
+            value={newHouseholdName}
+            onChange={(e) => setNewHouseholdName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label>Members</Label>
+          {newMembers.map((member, index) => (
+            <div
+              key={index}
+              style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}
+            >
+              <Input
+                placeholder="Name"
+                value={member}
+                onChange={(e) => {
+                  const updated = [...newMembers];
+                  updated[index] = e.target.value;
+                  setNewMembers(updated);
+                }}
+                style={{ marginBottom: 0 }}
+              />
+              {newMembers.length > 1 && (
+                <IconButton
+                  onClick={() =>
+                    setNewMembers(newMembers.filter((_, i) => i !== index))
+                  }
+                  style={{ position: 'static', color: '#e74c3c' }}
+                >
+                  <Trash2 size={20} />
+                </IconButton>
+              )}
+            </div>
+          ))}
+          <ResetButton
+            onClick={() => setNewMembers([...newMembers, ''])}
+            style={{ marginTop: '0.5rem', background: '#3498db' }}
+          >
+            <Plus size={18} /> Add Member
+          </ResetButton>
+        </FormGroup>
+        <FormGroup>
+          <Label>Start of Week</Label>
+          <Select
+            value={newWeekStart}
+            onChange={(e) => setNewWeekStart(Number(e.target.value))}
+          >
+            {BASE_DAYS.map((day, index) => (
+              <option key={day} value={index}>
+                {day}
+              </option>
+            ))}
+          </Select>
+        </FormGroup>
+        <ResetButton
+          onClick={handleCreateHousehold}
+          style={{ marginTop: '2rem' }}
+        >
+          Create Household
+        </ResetButton>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <Header>
+        <Title>Select Household</Title>
+      </Header>
+      {households.map((h) => (
+        <Card key={h.id} onClick={() => handleSelectHousehold(h)}>
+          <CardTitle>{h.name}</CardTitle>
+          <CardMeta>
+            <Users size={16} /> {h.members.length} Members
+          </CardMeta>
+        </Card>
+      ))}
+      <ResetButton
+        onClick={() => setView('create')}
+        style={{ marginTop: '2rem', background: '#3498db' }}
+      >
+        <Plus size={18} /> Create New Household
+      </ResetButton>
     </Container>
   );
 }
