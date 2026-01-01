@@ -4,7 +4,7 @@ name: Deploy App to Webgo
 on:
   push:
     branches:
-      - vibe-coded
+      - main
       # - nextjs-rewrite # Added this branch for testing
 
 jobs:
