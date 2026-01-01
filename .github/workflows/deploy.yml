@@ -50,13 +50,13 @@ jobs:
           ssh-keyscan ${{ secrets.WEBGO_SFTP_HOST }} >> ~/.ssh/known_hosts
 
           # Execute commands on the remote server
-          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "mkdir -p /home/www/de.absolutholz.pay-day-pal/public && rm -rf /home/www/de.absolutholz.pay-day-pal/public/*"
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "mkdir -p /home/www/de.absolutholz.pay-day-pal && rm -rf /home/www/de.absolutholz.pay-day-pal/*"
 
           # Rsync the dist directory
-          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }}" dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/public/
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }}" dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/
 
           # Fix permissions on the server
-          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "find /home/www/de.absolutholz.pay-day-pal/public -type d -exec chmod 755 {} \; && find /home/www/de.absolutholz.pay-day-pal/public -type f -exec chmod 644 {} \;"
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "find /home/www/de.absolutholz.pay-day-pal -type d -exec chmod 755 {} \; && find /home/www/de.absolutholz.pay-day-pal -type f -exec chmod 644 {} \;"
 
           # Clean up the private key (Important for security)
           rm ~/.ssh/id_rsa
