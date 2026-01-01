@@ -39,15 +39,21 @@ jobs:
         run: pnpm run build
 
       # Step 6: Deploy the built site to your server via SSH/rsync
-      - name: Deploy via rsync to Webgo
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.WEBGO_SFTP_HOST }}
-          username: ${{ secrets.WEBGO_SFTP_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.WEBGO_SFTP_PORT || 22 }}
-          script: |
-            # Use rsync to synchronize the 'dist' directory with the server's public folder.
-            # The --delete flag removes any files on the server that are not in the 'dist' directory.
-            # The trailing slash on 'dist/' is important: it copies the *contents* of the directory.
-            rsync -avz --delete dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/public/
+      - name: Deploy via SSH to Webgo
+        run: |
+          # Create SSH directory and private key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Add known host to avoid host key verification prompts
+          ssh-keyscan ${{ secrets.WEBGO_SFTP_HOST }} >> ~/.ssh/known_hosts
+
+          # Execute commands on the remote server
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "mkdir -p /home/www/de.absolutholz.pay-day-pal/public && rm -rf /home/www/de.absolutholz.pay-day-pal/public/*"
+
+          # Rsync the dist directory
+          rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }}" dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/public/
+
+          # Clean up the private key (Important for security)
+          rm ~/.ssh/id_rsa
