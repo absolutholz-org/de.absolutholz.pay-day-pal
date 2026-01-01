@@ -560,10 +560,25 @@ function HouseholdTracker({
   household: Household;
   onBack: () => void;
 }) {
+  const [householdData, setHouseholdData] = useState<Household>(household);
   const [choreData, setChoreData] = useState<ChoreData>({});
   const [isSettingsOpen, setIsSettingsOpen] = useState(
     () => window.location.pathname === '/settings'
   );
+  const [settingsName, setSettingsName] = useState(household.name);
+  const [newMemberName, setNewMemberName] = useState('');
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'households', household.id), (docSnap) => {
+      if (docSnap.exists()) {
+        const data = { id: docSnap.id, ...docSnap.data() } as Household;
+        setHouseholdData(data);
+        setSettingsName(data.name);
+      }
+    });
+    return () => unsub();
+  }, [household.id]);
+
   const [activeChild, setActiveChild] = useState<string>(() => {
     const saved = localStorage.getItem(`payDayPal_activeChild_${household.id}`);
     if (saved && household.members.some((c) => c.id === saved)) {
@@ -572,11 +587,13 @@ function HouseholdTracker({
     return household.members[0]?.id || '';
   });
   const [weekStartDay, setWeekStartDay] = useState(
-    household.settings.weekStartDay
+    householdData.settings.weekStartDay
   );
   const [expandedDayIndex, setExpandedDayIndex] = useState<number | null>(
     () => {
-      const saved = localStorage.getItem('payDayPal_expandedDayIndex');
+      const saved = localStorage.getItem(
+        `payDayPal_expandedDayIndex_${household.id}`
+      );
       if (saved !== null) {
         return parseInt(saved, 10);
       }
@@ -586,7 +603,7 @@ function HouseholdTracker({
   );
   const [loading, setLoading] = useState(true);
 
-  const chores = household.chores;
+  const chores = householdData.chores;
 
   const orderedDays = useMemo(() => {
     const days = [];
@@ -606,12 +623,15 @@ function HouseholdTracker({
 
   // Sync settings to Local Storage and Firebase (Household Config)
   useEffect(() => {
-    localStorage.setItem(`payDayPal_activeChild_${household.id}`, activeChild);
+    localStorage.setItem(
+      `payDayPal_activeChild_${householdData.id}`,
+      activeChild
+    );
 
     const syncToFirebase = async () => {
       try {
         // We update the household document itself for settings
-        const householdRef = doc(db, 'households', household.id);
+        const householdRef = doc(db, 'households', householdData.id);
         await updateDoc(householdRef, {
           'settings.weekStartDay': weekStartDay,
         });
@@ -620,17 +640,23 @@ function HouseholdTracker({
       }
     };
     // Debounce or only sync on change? For now, simple sync.
-    if (weekStartDay !== household.settings.weekStartDay) syncToFirebase();
+    if (weekStartDay !== householdData.settings.weekStartDay) syncToFirebase();
   }, [
     activeChild,
     weekStartDay,
-    household.id,
-    household.settings.weekStartDay,
+    householdData.id,
+    householdData.settings.weekStartDay,
   ]);
 
   useEffect(() => {
     setLoading(true);
-    const docRef = doc(db, 'households', household.id, 'activity', activeChild);
+    const docRef = doc(
+      db,
+      'households',
+      householdData.id,
+      'activity',
+      activeChild
+    );
     const unsubscribe = onSnapshot(
       docRef,
       (docSnap) => {
@@ -647,15 +673,20 @@ function HouseholdTracker({
       }
     );
     return () => unsubscribe();
-  }, [activeChild, household.id]);
+  }, [activeChild, householdData.id]);
 
   const toggleDay = (index: number) => {
     setExpandedDayIndex((prev) => {
       const newIndex = prev === index ? null : index;
       if (newIndex !== null) {
-        localStorage.setItem('payDayPal_expandedDayIndex', String(newIndex));
+        localStorage.setItem(
+          `payDayPal_expandedDayIndex_${householdData.id}`,
+          String(newIndex)
+        );
       } else {
-        localStorage.removeItem('payDayPal_expandedDayIndex');
+        localStorage.removeItem(
+          `payDayPal_expandedDayIndex_${householdData.id}`
+        );
       }
       return newIndex;
     });
@@ -676,7 +707,7 @@ function HouseholdTracker({
       const docRef = doc(
         db,
         'households',
-        household.id,
+        householdData.id,
         'activity',
         activeChild
       );
@@ -687,7 +718,9 @@ function HouseholdTracker({
   };
 
   const resetWeek = async () => {
-    const childName = household.members.find((c) => c.id === activeChild)?.name;
+    const childName = householdData.members.find(
+      (c) => c.id === activeChild
+    )?.name;
     if (
       window.confirm(
         `Are you sure you want to reset the week for ${childName}?`
@@ -698,7 +731,7 @@ function HouseholdTracker({
         const docRef = doc(
           db,
           'households',
-          household.id,
+          householdData.id,
           'activity',
           activeChild
         );
@@ -748,9 +781,6 @@ function HouseholdTracker({
   return (
     <Container>
       <Header>
-        <BackButton onClick={onBack}>
-          <ArrowLeft size={24} />
-        </BackButton>
         <IconButton
           onClick={() => {
             window.history.pushState(null, '', '/settings');
@@ -759,12 +789,12 @@ function HouseholdTracker({
         >
           <Settings size={24} />
         </IconButton>
-        <Title>{household.name}</Title>
+        <Title>{householdData.name}</Title>
         <Subtitle>Track chores and earn your allowance!</Subtitle>
       </Header>
 
       <TabContainer>
-        {household.members.map((child) => (
+        {householdData.members.map((child) => (
           <TabButton
             key={child.id}
             active={activeChild === child.id}
@@ -882,6 +912,100 @@ function HouseholdTracker({
               </CloseButton>
             </SettingsHeader>
             <FormGroup>
+              <Label>Household Name</Label>
+              <Input
+                value={settingsName}
+                onChange={(e) => setSettingsName(e.target.value)}
+                onBlur={async () => {
+                  if (settingsName.trim() !== householdData.name) {
+                    await updateDoc(doc(db, 'households', householdData.id), {
+                      name: settingsName.trim(),
+                    });
+                  }
+                }}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label>Members</Label>
+              {householdData.members.map((member) => (
+                <div
+                  key={member.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  <Input
+                    value={member.name}
+                    readOnly
+                    style={{ marginBottom: 0, backgroundColor: '#f8f9fa' }}
+                  />
+                  <IconButton
+                    style={{ position: 'static', color: '#e74c3c' }}
+                    onClick={async () => {
+                      if (confirm(`Remove ${member.name}?`)) {
+                        const newMembers = householdData.members.filter(
+                          (m) => m.id !== member.id
+                        );
+                        await updateDoc(
+                          doc(db, 'households', householdData.id),
+                          {
+                            members: newMembers,
+                          }
+                        );
+                        if (
+                          activeChild === member.id &&
+                          newMembers.length > 0
+                        ) {
+                          setActiveChild(newMembers[0].id);
+                        }
+                      }
+                    }}
+                  >
+                    <Trash2 size={20} />
+                  </IconButton>
+                </div>
+              ))}
+              <div
+                style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}
+              >
+                <Input
+                  placeholder="New Member Name"
+                  value={newMemberName}
+                  onChange={(e) => setNewMemberName(e.target.value)}
+                  style={{ marginBottom: 0 }}
+                />
+                <ResetButton
+                  style={{
+                    margin: 0,
+                    padding: '0.5rem 1rem',
+                    background: '#3498db',
+                  }}
+                  onClick={async () => {
+                    if (newMemberName.trim()) {
+                      const newId = newMemberName
+                        .trim()
+                        .toLowerCase()
+                        .replace(/\s+/g, '-');
+                      const newMember = {
+                        id: newId,
+                        name: newMemberName.trim(),
+                      };
+                      const newMembers = [...householdData.members, newMember];
+                      await updateDoc(doc(db, 'households', householdData.id), {
+                        members: newMembers,
+                      });
+                      setNewMemberName('');
+                    }
+                  }}
+                >
+                  <Plus size={20} />
+                </ResetButton>
+              </div>
+            </FormGroup>
+            <FormGroup>
               <Label>Start of Week Cycle</Label>
               <Select
                 value={weekStartDay}
@@ -904,6 +1028,18 @@ function HouseholdTracker({
             >
               <RotateCcw size={18} />
               Reset Week
+            </ResetButton>
+            <ResetButton
+              onClick={onBack}
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                marginTop: '1rem',
+                backgroundColor: '#95a5a6',
+              }}
+            >
+              <ArrowLeft size={18} />
+              Leave Household
             </ResetButton>
           </SettingsContainer>
         </SettingsPage>
