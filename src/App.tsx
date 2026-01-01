@@ -125,7 +125,7 @@ const BASE_DAYS = [
 // Styled Components
 const Container = styled.div`
   width: 100%;
-  max-width: 600px;
+  max-width: 100rem;
   margin: 0 auto;
   padding: 1rem;
   min-height: 100vh;
@@ -288,8 +288,8 @@ const AccordionContent = styled.div`
 `;
 
 const ChoreList = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
   gap: 1rem;
 `;
 
@@ -601,7 +601,7 @@ function HouseholdTracker({
       return day === 0 ? 6 : day - 1; // Convert to 0=Mon, 6=Sun
     }
   );
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   const chores = householdData.chores;
 

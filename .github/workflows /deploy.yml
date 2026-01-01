@@ -1,0 +1,53 @@
+name: Deploy App to Webgo
+
+# This workflow runs on any push to the 'main'
+on:
+  push:
+    branches:
+      - main
+      # - nextjs-rewrite # Added this branch for testing
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    steps:
+      # Step 1: Check out the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up PNPM, the package manager for this project
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9 # Use the latest major version of pnpm
+
+      # Step 3: Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22' # Use the latest LTS Node.js version
+          cache: 'pnpm' # Enable caching for pnpm to speed up builds
+
+      # Step 4: Install project dependencies
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Step 5: Build the static site. The output will be in the 'out' directory.
+      - name: Build the app
+        run: pnpm run build
+
+      # Step 6: Deploy the built site to your server via SSH/rsync
+      - name: Deploy via rsync to Webgo
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.WEBGO_SFTP_HOST }}
+          username: ${{ secrets.WEBGO_SFTP_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.WEBGO_SFTP_PORT || 22 }}
+          script: |
+            # Use rsync to synchronize the 'dist' directory with the server's public folder.
+            # The --delete flag removes any files on the server that are not in the 'dist' directory.
+            # The trailing slash on 'dist/' is important: it copies the *contents* of the directory.
+            rsync -avz --delete dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/public/
