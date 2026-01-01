@@ -55,5 +55,8 @@ jobs:
           # Rsync the dist directory
           rsync -avz --delete -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }}" dist/ ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }}:/home/www/de.absolutholz.pay-day-pal/public/
 
+          # Fix permissions on the server
+          ssh -i ~/.ssh/id_rsa -p ${{ secrets.WEBGO_SFTP_PORT || 22 }} ${{ secrets.WEBGO_SFTP_USERNAME }}@${{ secrets.WEBGO_SFTP_HOST }} "find /home/www/de.absolutholz.pay-day-pal/public -type d -exec chmod 755 {} \; && find /home/www/de.absolutholz.pay-day-pal/public -type f -exec chmod 644 {} \;"
+
           # Clean up the private key (Important for security)
           rm ~/.ssh/id_rsa
