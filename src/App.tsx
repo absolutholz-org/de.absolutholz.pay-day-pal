@@ -9,7 +9,7 @@ import {
   updateDoc,
   collection,
   addDoc,
-  getDocs,
+  enableIndexedDbPersistence,
 } from 'firebase/firestore';
 import {
   RotateCcw,
@@ -23,6 +23,7 @@ import {
   Users,
   ArrowLeft,
   Trash2,
+  Loader,
 } from 'lucide-react';
 
 const firebaseConfig = {
@@ -37,6 +38,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+enableIndexedDbPersistence(db).catch((err: any) => {
+  if (err.code === 'failed-precondition') {
+    console.warn('Persistence failed: Multiple tabs open');
+  } else if (err.code === 'unimplemented') {
+    console.warn('Persistence failed: Browser not supported');
+  }
+});
 
 // Constants
 const DEFAULT_CHORES = [
@@ -112,16 +120,6 @@ const DEFAULT_CHORES = [
   },
 ];
 
-const BASE_DAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-
 // Styled Components
 const Container = styled.div`
   width: 100%;
@@ -157,6 +155,20 @@ const IconButton = styled.button`
 const BackButton = styled(IconButton)`
   right: auto;
   left: 0;
+`;
+
+const LoadingIndicator = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 3rem; /* Left of the settings/menu icon */
+  color: #3498db;
+  animation: spin 1s linear infinite;
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  display: flex;
 `;
 
 const Title = styled.h1`
@@ -224,67 +236,76 @@ const BalanceValue = styled.div`
   gap: 0.25rem;
 `;
 
-const AccordionContainer = styled.div`
+const DateScroll = styled.div`
+  display: flex;
+  overflow-x: auto;
+  gap: 0.75rem;
+  padding: 0.5rem 0.25rem;
+  margin-bottom: 1.5rem;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const DateCard = styled.button<{ active: boolean }>`
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-`;
-
-const AccordionItem = styled.div`
-  border: 1px solid #ecf0f1;
-  border-radius: 16px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-`;
-
-const AccordionHeader = styled.button<{ active: boolean }>`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.25rem;
-  background: ${(props) => (props.active ? '#f8f9fa' : 'white')};
-  border: none;
+  justify-content: center;
+  min-width: 4.5rem;
+  padding: 0.75rem 0.5rem;
+  background: ${(props) => (props.active ? '#2c3e50' : 'white')};
+  color: ${(props) => (props.active ? 'white' : '#2c3e50')};
+  border: 1px solid ${(props) => (props.active ? '#2c3e50' : '#ecf0f1')};
+  border-radius: 12px;
   cursor: pointer;
-  font-family: inherit;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 `;
 
-const DayTitle = styled.span`
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #2c3e50;
-`;
-
-const DayDate = styled.span`
-  font-size: 0.9rem;
-  color: #7f8c8d;
-  font-weight: 400;
-`;
-
-const DayHeaderContent = styled.span`
+const DateCardContent = styled.div`
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-`;
-
-const DayStats = styled.div`
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #7f8c8d;
-  margin-left: auto;
-  margin-right: 0.75rem;
-  font-weight: 500;
+  line-height: 1.2;
 `;
 
-const AccordionContent = styled.div`
-  padding: 1rem;
-  background-color: #fdfcfb;
-  border-top: 1px solid #ecf0f1;
+const DateWeekday = styled.span`
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  opacity: 0.8;
+
+  .long {
+    display: none;
+  }
+  .short {
+    display: block;
+  }
+
+  @media (min-width: 640px) {
+    .long {
+      display: block;
+    }
+    .short {
+      display: none;
+    }
+  }
+`;
+
+const DateDay = styled.span`
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
 `;
 
 const ChoreList = styled.div`
@@ -542,7 +563,7 @@ type Chore = {
 };
 
 type HouseholdSettings = {
-  weekStartDay: number;
+  periodStart: string; // YYYY-MM-DD
 };
 
 type Household = {
@@ -551,6 +572,13 @@ type Household = {
   members: Member[];
   chores: Chore[];
   settings: HouseholdSettings;
+};
+
+const formatDateKey = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
 function HouseholdTracker({
@@ -567,15 +595,25 @@ function HouseholdTracker({
   );
   const [settingsName, setSettingsName] = useState(household.name);
   const [newMemberName, setNewMemberName] = useState('');
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
+
+  // Ensure we don't select a future date if app is left open
+  const todayKey = formatDateKey(new Date());
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'households', household.id), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = { id: docSnap.id, ...docSnap.data() } as Household;
-        setHouseholdData(data);
-        setSettingsName(data.name);
+    const unsub = onSnapshot(
+      doc(db, 'households', household.id),
+      { includeMetadataChanges: true },
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = { id: docSnap.id, ...docSnap.data() } as Household;
+          setHouseholdData(data);
+          setSettingsName(data.name);
+          setIsSyncing(docSnap.metadata.fromCache);
+        }
       }
-    });
+    );
     return () => unsub();
   }, [household.id]);
 
@@ -586,32 +624,37 @@ function HouseholdTracker({
     }
     return household.members[0]?.id || '';
   });
-  const [weekStartDay, setWeekStartDay] = useState(
-    householdData.settings.weekStartDay
+
+  const [periodStart, setPeriodStart] = useState(
+    householdData.settings.periodStart || formatDateKey(new Date())
   );
-  const [expandedDayIndex, setExpandedDayIndex] = useState<number | null>(
-    () => {
-      const saved = localStorage.getItem(
-        `payDayPal_expandedDayIndex_${household.id}`
-      );
-      if (saved !== null) {
-        return parseInt(saved, 10);
-      }
-      const day = new Date().getDay(); // 0 = Sun, 1 = Mon
-      return day === 0 ? 6 : day - 1; // Convert to 0=Mon, 6=Sun
+
+  const periodDates = useMemo(() => {
+    const start = new Date(periodStart);
+    const end = new Date(); // Today
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    const dates: Date[] = [];
+    const current = new Date(start);
+
+    // Safety: if start is in future (shouldn't happen), just show today
+    if (current > end) return [end];
+
+    while (current <= end) {
+      dates.push(new Date(current));
+      current.setDate(current.getDate() + 1);
     }
-  );
-  const [, setLoading] = useState(true);
+    // Show newest first? Or oldest first?
+    // Scrolling list usually implies timeline. Let's do oldest to newest (left to right)
+    // But user probably wants to see Today first. Let's reverse it?
+    // Let's keep chronological order for now, but scroll to end could be nice.
+    // Actually, for "scrolling list", usually you want Today easily accessible.
+    // Let's reverse so Today is on the left/top.
+    return dates.reverse();
+  }, [periodStart, todayKey]); // Depend on todayKey to refresh if day changes
 
   const chores = householdData.chores;
-
-  const orderedDays = useMemo(() => {
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      days.push(BASE_DAYS[(weekStartDay + i) % 7]);
-    }
-    return days;
-  }, [weekStartDay]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -633,23 +676,22 @@ function HouseholdTracker({
         // We update the household document itself for settings
         const householdRef = doc(db, 'households', householdData.id);
         await updateDoc(householdRef, {
-          'settings.weekStartDay': weekStartDay,
+          'settings.periodStart': periodStart,
         });
       } catch (error) {
         console.error('Error syncing settings to Firebase:', error);
       }
     };
     // Debounce or only sync on change? For now, simple sync.
-    if (weekStartDay !== householdData.settings.weekStartDay) syncToFirebase();
+    if (periodStart !== householdData.settings.periodStart) syncToFirebase();
   }, [
     activeChild,
-    weekStartDay,
+    periodStart,
     householdData.id,
-    householdData.settings.weekStartDay,
+    householdData.settings.periodStart,
   ]);
 
   useEffect(() => {
-    setLoading(true);
     const docRef = doc(
       db,
       'households',
@@ -659,45 +701,28 @@ function HouseholdTracker({
     );
     const unsubscribe = onSnapshot(
       docRef,
+      { includeMetadataChanges: true },
       (docSnap) => {
         if (docSnap.exists()) {
           setChoreData(docSnap.data() as ChoreData);
         } else {
           setDoc(docRef, {});
         }
-        setLoading(false);
+        setIsSyncing(docSnap.metadata.fromCache);
       },
       (error) => {
         console.error('Error fetching chores:', error);
-        setLoading(false);
       }
     );
     return () => unsubscribe();
   }, [activeChild, householdData.id]);
 
-  const toggleDay = (index: number) => {
-    setExpandedDayIndex((prev) => {
-      const newIndex = prev === index ? null : index;
-      if (newIndex !== null) {
-        localStorage.setItem(
-          `payDayPal_expandedDayIndex_${householdData.id}`,
-          String(newIndex)
-        );
-      } else {
-        localStorage.removeItem(
-          `payDayPal_expandedDayIndex_${householdData.id}`
-        );
-      }
-      return newIndex;
-    });
-  };
-
   const updateChore = async (
     choreId: string,
-    dayIndex: number,
+    dateString: string,
     change: number
   ) => {
-    const key = `${choreId}-${dayIndex}`;
+    const key = `${dateString}_${choreId}`;
     const currentVal = Number(choreData[key] || 0);
     const newVal = Math.max(0, currentVal + change);
     const newData = { ...choreData, [key]: newVal };
@@ -717,27 +742,26 @@ function HouseholdTracker({
     }
   };
 
-  const resetWeek = async () => {
+  const startNewPeriod = async () => {
     const childName = householdData.members.find(
       (c) => c.id === activeChild
     )?.name;
     if (
       window.confirm(
-        `Are you sure you want to reset the week for ${childName}?`
+        `Start a new period? This will hide previous tasks for all members.`
       )
     ) {
       setChoreData({});
       try {
-        const docRef = doc(
-          db,
-          'households',
-          householdData.id,
-          'activity',
-          activeChild
-        );
-        await setDoc(docRef, {});
+        const docRef = doc(db, 'households', householdData.id);
+        // We update the period start to Today.
+        // Note: This affects ALL members as it's a household setting.
+        await updateDoc(docRef, {
+          'settings.periodStart': formatDateKey(new Date()),
+        });
+        setPeriodStart(formatDateKey(new Date()));
       } catch (error) {
-        console.error('Error resetting week:', error);
+        console.error('Error starting new period:', error);
       }
     }
   };
@@ -745,42 +769,23 @@ function HouseholdTracker({
   const calculateTotal = () => {
     let total = 0;
     chores.forEach((chore) => {
-      orderedDays.forEach((_, dayIndex) => {
-        const count = Number(choreData[`${chore.id}-${dayIndex}`] || 0);
+      periodDates.forEach((date) => {
+        const key = `${formatDateKey(date)}_${chore.id}`;
+        const count = Number(choreData[key] || 0);
         total += chore.value * count;
       });
     });
     return total;
   };
 
-  const getDayDate = (dayIndex: number) => {
-    const today = new Date();
-    const currentDay = today.getDay(); // 0=Sun, 1=Mon...
-
-    let diffFromStart = currentDay - weekStartDay;
-    if (diffFromStart < 0) diffFromStart += 7;
-
-    const mondayIndex = diffFromStart; // This is actually "index in current cycle"
-    const diff = dayIndex - mondayIndex;
-    const date = new Date(today);
-    date.setDate(today.getDate() + diff);
-    return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-  };
-
-  const getDayStats = (dayIndex: number) => {
-    let tasks = 0;
-    let earnings = 0;
-    chores.forEach((chore) => {
-      const count = Number(choreData[`${chore.id}-${dayIndex}`] || 0);
-      tasks += count;
-      earnings += count * chore.value;
-    });
-    return { tasks, earnings };
-  };
-
   return (
     <Container>
       <Header>
+        {isSyncing && (
+          <LoadingIndicator>
+            <Loader size={20} />
+          </LoadingIndicator>
+        )}
         <IconButton
           onClick={() => {
             window.history.pushState(null, '', '/settings');
@@ -813,82 +818,75 @@ function HouseholdTracker({
         </BalanceValue>
       </BalanceDisplay>
 
-      <AccordionContainer>
-        {orderedDays.map((day, dayIndex) => {
-          const { tasks, earnings } = getDayStats(dayIndex);
+      <DateScroll>
+        {periodDates.map((date) => {
+          const dateKey = formatDateKey(date);
+          const isActive = selectedDate === dateKey;
           return (
-            <AccordionItem key={day}>
-              <AccordionHeader
-                active={expandedDayIndex === dayIndex}
-                onClick={() => toggleDay(dayIndex)}
-              >
-                <DayHeaderContent>
-                  <DayTitle>{day}</DayTitle>
-                  <DayDate>{getDayDate(dayIndex)}</DayDate>
-                </DayHeaderContent>
-                {(tasks > 0 || earnings > 0) && (
-                  <DayStats>
-                    <span>
-                      {tasks} {tasks === 1 ? 'Task' : 'Tasks'}
-                    </span>
-                    <span>·</span>
-                    <span>€{earnings.toFixed(2)}</span>
-                  </DayStats>
-                )}
-                {expandedDayIndex === dayIndex ? (
-                  <ChevronUp size={20} color="#7f8c8d" />
-                ) : (
-                  <ChevronDown size={20} color="#7f8c8d" />
-                )}
-              </AccordionHeader>
-              {expandedDayIndex === dayIndex && (
-                <AccordionContent>
-                  <ChoreList>
-                    {chores.map((chore) => (
-                      <React.Fragment key={chore.id}>
-                        {(() => {
-                          const count = Number(
-                            choreData[`${chore.id}-${dayIndex}`] || 0
-                          );
-                          return (
-                            <ChoreCard
-                              active={count > 0}
-                              onClick={() => updateChore(chore.id, dayIndex, 1)}
-                            >
-                              <ChoreInfo>
-                                <ChoreName>{chore.label}</ChoreName>
-                                <ChoreValue>
-                                  €{chore.value} · {chore.frequency} ·{' '}
-                                  {chore.effort} Effort
-                                </ChoreValue>
-                              </ChoreInfo>
-                              <ChoreCount>
-                                {count > 0 && (
-                                  <>
-                                    <DecrementButton
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        updateChore(chore.id, dayIndex, -1);
-                                      }}
-                                    >
-                                      <Minus size={16} strokeWidth={3} />
-                                    </DecrementButton>
-                                    <CountBadge>{count}</CountBadge>
-                                  </>
-                                )}
-                              </ChoreCount>
-                            </ChoreCard>
-                          );
-                        })()}
-                      </React.Fragment>
-                    ))}
-                  </ChoreList>
-                </AccordionContent>
-              )}
-            </AccordionItem>
+            <DateCard
+              key={dateKey}
+              active={isActive}
+              onClick={() => setSelectedDate(dateKey)}
+            >
+              <DateCardContent>
+                <DateWeekday>
+                  <span className="short">
+                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                  </span>
+                  <span className="long">
+                    {date.toLocaleDateString('en-US', { weekday: 'long' })}
+                  </span>
+                </DateWeekday>
+                <DateDay>
+                  {date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </DateDay>
+              </DateCardContent>
+            </DateCard>
           );
         })}
-      </AccordionContainer>
+      </DateScroll>
+
+      <ChoreList>
+        {chores.map((chore) => (
+          <React.Fragment key={chore.id}>
+            {(() => {
+              const key = `${selectedDate}_${chore.id}`;
+              const count = Number(choreData[key] || 0);
+              return (
+                <ChoreCard
+                  active={count > 0}
+                  onClick={() => updateChore(chore.id, selectedDate, 1)}
+                >
+                  <ChoreInfo>
+                    <ChoreName>{chore.label}</ChoreName>
+                    <ChoreValue>
+                      €{chore.value} · {chore.frequency} · {chore.effort} Effort
+                    </ChoreValue>
+                  </ChoreInfo>
+                  <ChoreCount>
+                    {count > 0 && (
+                      <>
+                        <DecrementButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            updateChore(chore.id, selectedDate, -1);
+                          }}
+                        >
+                          <Minus size={16} strokeWidth={3} />
+                        </DecrementButton>
+                        <CountBadge>{count}</CountBadge>
+                      </>
+                    )}
+                  </ChoreCount>
+                </ChoreCard>
+              );
+            })()}
+          </React.Fragment>
+        ))}
+      </ChoreList>
 
       <Footer>
         <TotalContainer>
@@ -1006,29 +1004,15 @@ function HouseholdTracker({
               </div>
             </FormGroup>
             <FormGroup>
-              <Label>Start of Week Cycle</Label>
-              <Select
-                value={weekStartDay}
-                onChange={(e) => setWeekStartDay(Number(e.target.value))}
+              <Label>Period Management</Label>
+              <ResetButton
+                onClick={startNewPeriod}
+                style={{ width: '100%', justifyContent: 'center' }}
               >
-                {BASE_DAYS.map((day, index) => (
-                  <option key={day} value={index}>
-                    {day}
-                  </option>
-                ))}
-              </Select>
+                <RotateCcw size={18} />
+                Start New Period
+              </ResetButton>
             </FormGroup>
-            <ResetButton
-              onClick={resetWeek}
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                marginTop: '1rem',
-              }}
-            >
-              <RotateCcw size={18} />
-              Reset Week
-            </ResetButton>
             <ResetButton
               onClick={onBack}
               style={{
@@ -1055,40 +1039,55 @@ function App() {
     null
   );
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   // Create Household Form State
   const [newHouseholdName, setNewHouseholdName] = useState('');
   const [newMembers, setNewMembers] = useState<string[]>(['']);
-  const [newWeekStart, setNewWeekStart] = useState(1);
 
   useEffect(() => {
-    const fetchHouseholds = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'households'));
-        const loadedHouseholds: Household[] = [];
-        querySnapshot.forEach((doc) => {
-          // Simple validation/casting
-          const data = doc.data() as Omit<Household, 'id'>;
-          loadedHouseholds.push({ id: doc.id, ...data });
-        });
-        setHouseholds(loadedHouseholds);
+    const q = collection(db, 'households');
+    const unsubscribe = onSnapshot(
+      q,
+      { includeMetadataChanges: true },
+      (snapshot) => {
+        try {
+          const loadedHouseholds: Household[] = [];
+          snapshot.forEach((doc) => {
+            const data = doc.data() as Omit<Household, 'id'>;
+            loadedHouseholds.push({ id: doc.id, ...data });
+          });
+          setHouseholds(loadedHouseholds);
 
-        // Auto-select if saved in local storage
-        const savedId = localStorage.getItem('payDayPal_selectedHouseholdId');
-        if (savedId) {
-          const found = loadedHouseholds.find((h) => h.id === savedId);
-          if (found) {
-            setCurrentHousehold(found);
-            setView('app');
+          // Auto-select if saved in local storage (only on first load or if not set)
+          if (!currentHousehold) {
+            const savedId = localStorage.getItem(
+              'payDayPal_selectedHouseholdId'
+            );
+            if (savedId) {
+              const found = loadedHouseholds.find((h) => h.id === savedId);
+              if (found) {
+                setCurrentHousehold(found);
+                setView('app');
+              }
+            }
           }
+
+          setLoading(false);
+          setIsSyncing(snapshot.metadata.fromCache);
+          setError(null);
+        } catch (error) {
+          console.error('Error loading households:', error);
+          setError(
+            'Unable to connect to Firebase. This is often caused by an ad blocker or browser extension. Please try disabling them.'
+          );
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error loading households:', error);
-      } finally {
-        setLoading(false);
       }
-    };
-    fetchHouseholds();
+    );
+
+    return () => unsubscribe();
   }, []);
 
   const handleCreateHousehold = async () => {
@@ -1107,7 +1106,7 @@ function App() {
       name: newHouseholdName,
       members: validMembers,
       chores: DEFAULT_CHORES,
-      settings: { weekStartDay: newWeekStart },
+      settings: { periodStart: formatDateKey(new Date()) },
     };
 
     try {
@@ -1136,6 +1135,17 @@ function App() {
   };
 
   if (loading) return <Container>Loading...</Container>;
+
+  if (error) {
+    return (
+      <Container>
+        <Header>
+          <Title>Connection Error</Title>
+          <Subtitle style={{ color: '#e74c3c' }}>{error}</Subtitle>
+        </Header>
+      </Container>
+    );
+  }
 
   if (view === 'app' && currentHousehold) {
     return (
@@ -1199,19 +1209,6 @@ function App() {
             <Plus size={18} /> Add Member
           </ResetButton>
         </FormGroup>
-        <FormGroup>
-          <Label>Start of Week</Label>
-          <Select
-            value={newWeekStart}
-            onChange={(e) => setNewWeekStart(Number(e.target.value))}
-          >
-            {BASE_DAYS.map((day, index) => (
-              <option key={day} value={index}>
-                {day}
-              </option>
-            ))}
-          </Select>
-        </FormGroup>
         <ResetButton
           onClick={handleCreateHousehold}
           style={{ marginTop: '2rem' }}
@@ -1225,6 +1222,11 @@ function App() {
   return (
     <Container>
       <Header>
+        {isSyncing && (
+          <LoadingIndicator>
+            <Loader size={20} />
+          </LoadingIndicator>
+        )}
         <Title>Select Household</Title>
       </Header>
       {households.map((h) => (
