@@ -25,6 +25,15 @@ import {
   Trash2,
   Loader,
 } from 'lucide-react';
+import SettingsScreen from './SettingsScreen';
+import {
+  FormGroup,
+  Label,
+  Input,
+  ResetButton,
+  IconButton,
+} from './SharedComponents';
+import { DEFAULT_CHORES } from './constants';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -46,80 +55,6 @@ enableIndexedDbPersistence(db).catch((err: any) => {
   }
 });
 
-// Constants
-const DEFAULT_CHORES = [
-  {
-    id: 'make-bed',
-    label: 'Make Bed',
-    value: 0.5,
-    frequency: 'Daily',
-    effort: 'Low',
-  },
-  {
-    id: 'laundry-hang',
-    label: 'Hang Laundry',
-    value: 2,
-    frequency: '2x/Week',
-    effort: 'Medium',
-  },
-  {
-    id: 'laundry-fold',
-    label: 'Fold Laundry',
-    value: 2,
-    frequency: '2x/Week',
-    effort: 'Medium',
-  },
-  {
-    id: 'laundry-put-away',
-    label: 'Put Away Laundry',
-    value: 0.5,
-    frequency: '2x/Week',
-    effort: 'Low',
-  },
-  {
-    id: 'dishwasher-empty',
-    label: 'Empty the Dishwasher',
-    value: 1,
-    frequency: '3x/Week',
-    effort: 'Medium',
-  },
-  {
-    id: 'table-set',
-    label: 'Set Table',
-    value: 0.25,
-    frequency: 'Daily',
-    effort: 'Low',
-  },
-  {
-    id: 'table-clean',
-    label: 'Clean Table',
-    value: 0.25,
-    frequency: 'Daily',
-    effort: 'Low',
-  },
-  {
-    id: 'cook',
-    label: 'Help with Cooking',
-    value: 1.5,
-    frequency: 'Daily',
-    effort: 'High',
-  },
-  {
-    id: 'tidy-living-room',
-    label: 'Tidy-up the Living Room',
-    value: 1,
-    frequency: 'Daily',
-    effort: 'Medium',
-  },
-  {
-    id: 'tidy-bedroom',
-    label: 'Tidy-up the Bedroom',
-    value: 1,
-    frequency: 'Daily',
-    effort: 'Medium',
-  },
-];
-
 // Styled Components
 const Container = styled.div`
   width: 100%;
@@ -134,22 +69,6 @@ const Header = styled.header`
   margin-bottom: 3rem;
   color: #2c3e50;
   position: relative;
-`;
-
-const IconButton = styled.button`
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #95a5a6;
-  transition: color 0.2s;
-  padding: 0.5rem;
-
-  &:hover {
-    color: #2c3e50;
-  }
 `;
 
 const BackButton = styled(IconButton)`
@@ -407,81 +326,6 @@ const TotalContainer = styled.div`
   color: #2c3e50;
 `;
 
-const ResetButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: inherit;
-
-  &:hover {
-    background-color: #c0392b;
-  }
-`;
-
-const SettingsPage = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fdfcfb;
-  z-index: 1000;
-  overflow-y: auto;
-`;
-
-const SettingsContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem;
-`;
-
-const SettingsHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-top: 1rem;
-`;
-
-const SettingsTitle = styled.h2`
-  font-size: 2rem;
-  color: #2c3e50;
-  margin: 0;
-  font-weight: 700;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #7f8c8d;
-  padding: 0.25rem;
-
-  &:hover {
-    color: #2c3e50;
-  }
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 1rem;
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-  font-weight: 600;
-`;
-
 const Select = styled.select`
   width: 100%;
   padding: 0.75rem;
@@ -528,45 +372,29 @@ const CardMeta = styled.div`
   gap: 0.5rem;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #bdc3c7;
-  font-size: 1rem;
-  font-family: inherit;
-  color: #2c3e50;
-  background-color: white;
-  margin-bottom: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: #3498db;
-  }
-`;
-
 type ChoreData = {
   [key: string]: number;
 };
 
-type Member = {
+export type Member = {
   id: string;
   name: string;
 };
 
-type Chore = {
+export type Chore = {
   id: string;
-  label: string;
+  label?: string;
+  labels?: { [key: string]: string };
   value: number;
   frequency: string;
   effort: string;
 };
 
-type HouseholdSettings = {
+export type HouseholdSettings = {
   periodStart: string; // YYYY-MM-DD
 };
 
-type Household = {
+export type Household = {
   id: string;
   name: string;
   members: Member[];
@@ -593,8 +421,6 @@ function HouseholdTracker({
   const [isSettingsOpen, setIsSettingsOpen] = useState(
     () => window.location.pathname === '/settings'
   );
-  const [settingsName, setSettingsName] = useState(household.name);
-  const [newMemberName, setNewMemberName] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
 
@@ -609,7 +435,6 @@ function HouseholdTracker({
         if (docSnap.exists()) {
           const data = { id: docSnap.id, ...docSnap.data() } as Household;
           setHouseholdData(data);
-          setSettingsName(data.name);
           setIsSyncing(docSnap.metadata.fromCache);
         }
       }
@@ -861,7 +686,7 @@ function HouseholdTracker({
                   onClick={() => updateChore(chore.id, selectedDate, 1)}
                 >
                   <ChoreInfo>
-                    <ChoreName>{chore.label}</ChoreName>
+                    <ChoreName>{chore.labels?.en || chore.label}</ChoreName>
                     <ChoreValue>
                       €{chore.value} · {chore.frequency} · {chore.effort} Effort
                     </ChoreValue>
@@ -895,139 +720,19 @@ function HouseholdTracker({
         </TotalContainer>
       </Footer>
 
-      {isSettingsOpen && (
-        <SettingsPage>
-          <SettingsContainer>
-            <SettingsHeader>
-              <SettingsTitle>Settings</SettingsTitle>
-              <CloseButton
-                onClick={() => {
-                  window.history.pushState(null, '', '/');
-                  setIsSettingsOpen(false);
-                }}
-              >
-                <X size={24} />
-              </CloseButton>
-            </SettingsHeader>
-            <FormGroup>
-              <Label>Household Name</Label>
-              <Input
-                value={settingsName}
-                onChange={(e) => setSettingsName(e.target.value)}
-                onBlur={async () => {
-                  if (settingsName.trim() !== householdData.name) {
-                    await updateDoc(doc(db, 'households', householdData.id), {
-                      name: settingsName.trim(),
-                    });
-                  }
-                }}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Members</Label>
-              {householdData.members.map((member) => (
-                <div
-                  key={member.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    marginBottom: '0.5rem',
-                  }}
-                >
-                  <Input
-                    value={member.name}
-                    readOnly
-                    style={{ marginBottom: 0, backgroundColor: '#f8f9fa' }}
-                  />
-                  <IconButton
-                    style={{ position: 'static', color: '#e74c3c' }}
-                    onClick={async () => {
-                      if (confirm(`Remove ${member.name}?`)) {
-                        const newMembers = householdData.members.filter(
-                          (m) => m.id !== member.id
-                        );
-                        await updateDoc(
-                          doc(db, 'households', householdData.id),
-                          {
-                            members: newMembers,
-                          }
-                        );
-                        if (
-                          activeChild === member.id &&
-                          newMembers.length > 0
-                        ) {
-                          setActiveChild(newMembers[0].id);
-                        }
-                      }
-                    }}
-                  >
-                    <Trash2 size={20} />
-                  </IconButton>
-                </div>
-              ))}
-              <div
-                style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}
-              >
-                <Input
-                  placeholder="New Member Name"
-                  value={newMemberName}
-                  onChange={(e) => setNewMemberName(e.target.value)}
-                  style={{ marginBottom: 0 }}
-                />
-                <ResetButton
-                  style={{
-                    margin: 0,
-                    padding: '0.5rem 1rem',
-                    background: '#3498db',
-                  }}
-                  onClick={async () => {
-                    if (newMemberName.trim()) {
-                      const newId = newMemberName
-                        .trim()
-                        .toLowerCase()
-                        .replace(/\s+/g, '-');
-                      const newMember = {
-                        id: newId,
-                        name: newMemberName.trim(),
-                      };
-                      const newMembers = [...householdData.members, newMember];
-                      await updateDoc(doc(db, 'households', householdData.id), {
-                        members: newMembers,
-                      });
-                      setNewMemberName('');
-                    }
-                  }}
-                >
-                  <Plus size={20} />
-                </ResetButton>
-              </div>
-            </FormGroup>
-            <FormGroup>
-              <Label>Period Management</Label>
-              <ResetButton
-                onClick={startNewPeriod}
-                style={{ width: '100%', justifyContent: 'center' }}
-              >
-                <RotateCcw size={18} />
-                Start New Period
-              </ResetButton>
-            </FormGroup>
-            <ResetButton
-              onClick={onBack}
-              style={{
-                width: '100%',
-                justifyContent: 'center',
-                marginTop: '1rem',
-                backgroundColor: '#95a5a6',
-              }}
-            >
-              <ArrowLeft size={18} />
-              Leave Household
-            </ResetButton>
-          </SettingsContainer>
-        </SettingsPage>
-      )}
+      <SettingsScreen
+        isOpen={isSettingsOpen}
+        onClose={() => {
+          window.history.pushState(null, '', '/');
+          setIsSettingsOpen(false);
+        }}
+        household={householdData}
+        activeChild={activeChild}
+        setActiveChild={setActiveChild}
+        onLeaveHousehold={onBack}
+        onStartNewPeriod={startNewPeriod}
+        db={db}
+      />
     </Container>
   );
 }
