@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { doc, updateDoc, Firestore } from 'firebase/firestore';
 import { X, Trash2, Plus, RotateCcw, ArrowLeft } from 'lucide-react';

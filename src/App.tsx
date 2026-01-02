@@ -12,13 +12,9 @@ import {
   enableIndexedDbPersistence,
 } from 'firebase/firestore';
 import {
-  RotateCcw,
   Euro,
   Minus,
-  ChevronDown,
-  ChevronUp,
   Settings,
-  X,
   Plus,
   Users,
   ArrowLeft,
@@ -326,22 +322,6 @@ const TotalContainer = styled.div`
   color: #2c3e50;
 `;
 
-const Select = styled.select`
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #bdc3c7;
-  font-size: 1rem;
-  font-family: inherit;
-  color: #2c3e50;
-  background-color: white;
-
-  &:focus {
-    outline: none;
-    border-color: #3498db;
-  }
-`;
-
 const Card = styled.div`
   background: white;
   border-radius: 16px;
@@ -568,9 +548,6 @@ function HouseholdTracker({
   };
 
   const startNewPeriod = async () => {
-    const childName = householdData.members.find(
-      (c) => c.id === activeChild
-    )?.name;
     if (
       window.confirm(
         `Start a new period? This will hide previous tasks for all members.`
