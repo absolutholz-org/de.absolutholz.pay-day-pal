@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
 import { doc, updateDoc, Firestore } from 'firebase/firestore';
 import { X, Trash2, Plus, RotateCcw, ArrowLeft } from 'lucide-react';
-import { Household } from './App';
+import { Household } from './types';
 import {
   FormGroup,
   Label,
@@ -10,52 +9,13 @@ import {
   ResetButton,
   IconButton,
 } from './SharedComponents';
-
-// Styled Components (Specific to Settings)
-const SettingsPage = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fdfcfb;
-  z-index: 1000;
-  overflow-y: auto;
-`;
-
-const SettingsContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem;
-`;
-
-const SettingsHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-top: 1rem;
-`;
-
-const SettingsTitle = styled.h2`
-  font-size: 2rem;
-  color: #2c3e50;
-  margin: 0;
-  font-weight: 700;
-`;
-
-const CloseButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #7f8c8d;
-  padding: 0.25rem;
-
-  &:hover {
-    color: #2c3e50;
-  }
-`;
+import {
+  SettingsPage,
+  SettingsContainer,
+  SettingsHeader,
+  SettingsTitle,
+  CloseButton,
+} from './styles';
 
 export default function SettingsScreen({
   isOpen,
