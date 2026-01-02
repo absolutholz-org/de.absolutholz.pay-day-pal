@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - main
-      # - nextjs-rewrite # Added this branch for testing
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -36,6 +36,13 @@ jobs:
 
       # Step 5: Build the static site. The output will be in the 'out' directory.
       - name: Build the app
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
         run: pnpm run build
 
       # Step 6: Deploy the built site to your server via SSH/rsync
