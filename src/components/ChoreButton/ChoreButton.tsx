@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bed, Shirt, Utensils, Sparkles, Sofa, Box, Minus } from 'lucide-react';
-import { Chore } from '../../types';
+import { ChoreButtonProps } from './ChoreButton.types';
 import {
   ChoreCard,
   ChoreMain,
@@ -21,13 +21,6 @@ const categoryIconMap: { [key: string]: React.ElementType } = {
   bathroom: Sparkles,
   outside: Box,
 };
-
-interface ChoreButtonProps {
-  chore: Chore;
-  count: number;
-  onIncrement: () => void;
-  onDecrement: () => void;
-}
 
 export function ChoreButton({
   chore,
