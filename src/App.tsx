@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   initializeFirestore,
@@ -12,7 +12,6 @@ import {
 } from 'firebase/firestore';
 import {
   Euro,
-  Minus,
   Settings,
   Plus,
   Users,
@@ -30,6 +29,7 @@ import {
 } from './SharedComponents';
 import { DEFAULT_CHORES } from './constants';
 import { Household } from './types';
+import { ChoreButton } from './components/ChoreButton';
 import {
   Container,
   Header,
@@ -48,13 +48,6 @@ import {
   DateWeekday,
   DateDay,
   ChoreList,
-  ChoreCard,
-  ChoreInfo,
-  ChoreName,
-  ChoreValue,
-  ChoreCount,
-  CountBadge,
-  DecrementButton,
   Footer,
   TotalContainer,
   Card,
@@ -352,40 +345,13 @@ function HouseholdTracker({
 
       <ChoreList>
         {chores.map((chore) => (
-          <React.Fragment key={chore.id}>
-            {(() => {
-              const key = `${selectedDate}_${chore.id}`;
-              const count = Number(choreData[key] || 0);
-              return (
-                <ChoreCard
-                  active={count > 0}
-                  onClick={() => updateChore(chore.id, selectedDate, 1)}
-                >
-                  <ChoreInfo>
-                    <ChoreName>{chore.labels?.en || chore.label}</ChoreName>
-                    <ChoreValue>
-                      €{chore.value} · {chore.frequency} · {chore.effort} Effort
-                    </ChoreValue>
-                  </ChoreInfo>
-                  <ChoreCount>
-                    {count > 0 && (
-                      <>
-                        <DecrementButton
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            updateChore(chore.id, selectedDate, -1);
-                          }}
-                        >
-                          <Minus size={16} strokeWidth={3} />
-                        </DecrementButton>
-                        <CountBadge>{count}</CountBadge>
-                      </>
-                    )}
-                  </ChoreCount>
-                </ChoreCard>
-              );
-            })()}
-          </React.Fragment>
+          <ChoreButton
+            key={chore.id}
+            chore={chore}
+            count={Number(choreData[`${selectedDate}_${chore.id}`] || 0)}
+            onIncrement={() => updateChore(chore.id, selectedDate, 1)}
+            onDecrement={() => updateChore(chore.id, selectedDate, -1)}
+          />
         ))}
       </ChoreList>
 
