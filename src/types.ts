@@ -10,6 +10,13 @@ export type Chore = {
   value: number;
   frequency: string;
   effort: string;
+  category:
+    | 'bedroom'
+    | 'living-room'
+    | 'kitchen'
+    | 'bathroom'
+    | 'outside'
+    | 'laundry';
 };
 
 export type HouseholdSettings = {

@@ -1,4 +1,6 @@
-export const DEFAULT_CHORES = [
+import { Chore } from './types';
+
+export const DEFAULT_CHORES: Chore[] = [
   {
     id: 'make-bed',
     labels: {
@@ -10,6 +12,7 @@ export const DEFAULT_CHORES = [
     value: 0.5,
     frequency: 'Daily',
     effort: 'Low',
+    category: 'bedroom',
   },
   {
     id: 'laundry-hang',
@@ -22,6 +25,7 @@ export const DEFAULT_CHORES = [
     value: 2,
     frequency: '2x/Week',
     effort: 'Medium',
+    category: 'laundry',
   },
   {
     id: 'laundry-fold',
@@ -34,6 +38,7 @@ export const DEFAULT_CHORES = [
     value: 2,
     frequency: '2x/Week',
     effort: 'Medium',
+    category: 'laundry',
   },
   {
     id: 'laundry-put-away',
@@ -46,6 +51,7 @@ export const DEFAULT_CHORES = [
     value: 0.5,
     frequency: '2x/Week',
     effort: 'Low',
+    category: 'laundry',
   },
   {
     id: 'dishwasher-empty',
@@ -58,6 +64,7 @@ export const DEFAULT_CHORES = [
     value: 1,
     frequency: '3x/Week',
     effort: 'Medium',
+    category: 'kitchen',
   },
   {
     id: 'table-set',
@@ -70,6 +77,7 @@ export const DEFAULT_CHORES = [
     value: 0.25,
     frequency: 'Daily',
     effort: 'Low',
+    category: 'kitchen',
   },
   {
     id: 'table-clean',
@@ -82,6 +90,7 @@ export const DEFAULT_CHORES = [
     value: 0.25,
     frequency: 'Daily',
     effort: 'Low',
+    category: 'kitchen',
   },
   {
     id: 'cook',
@@ -94,6 +103,7 @@ export const DEFAULT_CHORES = [
     value: 1.5,
     frequency: 'Daily',
     effort: 'High',
+    category: 'kitchen',
   },
   {
     id: 'tidy-living-room',
@@ -106,6 +116,7 @@ export const DEFAULT_CHORES = [
     value: 1,
     frequency: 'Daily',
     effort: 'Medium',
+    category: 'living-room',
   },
   {
     id: 'tidy-bedroom',
@@ -118,5 +129,6 @@ export const DEFAULT_CHORES = [
     value: 1,
     frequency: 'Daily',
     effort: 'Medium',
+    category: 'bedroom',
   },
 ];
