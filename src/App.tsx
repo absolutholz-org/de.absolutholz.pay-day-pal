@@ -650,22 +650,39 @@ function App() {
             <Loader size={20} />
           </LoadingIndicator>
         )}
-        <Title>Select Household</Title>
+        <Title>The Pay-Day Pal</Title>
+        <Subtitle>
+          Manage chores, track allowances, and teach financial responsibility.
+        </Subtitle>
       </Header>
-      {households.map((h) => (
-        <Card key={h.id} onClick={() => handleSelectHousehold(h)}>
-          <CardTitle>{h.name}</CardTitle>
-          <CardMeta>
-            <Users size={16} /> {h.members.length} Members
-          </CardMeta>
-        </Card>
-      ))}
-      <ResetButton
-        onClick={() => setView('create')}
-        style={{ marginTop: '2rem', background: '#3498db' }}
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '3rem',
+        }}
       >
-        <Plus size={18} /> Create New Household
-      </ResetButton>
+        <ResetButton
+          onClick={() => setView('create')}
+          style={{ background: '#3498db' }}
+        >
+          <Plus size={18} /> Create New Household
+        </ResetButton>
+      </div>
+
+      {households.length > 0 && (
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          {households.map((h) => (
+            <Card key={h.id} onClick={() => handleSelectHousehold(h)}>
+              <CardTitle>{h.name}</CardTitle>
+              <CardMeta>
+                <Users size={16} /> {h.members.length} Members
+              </CardMeta>
+            </Card>
+          ))}
+        </div>
+      )}
     </Container>
   );
 }
