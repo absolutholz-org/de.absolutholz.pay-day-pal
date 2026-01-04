@@ -236,6 +236,14 @@ export const DateDay = styled.span`
   font-weight: 700;
 `;
 
+export const DateEarnings = styled.span`
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  opacity: 0.9;
+`;
+
 export const ChoreList = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
@@ -361,6 +369,31 @@ export const HistoryDateRange = styled.div`
   font-weight: 600;
   color: #2c3e50;
   margin-bottom: 0.5rem;
+`;
+
+export const ActivityGroup = styled.div`
+  margin-bottom: 1.5rem;
+`;
+
+export const ActivityDateHeader = styled.h4`
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 0.25rem;
+`;
+
+export const ActivityRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 export const ModalOverlay = styled.div`

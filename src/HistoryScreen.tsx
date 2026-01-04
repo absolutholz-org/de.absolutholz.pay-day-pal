@@ -25,6 +25,9 @@ import {
   HistoryItem,
   HistoryDateRange,
   CardMeta,
+  ActivityGroup,
+  ActivityDateHeader,
+  ActivityRow,
 } from './styles';
 import { ResetButton } from './SharedComponents';
 
@@ -33,18 +36,26 @@ export default function HistoryScreen({
   onClose,
   household,
   db,
+  periodId,
+  onSelectPeriod,
+  onClearPeriod,
 }: {
   isOpen: boolean;
   onClose: () => void;
   household: Household;
   db: Firestore;
+  periodId: string | null;
+  onSelectPeriod: (id: string) => void;
+  onClearPeriod: () => void;
 }) {
   const [periods, setPeriods] = useState<Period[]>([]);
   const [loading, setLoading] = useState(false);
   const [lastDoc, setLastDoc] =
     useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<Period | null>(null);
-  const [periodDetails, setPeriodDetails] = useState<any>(null);
+  const [groupedActivities, setGroupedActivities] = useState<
+    { date: string; items: any[] }[]
+  >([]);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchPeriods = async (isNextPage = false) => {
@@ -89,57 +100,118 @@ export default function HistoryScreen({
   };
 
   useEffect(() => {
-    if (isOpen && !selectedPeriod) {
+    if (isOpen && !periodId) {
       fetchPeriods();
     }
-  }, [isOpen, selectedPeriod]);
+  }, [isOpen, periodId]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (periodId) {
+      if (selectedPeriod?.id === periodId) return;
+
+      const load = async () => {
+        setLoading(true);
+        try {
+          let period = periods.find((p) => p.id === periodId);
+
+          if (!period) {
+            const docRef = doc(
+              db,
+              'households',
+              household.id,
+              'periods',
+              periodId
+            );
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+              period = { id: snap.id, ...snap.data() } as Period;
+            }
+          }
+
+          if (period) {
+            await loadPeriodDetails(period);
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setLoading(false);
+        }
+      };
+      load();
+    } else {
+      setSelectedPeriod(null);
+      setGroupedActivities([]);
+    }
+  }, [periodId, isOpen, household.id, db]);
 
   const loadPeriodDetails = async (period: Period) => {
     setLoading(true);
     setSelectedPeriod(period);
-    const details: any = {};
+    const allActivities: any[] = [];
 
     try {
-      for (const member of household.members) {
-        const docRef = doc(
-          db,
-          'households',
-          household.id,
-          'activity',
-          member.id
-        );
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          const memberChores: any[] = [];
-          let total = 0;
+      await Promise.all(
+        household.members.map(async (member) => {
+          const docRef = doc(
+            db,
+            'households',
+            household.id,
+            'activity',
+            member.id
+          );
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
 
-          Object.entries(data).forEach(([key, value]) => {
-            // key is YYYY-MM-DD_choreId
-            const [dateStr, choreId] = key.split('_');
-            if (
-              dateStr >= period.startDate &&
-              period.endDate &&
-              dateStr < period.endDate
-            ) {
-              const chore = household.chores.find((c) => c.id === choreId);
-              if (chore) {
-                const count =
-                  typeof value === 'number' ? value : (value as any).count;
-                if (count > 0) {
-                  memberChores.push({ chore, count, date: dateStr });
-                  total += count * chore.value;
+            Object.entries(data).forEach(([key, value]) => {
+              // key is YYYY-MM-DD_choreId
+              const [dateStr, choreId] = key.split('_');
+              if (
+                dateStr >= period.startDate &&
+                period.endDate &&
+                dateStr < period.endDate
+              ) {
+                const chore = household.chores.find((c) => c.id === choreId);
+                if (chore) {
+                  const count =
+                    typeof value === 'number' ? value : (value as any).count;
+                  if (count > 0) {
+                    allActivities.push({
+                      date: dateStr,
+                      member,
+                      chore,
+                      count,
+                    });
+                  }
                 }
               }
-            }
-          });
-
-          if (memberChores.length > 0) {
-            details[member.id] = { chores: memberChores, total };
+            });
           }
+        })
+      );
+
+      // Sort by date descending
+      allActivities.sort((a, b) => b.date.localeCompare(a.date));
+
+      // Group by date
+      const grouped: { date: string; items: any[] }[] = [];
+      let currentDate = '';
+      let currentItems: any[] = [];
+
+      allActivities.forEach((item) => {
+        if (item.date !== currentDate) {
+          if (currentDate)
+            grouped.push({ date: currentDate, items: currentItems });
+          currentDate = item.date;
+          currentItems = [];
         }
-      }
-      setPeriodDetails(details);
+        currentItems.push(item);
+      });
+      if (currentDate) grouped.push({ date: currentDate, items: currentItems });
+
+      setGroupedActivities(grouped);
     } catch (error) {
       console.error('Error loading details:', error);
     } finally {
@@ -164,7 +236,7 @@ export default function HistoryScreen({
         {selectedPeriod ? (
           <div>
             <ResetButton
-              onClick={() => setSelectedPeriod(null)}
+              onClick={onClearPeriod}
               style={{ marginBottom: '1rem', background: '#95a5a6' }}
             >
               <ChevronLeft size={18} /> Back
@@ -172,48 +244,57 @@ export default function HistoryScreen({
             <HistoryDateRange>
               {selectedPeriod.startDate} — {selectedPeriod.endDate}
             </HistoryDateRange>
-            {Object.entries(periodDetails || {}).map(
-              ([memberId, data]: [string, any]) => {
-                const member = household.members.find((m) => m.id === memberId);
-                return (
-                  <div key={memberId} style={{ marginBottom: '1.5rem' }}>
-                    <h3 style={{ marginBottom: '0.5rem', color: '#2c3e50' }}>
-                      {member?.name} — €{data.total.toFixed(2)}
-                    </h3>
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.5rem',
-                      }}
-                    >
-                      {data.chores.map((item: any, idx: number) => (
+
+            {groupedActivities.map((group) => {
+              const [y, m, d] = group.date.split('-').map(Number);
+              const dateObj = new Date(y, m - 1, d);
+              return (
+                <ActivityGroup key={group.date}>
+                  <ActivityDateHeader>
+                    {dateObj.toLocaleDateString(undefined, {
+                      weekday: 'short',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </ActivityDateHeader>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {group.items.map((item, idx) => (
+                      <ActivityRow key={idx}>
                         <div
-                          key={idx}
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            padding: '0.5rem',
-                            background: 'white',
-                            borderRadius: '8px',
-                            border: '1px solid #ecf0f1',
-                          }}
+                          style={{ display: 'flex', flexDirection: 'column' }}
                         >
-                          <span>
-                            {item.chore.labels?.en || item.chore.label} (
-                            {item.count})
+                          <span
+                            style={{ fontWeight: 600, fontSize: '0.95rem' }}
+                          >
+                            {item.member.name}
                           </span>
                           <span
                             style={{ color: '#7f8c8d', fontSize: '0.9rem' }}
                           >
-                            {item.date}
+                            {item.chore.labels?.en || item.chore.label}{' '}
+                            {item.count > 1 && `(${item.count})`}
                           </span>
                         </div>
-                      ))}
-                    </div>
+                        <span style={{ fontWeight: 600, color: '#27ae60' }}>
+                          €{(item.count * item.chore.value).toFixed(2)}
+                        </span>
+                      </ActivityRow>
+                    ))}
                   </div>
-                );
-              }
+                </ActivityGroup>
+              );
+            })}
+
+            {groupedActivities.length === 0 && !loading && (
+              <div
+                style={{
+                  textAlign: 'center',
+                  color: '#7f8c8d',
+                  padding: '2rem',
+                }}
+              >
+                No activities found for this period.
+              </div>
             )}
           </div>
         ) : (
@@ -222,7 +303,7 @@ export default function HistoryScreen({
               {periods.map((period) => (
                 <HistoryItem
                   key={period.id}
-                  onClick={() => loadPeriodDetails(period)}
+                  onClick={() => onSelectPeriod(period.id)}
                 >
                   <HistoryDateRange>
                     {period.startDate} — {period.endDate || 'Current'}

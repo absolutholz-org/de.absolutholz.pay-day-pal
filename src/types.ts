@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type Member = {
   id: string;
   name: string;
@@ -6,7 +8,6 @@ export type Member = {
 
 export type Chore = {
   id: string;
-  label?: string;
   labels?: { [key: string]: string };
   value: number;
   frequency: string;
@@ -35,7 +36,7 @@ export type Household = {
 
 export type Period = {
   id: string;
-  startDate: string;
-  endDate?: string | null;
-  createdAt: any;
+  startDate: string; // YYYY-MM-DD
+  endDate?: string | null; // YYYY-MM-DD
+  createdAt: Timestamp;
 };

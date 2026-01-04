@@ -51,6 +51,7 @@ import {
   DateCardContent,
   DateWeekday,
   DateDay,
+  DateEarnings,
   ChoreList,
   Footer,
   TotalContainer,
@@ -97,8 +98,17 @@ function HouseholdTracker({
   const [isSettingsOpen, setIsSettingsOpen] = useState(
     () => window.location.pathname === '/settings'
   );
-  const [isHistoryOpen, setIsHistoryOpen] = useState(
-    () => window.location.pathname === '/history'
+
+  const getPeriodIdFromPath = () => {
+    const path = window.location.pathname;
+    if (path.startsWith('/history/')) {
+      return path.split('/history/')[1];
+    }
+    return null;
+  };
+
+  const [isHistoryOpen, setIsHistoryOpen] = useState(() =>
+    window.location.pathname.startsWith('/history')
   );
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
@@ -106,6 +116,7 @@ function HouseholdTracker({
 
   // Ensure we don't select a future date if app is left open
   const todayKey = formatDateKey(new Date());
+  const [historyPeriodId, setHistoryPeriodId] = useState(getPeriodIdFromPath());
 
   useEffect(() => {
     const unsub = onSnapshot(
@@ -189,6 +200,8 @@ function HouseholdTracker({
     };
     const handleHistoryPopState = () => {
       setIsHistoryOpen(window.location.pathname === '/history');
+      setIsHistoryOpen(window.location.pathname.startsWith('/history'));
+      setHistoryPeriodId(getPeriodIdFromPath());
     };
     window.addEventListener('popstate', handleHistoryPopState);
     window.addEventListener('popstate', handlePopState);
@@ -315,6 +328,17 @@ function HouseholdTracker({
     return total;
   };
 
+  const calculateDailyTotal = (date: Date) => {
+    let total = 0;
+    const dateKey = formatDateKey(date);
+    chores.forEach((chore) => {
+      const key = `${dateKey}_${chore.id}`;
+      const count = Number(choreData[key] || 0);
+      total += chore.value * count;
+    });
+    return total;
+  };
+
   return (
     <Container>
       <Header>
@@ -362,6 +386,7 @@ function HouseholdTracker({
           {periodDates.map((date) => {
             const dateKey = formatDateKey(date);
             const isActive = selectedDate === dateKey;
+            const dailyTotal = calculateDailyTotal(date);
             return (
               <DateCard
                 key={dateKey}
@@ -383,6 +408,7 @@ function HouseholdTracker({
                       day: 'numeric',
                     })}
                   </DateDay>
+                  <DateEarnings>€{dailyTotal.toFixed(2)}</DateEarnings>
                 </DateCardContent>
               </DateCard>
             );
@@ -439,8 +465,18 @@ function HouseholdTracker({
           window.history.pushState(null, '', '/settings');
           setIsHistoryOpen(false);
           setIsSettingsOpen(true);
+          setHistoryPeriodId(null);
         }}
         household={householdData}
+        periodId={historyPeriodId}
+        onSelectPeriod={(id) => {
+          window.history.pushState(null, '', `/history/${id}`);
+          setHistoryPeriodId(id);
+        }}
+        onClearPeriod={() => {
+          window.history.pushState(null, '', '/history');
+          setHistoryPeriodId(null);
+        }}
         db={db}
       />
     </Container>
