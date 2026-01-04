@@ -37,7 +37,7 @@ export function ChoreButton({
           <Icon size={24} />
         </ChoreIconWrapper>
         <ChoreInfo>
-          <ChoreName>{chore.labels?.en || chore.label}</ChoreName>
+          <ChoreName>{chore.labels?.en}</ChoreName>
           <ChoreValue>
             €{chore.value} · {chore.frequency} · {chore.effort} Effort
           </ChoreValue>
