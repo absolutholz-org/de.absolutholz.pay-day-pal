@@ -22,7 +22,7 @@ export type Chore = {
 };
 
 export type HouseholdSettings = {
-  periodStart: string; // YYYY-MM-DD
+  // Settings are currently empty as period management moved to subcollection
 };
 
 export type Household = {
@@ -36,6 +36,6 @@ export type Household = {
 export type Period = {
   id: string;
   startDate: string;
-  endDate: string;
+  endDate?: string | null;
   createdAt: any;
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   collection,
   query,
@@ -9,6 +9,7 @@ import {
   Firestore,
   doc,
   getDoc,
+  where,
   DocumentData,
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
@@ -51,6 +52,7 @@ export default function HistoryScreen({
     try {
       let q = query(
         collection(db, 'households', household.id, 'periods'),
+        where('endDate', '!=', null),
         orderBy('createdAt', 'desc'),
         limit(10)
       );
@@ -58,6 +60,7 @@ export default function HistoryScreen({
       if (isNextPage && lastDoc) {
         q = query(
           collection(db, 'households', household.id, 'periods'),
+          where('endDate', '!=', null),
           orderBy('createdAt', 'desc'),
           startAfter(lastDoc),
           limit(10)
@@ -114,7 +117,11 @@ export default function HistoryScreen({
           Object.entries(data).forEach(([key, value]) => {
             // key is YYYY-MM-DD_choreId
             const [dateStr, choreId] = key.split('_');
-            if (dateStr >= period.startDate && dateStr < period.endDate) {
+            if (
+              dateStr >= period.startDate &&
+              period.endDate &&
+              dateStr < period.endDate
+            ) {
               const chore = household.chores.find((c) => c.id === choreId);
               if (chore) {
                 const count =
@@ -218,7 +225,7 @@ export default function HistoryScreen({
                   onClick={() => loadPeriodDetails(period)}
                 >
                   <HistoryDateRange>
-                    {period.startDate} — {period.endDate}
+                    {period.startDate} — {period.endDate || 'Current'}
                   </HistoryDateRange>
                   <CardMeta>
                     <Calendar size={14} /> View Details

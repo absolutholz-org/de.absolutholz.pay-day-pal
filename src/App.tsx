@@ -9,6 +9,9 @@ import {
   updateDoc,
   collection,
   addDoc,
+  query,
+  orderBy,
+  limit,
 } from 'firebase/firestore';
 import {
   Euro,
@@ -29,7 +32,7 @@ import {
   IconButton,
 } from './SharedComponents';
 import { DEFAULT_CHORES } from './constants';
-import { Household } from './types';
+import { Household, Period } from './types';
 import { ChoreButton } from './components/ChoreButton';
 import {
   Container,
@@ -99,6 +102,7 @@ function HouseholdTracker({
   );
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
+  const [activePeriod, setActivePeriod] = useState<Period | null>(null);
 
   // Ensure we don't select a future date if app is left open
   const todayKey = formatDateKey(new Date());
@@ -118,6 +122,27 @@ function HouseholdTracker({
     return () => unsub();
   }, [household.id]);
 
+  // Subscribe to the latest period to determine active state
+  useEffect(() => {
+    const q = query(
+      collection(db, 'households', household.id, 'periods'),
+      orderBy('startDate', 'desc'),
+      limit(1)
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      if (!snapshot.empty) {
+        const docData = snapshot.docs[0].data();
+        const period = { id: snapshot.docs[0].id, ...docData } as Period;
+        // If the latest period has no endDate, it is active
+        setActivePeriod(!period.endDate ? period : null);
+      } else {
+        setActivePeriod(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [household.id]);
+
   const [activeChild, setActiveChild] = useState<string>(() => {
     const saved = localStorage.getItem(`payDayPal_activeChild_${household.id}`);
     const savedMember = household.members.find((c) => c.id === saved);
@@ -127,11 +152,11 @@ function HouseholdTracker({
     return household.members.find((m) => !m.disabled)?.id || '';
   });
 
-  const [periodStart, setPeriodStart] = useState(
-    householdData.settings.periodStart || formatDateKey(new Date())
-  );
-
   const periodDates = useMemo(() => {
+    if (!activePeriod) return [];
+
+    const periodStart = activePeriod.startDate;
+
     const start = new Date(periodStart);
     const end = new Date(); // Today
     start.setHours(0, 0, 0, 0);
@@ -154,7 +179,7 @@ function HouseholdTracker({
     // Actually, for "scrolling list", usually you want Today easily accessible.
     // Let's reverse so Today is on the left/top.
     return dates.reverse();
-  }, [periodStart, todayKey]); // Depend on todayKey to refresh if day changes
+  }, [activePeriod, todayKey]); // Depend on todayKey to refresh if day changes
 
   const chores = householdData.chores;
 
@@ -189,26 +214,7 @@ function HouseholdTracker({
       `payDayPal_activeChild_${householdData.id}`,
       activeChild
     );
-
-    const syncToFirebase = async () => {
-      try {
-        // We update the household document itself for settings
-        const householdRef = doc(db, 'households', householdData.id);
-        await updateDoc(householdRef, {
-          'settings.periodStart': periodStart,
-        });
-      } catch (error) {
-        console.error('Error syncing settings to Firebase:', error);
-      }
-    };
-    // Debounce or only sync on change? For now, simple sync.
-    if (periodStart !== householdData.settings.periodStart) syncToFirebase();
-  }, [
-    activeChild,
-    periodStart,
-    householdData.id,
-    householdData.settings.periodStart,
-  ]);
+  }, [activeChild, householdData.id]);
 
   useEffect(() => {
     const docRef = doc(
@@ -261,23 +267,36 @@ function HouseholdTracker({
     }
   };
 
-  const finishPeriod = async (shouldStartNew: boolean) => {
-    const endDate = formatDateKey(new Date());
+  const startPeriod = async () => {
+    const startDate = formatDateKey(new Date());
     try {
-      // Always save period history
       await addDoc(collection(db, 'households', householdData.id, 'periods'), {
-        startDate: periodStart,
-        endDate: endDate,
+        startDate,
+        endDate: null,
         createdAt: new Date(),
       });
+    } catch (error) {
+      console.error('Error starting period:', error);
+    }
+  };
+
+  const finishPeriod = async (shouldStartNew: boolean) => {
+    if (!activePeriod) return;
+    const endDate = formatDateKey(new Date());
+    try {
+      // Close current period
+      const periodRef = doc(
+        db,
+        'households',
+        householdData.id,
+        'periods',
+        activePeriod.id
+      );
+      await updateDoc(periodRef, { endDate });
 
       if (shouldStartNew) {
         setChoreData({});
-        const docRef = doc(db, 'households', householdData.id);
-        await updateDoc(docRef, {
-          'settings.periodStart': endDate,
-        });
-        setPeriodStart(endDate);
+        await startPeriod();
       }
     } catch (error) {
       console.error('Error finishing period:', error);
@@ -338,36 +357,43 @@ function HouseholdTracker({
         </BalanceValue>
       </BalanceDisplay>
 
-      <DateScroll>
-        {periodDates.map((date) => {
-          const dateKey = formatDateKey(date);
-          const isActive = selectedDate === dateKey;
-          return (
-            <DateCard
-              key={dateKey}
-              active={isActive}
-              onClick={() => setSelectedDate(dateKey)}
-            >
-              <DateCardContent>
-                <DateWeekday>
-                  <span className="short">
-                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                  </span>
-                  <span className="long">
-                    {date.toLocaleDateString('en-US', { weekday: 'long' })}
-                  </span>
-                </DateWeekday>
-                <DateDay>
-                  {date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </DateDay>
-              </DateCardContent>
-            </DateCard>
-          );
-        })}
-      </DateScroll>
+      {activePeriod ? (
+        <DateScroll>
+          {periodDates.map((date) => {
+            const dateKey = formatDateKey(date);
+            const isActive = selectedDate === dateKey;
+            return (
+              <DateCard
+                key={dateKey}
+                active={isActive}
+                onClick={() => setSelectedDate(dateKey)}
+              >
+                <DateCardContent>
+                  <DateWeekday>
+                    <span className="short">
+                      {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                    </span>
+                    <span className="long">
+                      {date.toLocaleDateString('en-US', { weekday: 'long' })}
+                    </span>
+                  </DateWeekday>
+                  <DateDay>
+                    {date.toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </DateDay>
+                </DateCardContent>
+              </DateCard>
+            );
+          })}
+        </DateScroll>
+      ) : (
+        <div style={{ textAlign: 'center', padding: '2rem', color: '#7f8c8d' }}>
+          <p>No active period.</p>
+          <p>Start a new period in Settings to track chores.</p>
+        </div>
+      )}
 
       <ChoreList>
         {chores.map((chore) => (
@@ -395,8 +421,10 @@ function HouseholdTracker({
           setIsSettingsOpen(false);
         }}
         household={householdData}
+        activePeriod={activePeriod}
         onLeaveHousehold={onBack}
         onFinishPeriod={finishPeriod}
+        onStartPeriod={startPeriod}
         onViewHistory={() => {
           window.history.pushState(null, '', '/history');
           setIsHistoryOpen(true);
@@ -493,7 +521,7 @@ function App() {
       name: newHouseholdName,
       members: validMembers,
       chores: DEFAULT_CHORES,
-      settings: { periodStart: formatDateKey(new Date()) },
+      settings: {},
     };
 
     try {
@@ -501,6 +529,14 @@ function App() {
       const created = { id: docRef.id, ...newHousehold };
       setHouseholds([...households, created]);
       setCurrentHousehold(created);
+
+      // Create initial period
+      await addDoc(collection(db, 'households', docRef.id, 'periods'), {
+        startDate: formatDateKey(new Date()),
+        endDate: null,
+        createdAt: new Date(),
+      });
+
       localStorage.setItem('payDayPal_selectedHouseholdId', created.id);
       setView('app');
     } catch (error) {

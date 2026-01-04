@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import { doc, updateDoc, Firestore } from 'firebase/firestore';
-import { X, Trash2, Plus, RotateCcw, ArrowLeft, History } from 'lucide-react';
-import { Household, Member } from './types';
+import {
+  X,
+  Trash2,
+  Plus,
+  RotateCcw,
+  ArrowLeft,
+  History,
+  Calendar,
+} from 'lucide-react';
+import { Household, Member, Period } from './types';
 import {
   FormGroup,
   Label,
@@ -22,16 +30,20 @@ export default function SettingsScreen({
   isOpen,
   onClose,
   household,
+  activePeriod,
   onLeaveHousehold,
   onFinishPeriod,
+  onStartPeriod,
   onViewHistory,
   db,
 }: {
   isOpen: boolean;
   onClose: () => void;
   household: Household;
+  activePeriod: Period | null;
   onLeaveHousehold: () => void;
   onFinishPeriod: (shouldStartNew: boolean) => void;
+  onStartPeriod: () => void;
   onViewHistory: () => void;
   db: Firestore;
 }) {
@@ -40,6 +52,10 @@ export default function SettingsScreen({
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showFinishPeriodConfirm, setShowFinishPeriodConfirm] = useState(false);
   const [shouldStartNew, setShouldStartNew] = useState(true);
+  const [showCreatePastPeriodConfirm, setShowCreatePastPeriodConfirm] =
+    useState(false);
+  const [pastStartDate, setPastStartDate] = useState('');
+  const [pastEndDate, setPastEndDate] = useState('');
 
   useEffect(() => {
     setSettingsName(household.name);
@@ -158,13 +174,23 @@ export default function SettingsScreen({
         </FormGroup>
         <FormGroup>
           <Label as="h2">Period Management</Label>
-          <ResetButton
-            onClick={() => setShowFinishPeriodConfirm(true)}
-            style={{ width: '100%', justifyContent: 'center' }}
-          >
-            <RotateCcw size={18} />
-            Finish Period
-          </ResetButton>
+          {activePeriod ? (
+            <ResetButton
+              onClick={() => setShowFinishPeriodConfirm(true)}
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <RotateCcw size={18} />
+              Finish Period
+            </ResetButton>
+          ) : (
+            <ResetButton
+              onClick={onStartPeriod}
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              <RotateCcw size={18} />
+              Start Period
+            </ResetButton>
+          )}
           <ResetButton
             onClick={onViewHistory}
             style={{
