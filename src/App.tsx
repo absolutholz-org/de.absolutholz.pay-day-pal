@@ -20,6 +20,7 @@ import {
   Loader,
 } from 'lucide-react';
 import SettingsScreen from './SettingsScreen';
+import HistoryScreen from './HistoryScreen';
 import {
   FormGroup,
   Label,
@@ -93,6 +94,9 @@ function HouseholdTracker({
   const [isSettingsOpen, setIsSettingsOpen] = useState(
     () => window.location.pathname === '/settings'
   );
+  const [isHistoryOpen, setIsHistoryOpen] = useState(
+    () => window.location.pathname === '/history'
+  );
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
 
@@ -116,10 +120,11 @@ function HouseholdTracker({
 
   const [activeChild, setActiveChild] = useState<string>(() => {
     const saved = localStorage.getItem(`payDayPal_activeChild_${household.id}`);
-    if (saved && household.members.some((c) => c.id === saved)) {
-      return saved;
+    const savedMember = household.members.find((c) => c.id === saved);
+    if (savedMember && !savedMember.disabled) {
+      return savedMember.id;
     }
-    return household.members[0]?.id || '';
+    return household.members.find((m) => !m.disabled)?.id || '';
   });
 
   const [periodStart, setPeriodStart] = useState(
@@ -157,9 +162,26 @@ function HouseholdTracker({
     const handlePopState = () => {
       setIsSettingsOpen(window.location.pathname === '/settings');
     };
+    const handleHistoryPopState = () => {
+      setIsHistoryOpen(window.location.pathname === '/history');
+    };
+    window.addEventListener('popstate', handleHistoryPopState);
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  // Handle active child being disabled
+  useEffect(() => {
+    const currentMember = householdData.members.find(
+      (m) => m.id === activeChild
+    );
+    if (currentMember?.disabled) {
+      const firstActive = householdData.members.find((m) => !m.disabled);
+      if (firstActive) {
+        setActiveChild(firstActive.id);
+      }
+    }
+  }, [householdData, activeChild]);
 
   // Sync settings to Local Storage and Firebase (Household Config)
   useEffect(() => {
@@ -239,24 +261,26 @@ function HouseholdTracker({
     }
   };
 
-  const startNewPeriod = async () => {
-    if (
-      window.confirm(
-        `Start a new period? This will hide previous tasks for all members.`
-      )
-    ) {
-      setChoreData({});
-      try {
+  const finishPeriod = async (shouldStartNew: boolean) => {
+    const endDate = formatDateKey(new Date());
+    try {
+      // Always save period history
+      await addDoc(collection(db, 'households', householdData.id, 'periods'), {
+        startDate: periodStart,
+        endDate: endDate,
+        createdAt: new Date(),
+      });
+
+      if (shouldStartNew) {
+        setChoreData({});
         const docRef = doc(db, 'households', householdData.id);
-        // We update the period start to Today.
-        // Note: This affects ALL members as it's a household setting.
         await updateDoc(docRef, {
-          'settings.periodStart': formatDateKey(new Date()),
+          'settings.periodStart': endDate,
         });
-        setPeriodStart(formatDateKey(new Date()));
-      } catch (error) {
-        console.error('Error starting new period:', error);
+        setPeriodStart(endDate);
       }
+    } catch (error) {
+      console.error('Error finishing period:', error);
     }
   };
 
@@ -293,15 +317,17 @@ function HouseholdTracker({
       </Header>
 
       <TabContainer>
-        {householdData.members.map((child) => (
-          <TabButton
-            key={child.id}
-            active={activeChild === child.id}
-            onClick={() => setActiveChild(child.id)}
-          >
-            {child.name}
-          </TabButton>
-        ))}
+        {householdData.members
+          .filter((m) => !m.disabled)
+          .map((child) => (
+            <TabButton
+              key={child.id}
+              active={activeChild === child.id}
+              onClick={() => setActiveChild(child.id)}
+            >
+              {child.name}
+            </TabButton>
+          ))}
       </TabContainer>
 
       <BalanceDisplay>
@@ -369,10 +395,24 @@ function HouseholdTracker({
           setIsSettingsOpen(false);
         }}
         household={householdData}
-        activeChild={activeChild}
-        setActiveChild={setActiveChild}
         onLeaveHousehold={onBack}
-        onStartNewPeriod={startNewPeriod}
+        onFinishPeriod={finishPeriod}
+        onViewHistory={() => {
+          window.history.pushState(null, '', '/history');
+          setIsHistoryOpen(true);
+          setIsSettingsOpen(false);
+        }}
+        db={db}
+      />
+
+      <HistoryScreen
+        isOpen={isHistoryOpen}
+        onClose={() => {
+          window.history.pushState(null, '', '/settings');
+          setIsHistoryOpen(false);
+          setIsSettingsOpen(true);
+        }}
+        household={householdData}
         db={db}
       />
     </Container>

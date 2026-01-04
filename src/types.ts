@@ -1,6 +1,7 @@
 export type Member = {
   id: string;
   name: string;
+  disabled?: boolean;
 };
 
 export type Chore = {
@@ -9,14 +10,15 @@ export type Chore = {
   labels?: { [key: string]: string };
   value: number;
   frequency: string;
-  effort: string;
+  effort: 'Low' | 'Medium' | 'High';
   category:
     | 'bedroom'
     | 'living-room'
     | 'kitchen'
     | 'bathroom'
     | 'outside'
-    | 'laundry';
+    | 'laundry'
+    | 'household';
 };
 
 export type HouseholdSettings = {
@@ -29,4 +31,11 @@ export type Household = {
   members: Member[];
   chores: Chore[];
   settings: HouseholdSettings;
+};
+
+export type Period = {
+  id: string;
+  startDate: string;
+  endDate: string;
+  createdAt: any;
 };

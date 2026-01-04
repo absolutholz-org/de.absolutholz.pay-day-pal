@@ -1,5 +1,68 @@
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+
 import { IconButton } from './SharedComponents';
+
+export const globalStyles = css`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-stack);
+    font-weight: var(--font-weight-primary);
+    letter-spacing: var(--font-spacing-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :root {
+    /* The "Minimalist" Stack */
+    --font-stack: 'Avenir Next', 'Avenir', 'Century Gothic', 'Segoe UI', Roboto,
+      Helvetica, Arial, sans-serif;
+    --font-spacing-primary: 0.05em;
+
+    /* Day Scheme (Light Background) */
+    --bg-primary: #ffffff;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+
+    /* Accent Colors (Optimized for AA compliance on White) */
+    --accent-red: #d32f2f; /* Increased depth for contrast */
+    --accent-green: #2e7d32; /* Darkened to pass on white */
+    --accent-blue: #1976d2; /* Standard accessible blue */
+    --accent-yellow: #f57f17; /* Shifted toward amber to be visible on white */
+    --accent-orange: #e65100; /* Deep orange for legibility */
+    --accent-purple: #7b1fa2; /* Royal purple */
+    --accent-pink: #c2185b; /* Deep magenta */
+
+    /* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
+    --font-weight-primary: 300;
+
+    &[data-theme='night'] {
+      /* Night Scheme (Black Background) */
+      --bg-primary: #000000;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+
+      /* Accent Colors (Optimized for AA compliance on Black) */
+      --accent-red: #ff5252; /* Brighter for "glow" effect */
+      --accent-green: #69f0ae; /* Neon green for high visibility */
+      --accent-blue: #40c4ff; /* Electric blue */
+      --accent-yellow: #ffd740; /* Pure yellow */
+      --accent-orange: #ffab40; /* Vibrant sunset orange */
+      --accent-purple: #e040fb; /* Neon purple/violet */
+      --accent-pink: #ff4081; /* Hot pink */
+
+      /* Dark text on white can be slightly heavier */
+      --font-weight-primary: 400;
+    }
+  }
+`;
 
 // App.tsx styles
 export const Container = styled.div`
@@ -270,5 +333,113 @@ export const CloseButton = styled.button`
 
   &:hover {
     color: #2c3e50;
+  }
+`;
+
+export const HistoryList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const HistoryItem = styled.div`
+  background: white;
+  border: 1px solid #ecf0f1;
+  border-radius: 12px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3498db;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+`;
+
+export const HistoryDateRange = styled.div`
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+`;
+
+export const ModalContent = styled.div`
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease-out;
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+`;
+
+export const ModalTitle = styled.h3`
+  margin: 0 0 1rem 0;
+  color: #2c3e50;
+  font-size: 1.25rem;
+`;
+
+export const ModalText = styled.p`
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+`;
+
+export const ModalActions = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+`;
+
+export const ModalButton = styled.button<{
+  variant?: 'primary' | 'danger' | 'secondary';
+}>`
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  background-color: ${(props) =>
+    props.variant === 'danger'
+      ? '#e74c3c'
+      : props.variant === 'secondary'
+      ? '#ecf0f1'
+      : '#3498db'};
+  color: ${(props) => (props.variant === 'secondary' ? '#7f8c8d' : 'white')};
+
+  &:hover {
+    background-color: ${(props) =>
+      props.variant === 'danger'
+        ? '#c0392b'
+        : props.variant === 'secondary'
+        ? '#bdc3c7'
+        : '#2980b9'};
   }
 `;

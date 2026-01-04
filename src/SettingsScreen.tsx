@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { doc, updateDoc, Firestore } from 'firebase/firestore';
-import { X, Trash2, Plus, RotateCcw, ArrowLeft } from 'lucide-react';
-import { Household } from './types';
+import { X, Trash2, Plus, RotateCcw, ArrowLeft, History } from 'lucide-react';
+import { Household, Member } from './types';
 import {
   FormGroup,
   Label,
@@ -16,28 +16,30 @@ import {
   SettingsTitle,
   CloseButton,
 } from './styles';
+import ConfirmationDialog from './ConfirmationDialog';
 
 export default function SettingsScreen({
   isOpen,
   onClose,
   household,
-  activeChild,
-  setActiveChild,
   onLeaveHousehold,
-  onStartNewPeriod,
+  onFinishPeriod,
+  onViewHistory,
   db,
 }: {
   isOpen: boolean;
   onClose: () => void;
   household: Household;
-  activeChild: string;
-  setActiveChild: (id: string) => void;
   onLeaveHousehold: () => void;
-  onStartNewPeriod: () => void;
+  onFinishPeriod: (shouldStartNew: boolean) => void;
+  onViewHistory: () => void;
   db: Firestore;
 }) {
   const [settingsName, setSettingsName] = useState(household.name);
   const [newMemberName, setNewMemberName] = useState('');
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
+  const [showFinishPeriodConfirm, setShowFinishPeriodConfirm] = useState(false);
+  const [shouldStartNew, setShouldStartNew] = useState(true);
 
   useEffect(() => {
     setSettingsName(household.name);
@@ -79,30 +81,43 @@ export default function SettingsScreen({
                 alignItems: 'center',
                 gap: '0.5rem',
                 marginBottom: '0.5rem',
+                opacity: member.disabled ? 0.6 : 1,
               }}
             >
               <Input
                 value={member.name}
                 readOnly
-                style={{ marginBottom: 0, backgroundColor: '#f8f9fa' }}
+                style={{
+                  marginBottom: 0,
+                  backgroundColor: '#f8f9fa',
+                  textDecoration: member.disabled ? 'line-through' : 'none',
+                }}
               />
               <IconButton
-                style={{ position: 'static', color: '#e74c3c' }}
+                style={{
+                  position: 'static',
+                  color: member.disabled ? '#2ecc71' : '#e74c3c',
+                }}
                 onClick={async () => {
-                  if (confirm(`Remove ${member.name}?`)) {
-                    const newMembers = household.members.filter(
-                      (m) => m.id !== member.id
+                  if (
+                    member.disabled ||
+                    window.confirm(`Disable ${member.name}?`)
+                  ) {
+                    const newMembers = household.members.map((m) =>
+                      m.id === member.id ? { ...m, disabled: !m.disabled } : m
                     );
                     await updateDoc(doc(db, 'households', household.id), {
                       members: newMembers,
                     });
-                    if (activeChild === member.id && newMembers.length > 0) {
-                      setActiveChild(newMembers[0].id);
-                    }
+                    // Active child switch is handled in App.tsx via useEffect
                   }
                 }}
               >
-                <Trash2 size={20} />
+                {member.disabled ? (
+                  <RotateCcw size={20} />
+                ) : (
+                  <Trash2 size={20} />
+                )}
               </IconButton>
             </div>
           ))}
@@ -125,7 +140,10 @@ export default function SettingsScreen({
                     .trim()
                     .toLowerCase()
                     .replace(/\s+/g, '-');
-                  const newMember = { id: newId, name: newMemberName.trim() };
+                  const newMember: Member = {
+                    id: newId,
+                    name: newMemberName.trim(),
+                  };
                   const newMembers = [...household.members, newMember];
                   await updateDoc(doc(db, 'households', household.id), {
                     members: newMembers,
@@ -138,8 +156,32 @@ export default function SettingsScreen({
             </ResetButton>
           </div>
         </FormGroup>
+        <FormGroup>
+          <Label as="h2">Period Management</Label>
+          <ResetButton
+            onClick={() => setShowFinishPeriodConfirm(true)}
+            style={{ width: '100%', justifyContent: 'center' }}
+          >
+            <RotateCcw size={18} />
+            Finish Period
+          </ResetButton>
+          <ResetButton
+            onClick={onViewHistory}
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              marginTop: '0.5rem',
+              background: '#34495e',
+            }}
+          >
+            <History size={18} />
+            View History
+          </ResetButton>
+        </FormGroup>
         <ResetButton
-          onClick={onLeaveHousehold}
+          onClick={() => {
+            setShowLeaveConfirm(true);
+          }}
           style={{
             width: '100%',
             justifyContent: 'center',
@@ -150,16 +192,51 @@ export default function SettingsScreen({
           <ArrowLeft size={18} />
           Leave Household
         </ResetButton>
-        <FormGroup>
-          <Label as="h2">Period Management</Label>
-          <ResetButton
-            onClick={onStartNewPeriod}
-            style={{ width: '100%', justifyContent: 'center' }}
+
+        <ConfirmationDialog
+          isOpen={showLeaveConfirm}
+          title="Leave Household?"
+          message="Are you sure you want to leave this household? You will need to select it again from the main menu to return."
+          confirmLabel="Leave"
+          variant="danger"
+          onConfirm={() => {
+            window.history.pushState(null, '', '/');
+            onLeaveHousehold();
+          }}
+          onCancel={() => setShowLeaveConfirm(false)}
+        />
+
+        <ConfirmationDialog
+          isOpen={showFinishPeriodConfirm}
+          title="Finish Current Period?"
+          message="This will save the current period to history."
+          confirmLabel="Confirm"
+          onConfirm={() => {
+            onFinishPeriod(shouldStartNew);
+            setShowFinishPeriodConfirm(false);
+          }}
+          onCancel={() => setShowFinishPeriodConfirm(false)}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              marginBottom: '1.5rem',
+            }}
           >
-            <RotateCcw size={18} />
-            Start New Period
-          </ResetButton>
-        </FormGroup>
+            <input
+              type="checkbox"
+              id="shouldStartNew"
+              checked={shouldStartNew}
+              onChange={(e) => setShouldStartNew(e.target.checked)}
+              style={{ width: '1.2rem', height: '1.2rem' }}
+            />
+            <label htmlFor="shouldStartNew" style={{ color: '#2c3e50' }}>
+              Start a new period
+            </label>
+          </div>
+        </ConfirmationDialog>
       </SettingsContainer>
     </SettingsPage>
   );
