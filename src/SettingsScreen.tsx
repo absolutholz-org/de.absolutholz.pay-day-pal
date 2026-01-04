@@ -1,30 +1,22 @@
-import { useState, useEffect } from 'react';
-import { doc, updateDoc, Firestore } from 'firebase/firestore';
-import {
-  X,
-  Trash2,
-  Plus,
-  RotateCcw,
-  ArrowLeft,
-  History,
-  Calendar,
-} from 'lucide-react';
-import { Household, Member, Period } from './types';
+import { doc, Firestore, updateDoc } from 'firebase/firestore';
+import { ArrowLeft, History, Plus, RotateCcw, Trash2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import ConfirmationDialog from './ConfirmationDialog';
 import {
   FormGroup,
-  Label,
-  Input,
-  ResetButton,
   IconButton,
+  Input,
+  Label,
+  ResetButton,
 } from './SharedComponents';
 import {
-  SettingsPage,
+  CloseButton,
   SettingsContainer,
   SettingsHeader,
+  SettingsPage,
   SettingsTitle,
-  CloseButton,
 } from './styles';
-import ConfirmationDialog from './ConfirmationDialog';
+import { Household, Member, Period } from './types';
 
 export default function SettingsScreen({
   isOpen,
@@ -52,10 +44,6 @@ export default function SettingsScreen({
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showFinishPeriodConfirm, setShowFinishPeriodConfirm] = useState(false);
   const [shouldStartNew, setShouldStartNew] = useState(true);
-  const [showCreatePastPeriodConfirm, setShowCreatePastPeriodConfirm] =
-    useState(false);
-  const [pastStartDate, setPastStartDate] = useState('');
-  const [pastEndDate, setPastEndDate] = useState('');
 
   useEffect(() => {
     setSettingsName(household.name);
