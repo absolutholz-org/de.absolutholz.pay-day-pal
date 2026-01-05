@@ -1,16 +1,17 @@
-import { doc, Firestore, updateDoc } from 'firebase/firestore';
-import { ArrowLeft, History, Plus, RotateCcw, Trash2, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { ConfirmationDialog } from '../components/ConfirmationDialog';
-import { FormGroup, IconButton, Input, Label, ResetButton } from '../styles';
+import { doc, Firestore, updateDoc } from "firebase/firestore";
+import { ArrowLeft, History, Plus, RotateCcw, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ConfirmationDialog } from "../components/ConfirmationDialog";
+import { FormGroup, IconButton, Input, Label, ResetButton } from "../styles";
 import {
   CloseButton,
   SettingsContainer,
   SettingsHeader,
   SettingsPage,
   SettingsTitle,
-} from '../styles';
-import { Household, Member, Period } from '../types';
+} from "../styles";
+import { Household, Member, Period } from "../types";
+import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
 
 export default function SettingsScreen({
   isOpen,
@@ -34,7 +35,7 @@ export default function SettingsScreen({
   db: Firestore;
 }) {
   const [settingsName, setSettingsName] = useState(household.name);
-  const [newMemberName, setNewMemberName] = useState('');
+  const [newMemberName, setNewMemberName] = useState("");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [showFinishPeriodConfirm, setShowFinishPeriodConfirm] = useState(false);
   const [shouldStartNew, setShouldStartNew] = useState(true);
@@ -54,6 +55,10 @@ export default function SettingsScreen({
             <X size={24} />
           </CloseButton>
         </SettingsHeader>
+        <FormGroup>
+          <Label>Appearance</Label>
+          <ColorSchemeToggle />
+        </FormGroup>
         <h2>Household</h2>
         <FormGroup>
           <Label>Name</Label>
@@ -62,7 +67,7 @@ export default function SettingsScreen({
             onChange={(e) => setSettingsName(e.target.value)}
             onBlur={async () => {
               if (settingsName.trim() !== household.name) {
-                await updateDoc(doc(db, 'households', household.id), {
+                await updateDoc(doc(db, "households", household.id), {
                   name: settingsName.trim(),
                 });
               }
@@ -75,10 +80,10 @@ export default function SettingsScreen({
             <div
               key={member.id}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginBottom: '0.5rem',
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                marginBottom: "0.5rem",
                 opacity: member.disabled ? 0.6 : 1,
               }}
             >
@@ -87,14 +92,14 @@ export default function SettingsScreen({
                 readOnly
                 style={{
                   marginBottom: 0,
-                  backgroundColor: '#f8f9fa',
-                  textDecoration: member.disabled ? 'line-through' : 'none',
+                  backgroundColor: "#f8f9fa",
+                  textDecoration: member.disabled ? "line-through" : "none",
                 }}
               />
               <IconButton
                 style={{
-                  position: 'static',
-                  color: member.disabled ? '#2ecc71' : '#e74c3c',
+                  position: "static",
+                  color: member.disabled ? "#2ecc71" : "#e74c3c",
                 }}
                 onClick={async () => {
                   if (
@@ -104,7 +109,7 @@ export default function SettingsScreen({
                     const newMembers = household.members.map((m) =>
                       m.id === member.id ? { ...m, disabled: !m.disabled } : m
                     );
-                    await updateDoc(doc(db, 'households', household.id), {
+                    await updateDoc(doc(db, "households", household.id), {
                       members: newMembers,
                     });
                     // Active child switch is handled in App.tsx via useEffect
@@ -119,7 +124,7 @@ export default function SettingsScreen({
               </IconButton>
             </div>
           ))}
-          <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
             <Input
               placeholder="New Member Name"
               value={newMemberName}
@@ -129,24 +134,24 @@ export default function SettingsScreen({
             <ResetButton
               style={{
                 margin: 0,
-                padding: '0.5rem 1rem',
-                background: '#3498db',
+                padding: "0.5rem 1rem",
+                background: "#3498db",
               }}
               onClick={async () => {
                 if (newMemberName.trim()) {
                   const newId = newMemberName
                     .trim()
                     .toLowerCase()
-                    .replace(/\s+/g, '-');
+                    .replace(/\s+/g, "-");
                   const newMember: Member = {
                     id: newId,
                     name: newMemberName.trim(),
                   };
                   const newMembers = [...household.members, newMember];
-                  await updateDoc(doc(db, 'households', household.id), {
+                  await updateDoc(doc(db, "households", household.id), {
                     members: newMembers,
                   });
-                  setNewMemberName('');
+                  setNewMemberName("");
                 }
               }}
             >
@@ -159,7 +164,7 @@ export default function SettingsScreen({
           {activePeriod ? (
             <ResetButton
               onClick={() => setShowFinishPeriodConfirm(true)}
-              style={{ width: '100%', justifyContent: 'center' }}
+              style={{ width: "100%", justifyContent: "center" }}
             >
               <RotateCcw size={18} />
               Finish Period
@@ -167,7 +172,7 @@ export default function SettingsScreen({
           ) : (
             <ResetButton
               onClick={onStartPeriod}
-              style={{ width: '100%', justifyContent: 'center' }}
+              style={{ width: "100%", justifyContent: "center" }}
             >
               <RotateCcw size={18} />
               Start Period
@@ -176,10 +181,10 @@ export default function SettingsScreen({
           <ResetButton
             onClick={onViewHistory}
             style={{
-              width: '100%',
-              justifyContent: 'center',
-              marginTop: '0.5rem',
-              background: '#34495e',
+              width: "100%",
+              justifyContent: "center",
+              marginTop: "0.5rem",
+              background: "#34495e",
             }}
           >
             <History size={18} />
@@ -191,10 +196,10 @@ export default function SettingsScreen({
             setShowLeaveConfirm(true);
           }}
           style={{
-            width: '100%',
-            justifyContent: 'center',
-            marginTop: '1rem',
-            backgroundColor: '#95a5a6',
+            width: "100%",
+            justifyContent: "center",
+            marginTop: "1rem",
+            backgroundColor: "#95a5a6",
           }}
         >
           <ArrowLeft size={18} />
@@ -208,7 +213,7 @@ export default function SettingsScreen({
           confirmLabel="Leave"
           variant="danger"
           onConfirm={() => {
-            window.history.pushState(null, '', '/');
+            window.history.pushState(null, "", "/");
             onLeaveHousehold();
           }}
           onCancel={() => setShowLeaveConfirm(false)}
@@ -227,10 +232,10 @@ export default function SettingsScreen({
         >
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              marginBottom: '1.5rem',
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              marginBottom: "1.5rem",
             }}
           >
             <input
@@ -238,9 +243,9 @@ export default function SettingsScreen({
               id="shouldStartNew"
               checked={shouldStartNew}
               onChange={(e) => setShouldStartNew(e.target.checked)}
-              style={{ width: '1.2rem', height: '1.2rem' }}
+              style={{ width: "1.2rem", height: "1.2rem" }}
             />
-            <label htmlFor="shouldStartNew" style={{ color: '#2c3e50' }}>
+            <label htmlFor="shouldStartNew" style={{ color: "#2c3e50" }}>
               Start a new period
             </label>
           </div>

@@ -1,11 +1,60 @@
-import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
+import { colorSchemeCss } from "./_colorSchemeCss";
 
 export const globalStyles = css`
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+
+  :root {
+    /* The "Minimalist" Stack */
+    --font-stack: "Avenir Next", "Avenir", "Century Gothic", "Segoe UI", Roboto,
+      Helvetica, Arial, sans-serif;
+    --font-spacing-primary: 0.05em;
+
+    color-scheme: light dark;
+    ${colorSchemeCss({
+      lightCssVars: css`
+        /* Day Scheme (Light Background) */
+        --bg-primary: #ffffff;
+        --text-primary: #1a1a1a;
+        --text-secondary: #4a4a4a;
+
+        /* Accent Colors (Optimized for AA compliance on White) */
+        --accent-red: #d32f2f; /* Increased depth for contrast */
+        --accent-green: #2e7d32; /* Darkened to pass on white */
+        --accent-blue: #1976d2; /* Standard accessible blue */
+        --accent-yellow: #f57f17; /* Shifted toward amber to be visible on white */
+        --accent-orange: #e65100; /* Deep orange for legibility */
+        --accent-purple: #7b1fa2; /* Royal purple */
+        --accent-pink: #c2185b; /* Deep magenta */
+
+        /* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
+        --font-weight-primary: 300;
+      `,
+      darkCssVars: css`
+        /* Night Scheme (Black Background) */
+        --bg-primary: #000000;
+        --text-primary: #ffffff;
+        --text-secondary: #b3b3b3;
+
+        /* Accent Colors (Optimized for AA compliance on Black) */
+        --accent-red: #ff5252; /* Brighter for "glow" effect */
+        --accent-green: #69f0ae; /* Neon green for high visibility */
+        --accent-blue: #40c4ff; /* Electric blue */
+        --accent-yellow: #ffd740; /* Pure yellow */
+        --accent-orange: #ffab40; /* Vibrant sunset orange */
+        --accent-purple: #e040fb; /* Neon purple/violet */
+        --accent-pink: #ff4081; /* Hot pink */
+
+        /* Dark text on white can be slightly heavier */
+        --font-weight-primary: 400;
+      `,
+    })}
   }
 
   body {
@@ -18,46 +67,19 @@ export const globalStyles = css`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  :root {
-    /* The "Minimalist" Stack */
-    --font-stack: 'Avenir Next', 'Avenir', 'Century Gothic', 'Segoe UI', Roboto,
-      Helvetica, Arial, sans-serif;
-    --font-spacing-primary: 0.05em;
+  img {
+    display: block;
+    max-width: 100%;
 
-    /* Day Scheme (Light Background) */
-    --bg-primary: #ffffff;
-    --text-primary: #1a1a1a;
-    --text-secondary: #4a4a4a;
+    /* https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/ */
+    [data-color-scheme="dark"] & {
+      filter: brightness(0.8) contrast(1.2);
+    }
 
-    /* Accent Colors (Optimized for AA compliance on White) */
-    --accent-red: #d32f2f; /* Increased depth for contrast */
-    --accent-green: #2e7d32; /* Darkened to pass on white */
-    --accent-blue: #1976d2; /* Standard accessible blue */
-    --accent-yellow: #f57f17; /* Shifted toward amber to be visible on white */
-    --accent-orange: #e65100; /* Deep orange for legibility */
-    --accent-purple: #7b1fa2; /* Royal purple */
-    --accent-pink: #c2185b; /* Deep magenta */
-
-    /* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
-    --font-weight-primary: 300;
-
-    &[data-theme='night'] {
-      /* Night Scheme (Black Background) */
-      --bg-primary: #000000;
-      --text-primary: #ffffff;
-      --text-secondary: #b3b3b3;
-
-      /* Accent Colors (Optimized for AA compliance on Black) */
-      --accent-red: #ff5252; /* Brighter for "glow" effect */
-      --accent-green: #69f0ae; /* Neon green for high visibility */
-      --accent-blue: #40c4ff; /* Electric blue */
-      --accent-yellow: #ffd740; /* Pure yellow */
-      --accent-orange: #ffab40; /* Vibrant sunset orange */
-      --accent-purple: #e040fb; /* Neon purple/violet */
-      --accent-pink: #ff4081; /* Hot pink */
-
-      /* Dark text on white can be slightly heavier */
-      --font-weight-primary: 400;
+    @media (prefers-color-scheme: dark) {
+      &:not([data-color-scheme="light"]) {
+        filter: brightness(0.8) contrast(1.2);
+      }
     }
   }
 `;
@@ -138,13 +160,13 @@ export const TabButton = styled.button<{ active: boolean }>`
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  background-color: ${(props) => (props.active ? '#3498db' : '#ecf0f1')};
-  color: ${(props) => (props.active ? 'white' : '#7f8c8d')};
+  background-color: ${(props) => (props.active ? "#3498db" : "#ecf0f1")};
+  color: ${(props) => (props.active ? "white" : "#7f8c8d")};
   transition: all 0.2s ease;
   font-family: inherit;
 
   &:hover {
-    background-color: ${(props) => (props.active ? '#2980b9' : '#bdc3c7')};
+    background-color: ${(props) => (props.active ? "#2980b9" : "#bdc3c7")};
   }
 `;
 
@@ -186,9 +208,9 @@ export const DateCard = styled.button<{ active: boolean }>`
   justify-content: center;
   min-width: 4.5rem;
   padding: 0.75rem 0.5rem;
-  background: ${(props) => (props.active ? '#2c3e50' : 'white')};
-  color: ${(props) => (props.active ? 'white' : '#2c3e50')};
-  border: 1px solid ${(props) => (props.active ? '#2c3e50' : '#ecf0f1')};
+  background: ${(props) => (props.active ? "#2c3e50" : "white")};
+  color: ${(props) => (props.active ? "white" : "#2c3e50")};
+  border: 1px solid ${(props) => (props.active ? "#2c3e50" : "#ecf0f1")};
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
@@ -451,7 +473,7 @@ export const ModalActions = styled.div`
 `;
 
 export const ModalButton = styled.button<{
-  variant?: 'primary' | 'danger' | 'secondary';
+  variant?: "primary" | "danger" | "secondary";
 }>`
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
@@ -461,20 +483,20 @@ export const ModalButton = styled.button<{
   font-family: inherit;
   transition: all 0.2s;
   background-color: ${(props) =>
-    props.variant === 'danger'
-      ? '#e74c3c'
-      : props.variant === 'secondary'
-      ? '#ecf0f1'
-      : '#3498db'};
-  color: ${(props) => (props.variant === 'secondary' ? '#7f8c8d' : 'white')};
+    props.variant === "danger"
+      ? "#e74c3c"
+      : props.variant === "secondary"
+      ? "#ecf0f1"
+      : "#3498db"};
+  color: ${(props) => (props.variant === "secondary" ? "#7f8c8d" : "white")};
 
   &:hover {
     background-color: ${(props) =>
-      props.variant === 'danger'
-        ? '#c0392b'
-        : props.variant === 'secondary'
-        ? '#bdc3c7'
-        : '#2980b9'};
+      props.variant === "danger"
+        ? "#c0392b"
+        : props.variant === "secondary"
+        ? "#bdc3c7"
+        : "#2980b9"};
   }
 `;
 

@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp } from "firebase/app";
 import {
   addDoc,
   collection,
@@ -11,14 +11,14 @@ import {
   query,
   setDoc,
   updateDoc,
-} from 'firebase/firestore';
-import { Euro, Loader, Settings } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import { ChoreButton } from './components/ChoreButton';
-import { DateScroll } from './components/DateScroll';
-import HistoryScreen from './screens/HistoryScreen';
-import HouseholdSelectionScreen from './screens/HouseholdSelectionScreen';
-import SettingsScreen from './screens/SettingsScreen';
+} from "firebase/firestore";
+import { Euro, Loader, Settings } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { ChoreButton } from "./components/ChoreButton";
+import { DateScroll } from "./components/DateScroll";
+import HistoryScreen from "./screens/HistoryScreen";
+import HouseholdSelectionScreen from "./screens/HouseholdSelectionScreen";
+import SettingsScreen from "./screens/SettingsScreen";
 import {
   BalanceDisplay,
   BalanceLabel,
@@ -34,9 +34,9 @@ import {
   TabContainer,
   Title,
   TotalContainer,
-} from './styles';
-import { ChoreData, Household, Period } from './types';
-import { formatDateKey } from './utils';
+} from "./styles";
+import { ChoreData, Household, Period } from "./types";
+import { formatDateKey } from "./utils";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -62,19 +62,19 @@ function HouseholdTracker({
   const [householdData, setHouseholdData] = useState<Household>(household);
   const [choreData, setChoreData] = useState<ChoreData>({});
   const [isSettingsOpen, setIsSettingsOpen] = useState(
-    () => window.location.pathname === '/settings'
+    () => window.location.pathname === "/settings"
   );
 
   const getPeriodIdFromPath = () => {
     const path = window.location.pathname;
-    if (path.startsWith('/history/')) {
-      return path.split('/history/')[1];
+    if (path.startsWith("/history/")) {
+      return path.split("/history/")[1];
     }
     return null;
   };
 
   const [isHistoryOpen, setIsHistoryOpen] = useState(() =>
-    window.location.pathname.startsWith('/history')
+    window.location.pathname.startsWith("/history")
   );
   const [isSyncing, setIsSyncing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
@@ -86,7 +86,7 @@ function HouseholdTracker({
 
   useEffect(() => {
     const unsub = onSnapshot(
-      doc(db, 'households', household.id),
+      doc(db, "households", household.id),
       { includeMetadataChanges: true },
       (docSnap) => {
         if (docSnap.exists()) {
@@ -102,8 +102,8 @@ function HouseholdTracker({
   // Subscribe to the latest period to determine active state
   useEffect(() => {
     const q = query(
-      collection(db, 'households', household.id, 'periods'),
-      orderBy('startDate', 'desc'),
+      collection(db, "households", household.id, "periods"),
+      orderBy("startDate", "desc"),
       limit(1)
     );
 
@@ -126,7 +126,7 @@ function HouseholdTracker({
     if (savedMember && !savedMember.disabled) {
       return savedMember.id;
     }
-    return household.members.find((m) => !m.disabled)?.id || '';
+    return household.members.find((m) => !m.disabled)?.id || "";
   });
 
   const periodDates = useMemo(() => {
@@ -162,16 +162,16 @@ function HouseholdTracker({
 
   useEffect(() => {
     const handlePopState = () => {
-      setIsSettingsOpen(window.location.pathname === '/settings');
+      setIsSettingsOpen(window.location.pathname === "/settings");
     };
     const handleHistoryPopState = () => {
-      setIsHistoryOpen(window.location.pathname === '/history');
-      setIsHistoryOpen(window.location.pathname.startsWith('/history'));
+      setIsHistoryOpen(window.location.pathname === "/history");
+      setIsHistoryOpen(window.location.pathname.startsWith("/history"));
       setHistoryPeriodId(getPeriodIdFromPath());
     };
-    window.addEventListener('popstate', handleHistoryPopState);
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handleHistoryPopState);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   // Handle active child being disabled
@@ -198,9 +198,9 @@ function HouseholdTracker({
   useEffect(() => {
     const docRef = doc(
       db,
-      'households',
+      "households",
       householdData.id,
-      'activity',
+      "activity",
       activeChild
     );
     const unsubscribe = onSnapshot(
@@ -215,7 +215,7 @@ function HouseholdTracker({
         setIsSyncing(docSnap.metadata.fromCache);
       },
       (error) => {
-        console.error('Error fetching chores:', error);
+        console.error("Error fetching chores:", error);
       }
     );
     return () => unsubscribe();
@@ -235,27 +235,27 @@ function HouseholdTracker({
     try {
       const docRef = doc(
         db,
-        'households',
+        "households",
         householdData.id,
-        'activity',
+        "activity",
         activeChild
       );
       await updateDoc(docRef, { [key]: newVal });
     } catch (error) {
-      console.error('Error updating chore:', error);
+      console.error("Error updating chore:", error);
     }
   };
 
   const startPeriod = async () => {
     const startDate = formatDateKey(new Date());
     try {
-      await addDoc(collection(db, 'households', householdData.id, 'periods'), {
+      await addDoc(collection(db, "households", householdData.id, "periods"), {
         startDate,
         endDate: null,
         createdAt: new Date(),
       });
     } catch (error) {
-      console.error('Error starting period:', error);
+      console.error("Error starting period:", error);
     }
   };
 
@@ -266,9 +266,9 @@ function HouseholdTracker({
       // Close current period
       const periodRef = doc(
         db,
-        'households',
+        "households",
         householdData.id,
-        'periods',
+        "periods",
         activePeriod.id
       );
       await updateDoc(periodRef, { endDate });
@@ -278,7 +278,7 @@ function HouseholdTracker({
         await startPeriod();
       }
     } catch (error) {
-      console.error('Error finishing period:', error);
+      console.error("Error finishing period:", error);
     }
   };
 
@@ -315,7 +315,7 @@ function HouseholdTracker({
         )}
         <IconButton
           onClick={() => {
-            window.history.pushState(null, '', '/settings');
+            window.history.pushState(null, "", "/settings");
             setIsSettingsOpen(true);
           }}
         >
@@ -355,7 +355,7 @@ function HouseholdTracker({
           getDailyTotal={calculateDailyTotal}
         />
       ) : (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#7f8c8d' }}>
+        <div style={{ textAlign: "center", padding: "2rem", color: "#7f8c8d" }}>
           <p>No active period.</p>
           <p>Start a new period in Settings to track chores.</p>
         </div>
@@ -383,7 +383,7 @@ function HouseholdTracker({
       <SettingsScreen
         isOpen={isSettingsOpen}
         onClose={() => {
-          window.history.pushState(null, '', '/');
+          window.history.pushState(null, "", "/");
           setIsSettingsOpen(false);
         }}
         household={householdData}
@@ -392,7 +392,7 @@ function HouseholdTracker({
         onFinishPeriod={finishPeriod}
         onStartPeriod={startPeriod}
         onViewHistory={() => {
-          window.history.pushState(null, '', '/history');
+          window.history.pushState(null, "", "/history");
           setIsHistoryOpen(true);
           setIsSettingsOpen(false);
         }}
@@ -402,7 +402,7 @@ function HouseholdTracker({
       <HistoryScreen
         isOpen={isHistoryOpen}
         onClose={() => {
-          window.history.pushState(null, '', '/settings');
+          window.history.pushState(null, "", "/settings");
           setIsHistoryOpen(false);
           setIsSettingsOpen(true);
           setHistoryPeriodId(null);
@@ -410,11 +410,11 @@ function HouseholdTracker({
         household={householdData}
         periodId={historyPeriodId}
         onSelectPeriod={(id) => {
-          window.history.pushState(null, '', `/history/${id}`);
+          window.history.pushState(null, "", `/history/${id}`);
           setHistoryPeriodId(id);
         }}
         onClearPeriod={() => {
-          window.history.pushState(null, '', '/history');
+          window.history.pushState(null, "", "/history");
           setHistoryPeriodId(null);
         }}
         db={db}
@@ -428,14 +428,23 @@ function App() {
     null
   );
 
+  useEffect(() => {
+    const savedScheme = localStorage.getItem("payDayPal_colorScheme");
+    if (savedScheme && savedScheme !== "system") {
+      document.documentElement.setAttribute("data-color-scheme", savedScheme);
+    } else {
+      document.documentElement.removeAttribute("data-color-scheme");
+    }
+  }, []);
+
   const handleSelectHousehold = (household: Household) => {
     setCurrentHousehold(household);
-    localStorage.setItem('payDayPal_selectedHouseholdId', household.id);
+    localStorage.setItem("payDayPal_selectedHouseholdId", household.id);
   };
 
   const handleBackToHouseholds = () => {
     setCurrentHousehold(null);
-    localStorage.removeItem('payDayPal_selectedHouseholdId');
+    localStorage.removeItem("payDayPal_selectedHouseholdId");
   };
 
   if (currentHousehold) {

@@ -1,1 +1,1 @@
-export { DateScroll } from './components/DateScroll/DateScroll';
+export { DateScroll } from "./components/DateScroll/_DateScroll";
