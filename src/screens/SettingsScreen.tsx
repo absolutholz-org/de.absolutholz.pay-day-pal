@@ -1,22 +1,16 @@
 import { doc, Firestore, updateDoc } from 'firebase/firestore';
 import { ArrowLeft, History, Plus, RotateCcw, Trash2, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import ConfirmationDialog from './ConfirmationDialog';
-import {
-  FormGroup,
-  IconButton,
-  Input,
-  Label,
-  ResetButton,
-} from './SharedComponents';
+import { ConfirmationDialog } from '../components/ConfirmationDialog';
+import { FormGroup, IconButton, Input, Label, ResetButton } from '../styles';
 import {
   CloseButton,
   SettingsContainer,
   SettingsHeader,
   SettingsPage,
   SettingsTitle,
-} from './styles';
-import { Household, Member, Period } from './types';
+} from '../styles';
+import { Household, Member, Period } from '../types';
 
 export default function SettingsScreen({
   isOpen,

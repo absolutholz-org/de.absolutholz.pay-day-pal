@@ -22,6 +22,10 @@ export type Chore = {
     | 'household';
 };
 
+export type ChoreData = {
+  [key: string]: number;
+};
+
 export type HouseholdSettings = {
   // Settings are currently empty as period management moved to subcollection
 };

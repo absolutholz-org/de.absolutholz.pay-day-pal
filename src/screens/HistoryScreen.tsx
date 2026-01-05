@@ -14,7 +14,7 @@ import {
   QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import { X, ChevronLeft, Calendar, Loader } from 'lucide-react';
-import { Household, Period } from './types';
+import { Household, Period } from '../types';
 import {
   SettingsPage,
   SettingsContainer,
@@ -28,8 +28,8 @@ import {
   ActivityGroup,
   ActivityDateHeader,
   ActivityRow,
-} from './styles';
-import { ResetButton } from './SharedComponents';
+} from '../styles';
+import { ResetButton } from '../SharedComponents';
 
 export default function HistoryScreen({
   isOpen,

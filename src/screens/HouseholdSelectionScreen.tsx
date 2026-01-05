@@ -1,14 +1,8 @@
 import { addDoc, collection, Firestore, onSnapshot } from 'firebase/firestore';
 import { ArrowLeft, Loader, Plus, Trash2, Users } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { DEFAULT_CHORES } from './constants';
-import {
-  FormGroup,
-  IconButton,
-  Input,
-  Label,
-  ResetButton,
-} from './SharedComponents';
+import { DEFAULT_CHORES } from '../constants';
+import { FormGroup, IconButton, Input, Label, ResetButton } from '../styles';
 import {
   BackButton,
   Card,
@@ -19,9 +13,9 @@ import {
   LoadingIndicator,
   Subtitle,
   Title,
-} from './styles';
-import { Household } from './types';
-import { formatDateKey } from './utils';
+} from '../styles';
+import { Household } from '../types';
+import { formatDateKey } from '../utils';
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,

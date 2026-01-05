@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ModalOverlay,
   ModalContent,
@@ -6,21 +5,10 @@ import {
   ModalText,
   ModalActions,
   ModalButton,
-} from './styles';
+} from '../../styles';
+import { ConfirmationDialogProps } from './ConfirmationDialog.types';
 
-interface ConfirmationDialogProps {
-  isOpen: boolean;
-  title: string;
-  message: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-  variant?: 'primary' | 'danger';
-  children?: React.ReactNode;
-}
-
-export default function ConfirmationDialog({
+export function ConfirmationDialog({
   isOpen,
   title,
   message,
