@@ -34,6 +34,7 @@ import {
 import { DEFAULT_CHORES } from './constants';
 import { Household, Period } from './types';
 import { ChoreButton } from './components/ChoreButton';
+import { formatDateKey } from './utils';
 import {
   Container,
   Header,
@@ -46,12 +47,6 @@ import {
   BalanceDisplay,
   BalanceLabel,
   BalanceValue,
-  DateScroll,
-  DateCard,
-  DateCardContent,
-  DateWeekday,
-  DateDay,
-  DateEarnings,
   ChoreList,
   Footer,
   TotalContainer,
@@ -59,6 +54,7 @@ import {
   CardTitle,
   CardMeta,
 } from './styles';
+import { DateScroll } from './components/DateScroll';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -77,13 +73,6 @@ const db = initializeFirestore(app, {
 
 type ChoreData = {
   [key: string]: number;
-};
-
-const formatDateKey = (date: Date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
 };
 
 function HouseholdTracker({
@@ -382,38 +371,12 @@ function HouseholdTracker({
       </BalanceDisplay>
 
       {activePeriod ? (
-        <DateScroll>
-          {periodDates.map((date) => {
-            const dateKey = formatDateKey(date);
-            const isActive = selectedDate === dateKey;
-            const dailyTotal = calculateDailyTotal(date);
-            return (
-              <DateCard
-                key={dateKey}
-                active={isActive}
-                onClick={() => setSelectedDate(dateKey)}
-              >
-                <DateCardContent>
-                  <DateWeekday>
-                    <span className="short">
-                      {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                    </span>
-                    <span className="long">
-                      {date.toLocaleDateString('en-US', { weekday: 'long' })}
-                    </span>
-                  </DateWeekday>
-                  <DateDay>
-                    {date.toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </DateDay>
-                  <DateEarnings>€{dailyTotal.toFixed(2)}</DateEarnings>
-                </DateCardContent>
-              </DateCard>
-            );
-          })}
-        </DateScroll>
+        <DateScroll
+          dates={periodDates}
+          selectedDate={selectedDate}
+          onDateSelect={setSelectedDate}
+          getDailyTotal={calculateDailyTotal}
+        />
       ) : (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#7f8c8d' }}>
           <p>No active period.</p>
