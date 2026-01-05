@@ -1,13 +1,6 @@
-import {
-  DateCard,
-  DateCardContent,
-  DateWeekday,
-  DateDay,
-  DateEarnings,
-} from '../../styles';
-import { formatDateKey } from '../../utils';
-import { DateScrollProps } from './DateScroll.types';
-import * as S from './DateScroll.styles';
+import { formatDateKey } from "../../utils";
+import { DateScrollProps } from "./DateScroll.types";
+import * as S from "./DateScroll.styles";
 
 export function DateScroll({
   dates,
@@ -15,36 +8,46 @@ export function DateScroll({
   onDateSelect,
   getDailyTotal,
 }: DateScrollProps) {
+  const todayKey = formatDateKey(new Date());
+
   return (
     <S.DateScroll>
       {dates.map((date) => {
         const dateKey = formatDateKey(date);
         const isActive = selectedDate === dateKey;
+        const isToday = dateKey === todayKey;
         const dailyTotal = getDailyTotal(date);
         return (
-          <DateCard
+          <S.DateCard
             key={dateKey}
             active={isActive}
+            isToday={isToday}
             onClick={() => onDateSelect(dateKey)}
           >
-            <DateCardContent>
-              <DateWeekday>
-                <span className="short">
-                  {date.toLocaleDateString('en-US', { weekday: 'short' })}
-                </span>
-                <span className="long">
-                  {date.toLocaleDateString('en-US', { weekday: 'long' })}
-                </span>
-              </DateWeekday>
-              <DateDay>
-                {date.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
+            <S.DateCardContent>
+              <S.DateWeekday isToday={isToday}>
+                {isToday ? (
+                  "Today"
+                ) : (
+                  <>
+                    <span className="short">
+                      {date.toLocaleDateString("en-US", { weekday: "short" })}
+                    </span>
+                    <span className="long">
+                      {date.toLocaleDateString("en-US", { weekday: "long" })}
+                    </span>
+                  </>
+                )}
+              </S.DateWeekday>
+              <S.DateDay isToday={isToday}>
+                {date.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
                 })}
-              </DateDay>
-              <DateEarnings>€{dailyTotal.toFixed(2)}</DateEarnings>
-            </DateCardContent>
-          </DateCard>
+              </S.DateDay>
+              <S.DateEarnings>€{dailyTotal.toFixed(2)}</S.DateEarnings>
+            </S.DateCardContent>
+          </S.DateCard>
         );
       })}
     </S.DateScroll>
