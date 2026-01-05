@@ -16,10 +16,9 @@ import { Euro, Loader, Settings } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ChoreButton } from './components/ChoreButton';
 import { DateScroll } from './components/DateScroll';
-import HistoryScreen from './HistoryScreen';
-import HouseholdSelectionScreen from './HouseholdSelectionScreen';
-import SettingsScreen from './SettingsScreen';
-import { IconButton } from './SharedComponents';
+import HistoryScreen from './screens/HistoryScreen';
+import HouseholdSelectionScreen from './screens/HouseholdSelectionScreen';
+import SettingsScreen from './screens/SettingsScreen';
 import {
   BalanceDisplay,
   BalanceLabel,
@@ -28,6 +27,7 @@ import {
   Container,
   Footer,
   Header,
+  IconButton,
   LoadingIndicator,
   Subtitle,
   TabButton,
@@ -35,7 +35,7 @@ import {
   Title,
   TotalContainer,
 } from './styles';
-import { Household, Period } from './types';
+import { ChoreData, Household, Period } from './types';
 import { formatDateKey } from './utils';
 
 const firebaseConfig = {
@@ -52,11 +52,6 @@ const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
   localCache: persistentLocalCache(),
 });
-
-type ChoreData = {
-  [key: string]: number;
-};
-
 function HouseholdTracker({
   household,
   onBack,

@@ -28,8 +28,8 @@ import {
   ActivityGroup,
   ActivityDateHeader,
   ActivityRow,
+  ResetButton,
 } from '../styles';
-import { ResetButton } from '../SharedComponents';
 
 export default function HistoryScreen({
   isOpen,
