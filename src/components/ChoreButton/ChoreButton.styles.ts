@@ -1,14 +1,14 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
 export const ChoreCard = styled.div<{ active: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  background-color: white;
+  background-color: var(--bg-secondary);
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 2px solid ${(props) => (props.active ? '#2ecc71' : 'transparent')};
+  border: 2px solid ${(props) => (props.active ? "#2ecc71" : "transparent")};
   transition: all 0.2s;
   cursor: pointer;
   user-select: none;
@@ -27,7 +27,7 @@ export const ChoreMain = styled.div`
 
 export const ChoreIconWrapper = styled.div`
   padding: 0.75rem;
-  background-color: #f8f9fa;
+  background-color: var(--bg-tertiary);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -44,12 +44,12 @@ export const ChoreInfo = styled.div`
 export const ChoreName = styled.span`
   font-weight: 600;
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
 `;
 
 export const ChoreValue = styled.span`
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: var(--text-secondary);
 `;
 
 export const ChoreCount = styled.div`

@@ -31,8 +31,10 @@ export const DateCard = styled.button<{ active: boolean; isToday: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  background: ${(props) => (props.active ? "#2c3e50" : "white")};
-  color: ${(props) => (props.active ? "white" : "#2c3e50")};
+  background: ${(props) =>
+    props.active ? "var(--bg-secondary)" : "var(--bg-primary)"};
+  color: ${(props) =>
+    props.active ? "var(--text-primary)" : "var(--text-secondary)"};
   border: 1px solid ${(props) => (props.active ? "#2c3e50" : "#ecf0f1")};
   border-radius: 16px;
   cursor: pointer;

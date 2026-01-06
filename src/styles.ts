@@ -21,6 +21,8 @@ export const globalStyles = css`
       lightCssVars: css`
         /* Day Scheme (Light Background) */
         --bg-primary: #ffffff;
+        --bg-secondary: #f8f9fa;
+        --bg-tertiary: #e9ecef;
         --text-primary: #1a1a1a;
         --text-secondary: #4a4a4a;
 
@@ -39,6 +41,8 @@ export const globalStyles = css`
       darkCssVars: css`
         /* Night Scheme (Black Background) */
         --bg-primary: #000000;
+        --bg-secondary: #1c1c1e;
+        --bg-tertiary: #2c2c2e;
         --text-primary: #ffffff;
         --text-secondary: #b3b3b3;
 
@@ -142,7 +146,7 @@ export const Title = styled.h1`
 `;
 
 export const Subtitle = styled.p`
-  color: #7f8c8d;
+  color: var(--text-secondary);
   font-size: 1.1rem;
 `;
 
@@ -175,7 +179,7 @@ export const BalanceDisplay = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  background-color: white;
+  background-color: var(--bg-primary);
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
@@ -288,15 +292,15 @@ export const TotalContainer = styled.div`
   gap: 1rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--text-primary);
 `;
 
 export const Card = styled.div`
-  background: white;
+  background: var(--bg-primary);
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #ecf0f1;
+  border: 1px solid var(--bg-secondary);
   margin-bottom: 1rem;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -374,7 +378,7 @@ export const HistoryList = styled.div`
 `;
 
 export const HistoryItem = styled.div`
-  background: white;
+  background: var(--bg-primary);
   border: 1px solid #ecf0f1;
   border-radius: 12px;
   padding: 1rem;
@@ -411,7 +415,7 @@ export const ActivityRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
-  background: white;
+  background: var(--bg-primary);
   border-bottom: 1px solid #f0f0f0;
 
   &:last-child {
@@ -434,7 +438,7 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  background: white;
+  background: var(--bg-primary);
   padding: 1.5rem;
   border-radius: 16px;
   width: 100%;
@@ -518,8 +522,8 @@ export const Input = styled.input`
   border: 1px solid #bdc3c7;
   font-size: 1rem;
   font-family: inherit;
-  color: #2c3e50;
-  background-color: white;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
   margin-bottom: 1rem;
 
   &:focus {
