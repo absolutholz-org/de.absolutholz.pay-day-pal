@@ -1,0 +1,22 @@
+{
+    "name": "Pay Day Pal",
+    "short_name": "PayDayPal",
+    "id": "de.absolutholz.pay-day-pal",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4A90E2",
+    "description": "Your companion for pay day calculations and management.",
+    "icons": [
+        {
+            "src": "/assets/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
