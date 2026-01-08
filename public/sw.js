@@ -1,11 +1,11 @@
-const CACHE_NAME = "pay-day-pal-v1";
+const CACHE_NAME = "payday-pal-v1";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
   "/styles.css", // Replace with your actual CSS file
   "/app.js", // Replace with your actual JS file
-  "/assets/icons/icon-192x192.png",
-  "/assets/icons/icon-512x512.png",
+  "/web-app-manifest-192x192.png",
+  "/web-app-manifest-512x512.png",
 ];
 
 // 1. Install Event: Cache core assets
