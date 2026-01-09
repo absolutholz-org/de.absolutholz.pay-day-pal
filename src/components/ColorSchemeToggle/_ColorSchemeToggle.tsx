@@ -2,20 +2,25 @@ import { Monitor, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import * as S from "./_ColorSchemeToggle.styles";
+import {
+  DATA_COLOR_SCHEME_ATTR,
+  DEFAULT_COLOR_SCHEME,
+  SCHEME_STORAGE_KEY,
+} from "./_ColorSchemeToggle.constants";
 
 export function ColorSchemeToggle() {
   const [scheme, setScheme] = useState<ColorScheme>(() => {
-    const saved = localStorage.getItem("payDayPal_colorScheme");
-    return (saved as ColorScheme) || "system";
+    const saved = localStorage.getItem(SCHEME_STORAGE_KEY);
+    return (saved as ColorScheme) || DEFAULT_COLOR_SCHEME;
   });
 
   useEffect(() => {
-    localStorage.setItem("payDayPal_colorScheme", scheme);
+    localStorage.setItem(SCHEME_STORAGE_KEY, scheme);
     const root = document.documentElement;
-    if (scheme === "system") {
-      root.removeAttribute("data-color-scheme");
+    if (scheme === DEFAULT_COLOR_SCHEME) {
+      root.removeAttribute(DATA_COLOR_SCHEME_ATTR);
     } else {
-      root.setAttribute("data-color-scheme", scheme);
+      root.setAttribute(DATA_COLOR_SCHEME_ATTR, scheme);
     }
   }, [scheme]);
 

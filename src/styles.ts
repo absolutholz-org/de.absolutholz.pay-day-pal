@@ -89,13 +89,6 @@ export const globalStyles = css`
 `;
 
 // App.tsx styles
-export const Container = styled.div`
-  width: 100%;
-  max-width: 100rem;
-  margin: 0 auto;
-  padding: 1rem;
-  min-height: 100vh;
-`;
 
 export const Header = styled.header`
   text-align: center;
@@ -137,12 +130,6 @@ export const LoadingIndicator = styled.div`
     }
   }
   display: flex;
-`;
-
-export const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
 `;
 
 export const Subtitle = styled.p`
@@ -326,23 +313,6 @@ export const CardMeta = styled.div`
 `;
 
 // SettingsScreen.tsx styles
-export const SettingsPage = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fdfcfb;
-  z-index: 1000;
-  overflow-y: auto;
-`;
-
-export const SettingsContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1rem;
-`;
 
 export const SettingsHeader = styled.div`
   display: flex;
@@ -350,13 +320,6 @@ export const SettingsHeader = styled.div`
   align-items: center;
   margin-bottom: 2rem;
   padding-top: 1rem;
-`;
-
-export const SettingsTitle = styled.h2`
-  font-size: 2rem;
-  color: #2c3e50;
-  margin: 0;
-  font-weight: 700;
 `;
 
 export const CloseButton = styled.button`

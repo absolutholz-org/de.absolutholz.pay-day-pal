@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
 
 export type Member = {
   id: string;
@@ -8,18 +8,18 @@ export type Member = {
 
 export type Chore = {
   id: string;
-  labels?: { [key: string]: string };
+  labels: { [key: string]: string };
   value: number;
   frequency: string;
-  effort: 'Low' | 'Medium' | 'High';
+  effort: "Low" | "Medium" | "High";
   category:
-    | 'bedroom'
-    | 'living-room'
-    | 'kitchen'
-    | 'bathroom'
-    | 'outside'
-    | 'laundry'
-    | 'household';
+    | "bedroom"
+    | "living-room"
+    | "kitchen"
+    | "bathroom"
+    | "outside"
+    | "laundry"
+    | "household";
 };
 
 export type ChoreData = {

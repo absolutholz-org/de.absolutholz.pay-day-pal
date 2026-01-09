@@ -1,4 +1,4 @@
-# The Pay-Day Pal
+# The Payday Pal
 
 A mobile-first web application designed to help households track chores and calculate allowances. Built with React, TypeScript, and Firebase.
 

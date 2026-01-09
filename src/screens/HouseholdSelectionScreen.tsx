@@ -1,21 +1,25 @@
-import { addDoc, collection, Firestore, onSnapshot } from 'firebase/firestore';
-import { ArrowLeft, Loader, Plus, Trash2, Users } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { DEFAULT_CHORES } from '../constants';
-import { FormGroup, IconButton, Input, Label, ResetButton } from '../styles';
+import { addDoc, collection, Firestore, onSnapshot } from "firebase/firestore";
+import { ArrowLeft, Loader, Plus, Trash2, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { PageContainer } from "../components/PageContainer";
+import { PageHeadline } from "../components/PageHeadline";
+import { DEFAULT_CHORES } from "../constants";
 import {
   BackButton,
   Card,
   CardMeta,
   CardTitle,
-  Container,
+  FormGroup,
   Header,
+  IconButton,
+  Input,
+  Label,
   LoadingIndicator,
+  ResetButton,
   Subtitle,
-  Title,
-} from '../styles';
-import { Household } from '../types';
-import { formatDateKey } from '../utils';
+} from "../styles";
+import { Household } from "../types";
+import { formatDateKey } from "../utils";
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -24,18 +28,18 @@ export default function HouseholdSelectionScreen({
   onSelectHousehold: (household: Household) => void;
   db: Firestore;
 }) {
-  const [view, setView] = useState<'list' | 'create'>('list');
+  const [view, setView] = useState<"list" | "create">("list");
   const [households, setHouseholds] = useState<Household[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
 
   // Create Household Form State
-  const [newHouseholdName, setNewHouseholdName] = useState('');
-  const [newMembers, setNewMembers] = useState<string[]>(['']);
+  const [newHouseholdName, setNewHouseholdName] = useState("");
+  const [newMembers, setNewMembers] = useState<string[]>([""]);
 
   useEffect(() => {
-    const q = collection(db, 'households');
+    const q = collection(db, "households");
     const unsubscribe = onSnapshot(
       q,
       { includeMetadataChanges: true },
@@ -43,13 +47,13 @@ export default function HouseholdSelectionScreen({
         try {
           const loadedHouseholds: Household[] = [];
           snapshot.forEach((doc) => {
-            const data = doc.data() as Omit<Household, 'id'>;
+            const data = doc.data() as Omit<Household, "id">;
             loadedHouseholds.push({ id: doc.id, ...data });
           });
           setHouseholds(loadedHouseholds);
 
           // Auto-select if saved in local storage
-          const savedId = localStorage.getItem('payDayPal_selectedHouseholdId');
+          const savedId = localStorage.getItem("payDayPal_selectedHouseholdId");
           if (savedId) {
             const found = loadedHouseholds.find((h) => h.id === savedId);
             if (found) {
@@ -61,9 +65,9 @@ export default function HouseholdSelectionScreen({
           setIsSyncing(snapshot.metadata.fromCache);
           setError(null);
         } catch (error) {
-          console.error('Error loading households:', error);
+          console.error("Error loading households:", error);
           setError(
-            'Unable to connect to Firebase. This is often caused by an ad blocker or browser extension. Please try disabling them.'
+            "Unable to connect to Firebase. This is often caused by an ad blocker or browser extension. Please try disabling them."
           );
           setLoading(false);
         }
@@ -74,18 +78,18 @@ export default function HouseholdSelectionScreen({
   }, [db, onSelectHousehold]);
 
   const handleCreateHousehold = async () => {
-    if (!newHouseholdName.trim()) return alert('Please enter a household name');
+    if (!newHouseholdName.trim()) return alert("Please enter a household name");
     const validMembers = newMembers
       .filter((m) => m.trim())
       .map((name) => ({
-        id: name.toLowerCase().replace(/\s+/g, '-'),
+        id: name.toLowerCase().replace(/\s+/g, "-"),
         name,
       }));
 
     if (validMembers.length === 0)
-      return alert('Please add at least one member');
+      return alert("Please add at least one member");
 
-    const newHousehold: Omit<Household, 'id'> = {
+    const newHousehold: Omit<Household, "id"> = {
       name: newHouseholdName,
       members: validMembers,
       chores: DEFAULT_CHORES,
@@ -93,11 +97,11 @@ export default function HouseholdSelectionScreen({
     };
 
     try {
-      const docRef = await addDoc(collection(db, 'households'), newHousehold);
+      const docRef = await addDoc(collection(db, "households"), newHousehold);
       const created = { id: docRef.id, ...newHousehold };
 
       // Create initial period
-      await addDoc(collection(db, 'households', docRef.id, 'periods'), {
+      await addDoc(collection(db, "households", docRef.id, "periods"), {
         startDate: formatDateKey(new Date()),
         endDate: null,
         createdAt: new Date(),
@@ -105,32 +109,32 @@ export default function HouseholdSelectionScreen({
 
       onSelectHousehold(created);
     } catch (error) {
-      console.error('Error creating household:', error);
-      alert('Failed to create household');
+      console.error("Error creating household:", error);
+      alert("Failed to create household");
     }
   };
 
-  if (loading) return <Container>Loading...</Container>;
+  if (loading) return <PageContainer>Loading...</PageContainer>;
 
   if (error) {
     return (
-      <Container>
+      <PageContainer>
         <Header>
-          <Title>Connection Error</Title>
-          <Subtitle style={{ color: '#e74c3c' }}>{error}</Subtitle>
+          <PageHeadline>Connection Error</PageHeadline>
+          <Subtitle style={{ color: "#e74c3c" }}>{error}</Subtitle>
         </Header>
-      </Container>
+      </PageContainer>
     );
   }
 
-  if (view === 'create') {
+  if (view === "create") {
     return (
-      <Container>
+      <PageContainer>
         <Header>
-          <BackButton onClick={() => setView('list')}>
+          <BackButton onClick={() => setView("list")}>
             <ArrowLeft size={24} />
           </BackButton>
-          <Title>New Household</Title>
+          <PageHeadline>New Household</PageHeadline>
         </Header>
         <FormGroup>
           <Label>Household Name</Label>
@@ -145,7 +149,7 @@ export default function HouseholdSelectionScreen({
           {newMembers.map((member, index) => (
             <div
               key={index}
-              style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}
+              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
             >
               <Input
                 placeholder="Name"
@@ -162,7 +166,7 @@ export default function HouseholdSelectionScreen({
                   onClick={() =>
                     setNewMembers(newMembers.filter((_, i) => i !== index))
                   }
-                  style={{ position: 'static', color: '#e74c3c' }}
+                  style={{ position: "static", color: "#e74c3c" }}
                 >
                   <Trash2 size={20} />
                 </IconButton>
@@ -170,31 +174,31 @@ export default function HouseholdSelectionScreen({
             </div>
           ))}
           <ResetButton
-            onClick={() => setNewMembers([...newMembers, ''])}
-            style={{ marginTop: '0.5rem', background: '#3498db' }}
+            onClick={() => setNewMembers([...newMembers, ""])}
+            style={{ marginTop: "0.5rem", background: "#3498db" }}
           >
             <Plus size={18} /> Add Member
           </ResetButton>
         </FormGroup>
         <ResetButton
           onClick={handleCreateHousehold}
-          style={{ marginTop: '2rem' }}
+          style={{ marginTop: "2rem" }}
         >
           Create Household
         </ResetButton>
-      </Container>
+      </PageContainer>
     );
   }
 
   return (
-    <Container>
+    <PageContainer>
       <Header>
         {isSyncing && (
           <LoadingIndicator>
             <Loader size={20} />
           </LoadingIndicator>
         )}
-        <Title>The Pay-Day Pal</Title>
+        <PageHeadline>The Pay-Day Pal</PageHeadline>
         <Subtitle>
           Manage chores, track allowances, and teach financial responsibility.
         </Subtitle>
@@ -202,21 +206,21 @@ export default function HouseholdSelectionScreen({
 
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: '3rem',
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "3rem",
         }}
       >
         <ResetButton
-          onClick={() => setView('create')}
-          style={{ background: '#3498db' }}
+          onClick={() => setView("create")}
+          style={{ background: "#3498db" }}
         >
           <Plus size={18} /> Create New Household
         </ResetButton>
       </div>
 
       {households.length > 0 && (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
           {households.map((h) => (
             <Card key={h.id} onClick={() => onSelectHousehold(h)}>
               <CardTitle>{h.name}</CardTitle>
@@ -227,6 +231,6 @@ export default function HouseholdSelectionScreen({
           ))}
         </div>
       )}
-    </Container>
+    </PageContainer>
   );
 }
