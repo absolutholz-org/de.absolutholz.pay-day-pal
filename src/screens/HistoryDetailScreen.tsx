@@ -1,34 +1,24 @@
-import { ArrowLeft, ArrowUpDown, Euro } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { PageContainer } from "../components/PageContainer";
 import { PageHeadline } from "../components/PageHeadline";
-import { Activity, useData } from "../context/DataContext";
-import {
-  Card,
-  CardMeta,
-  CardTitle,
-  Header,
-  IconButton,
-  Subtitle,
-} from "../styles";
+import { useData } from "../context/DataContext";
+import { Header, IconButton, Subtitle } from "../styles";
 import { Period } from "../types";
 
 export default function HistoryDetailScreen() {
   const { periodId } = useParams<{ periodId: string }>();
   const { currentHousehold, getPeriodActivities } = useData();
   const [period, setPeriod] = useState<Period | null>(null);
-  const [allActivities, setAllActivities] = useState<Activity[]>([]);
-  const [filterMember, setFilterMember] = useState<string>("all");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!periodId) return;
 
     getPeriodActivities(periodId)
-      .then(({ period, activities }) => {
+      .then(({ period }) => {
         setPeriod(period);
         //   setAllActivities(activities);
         setLoading(false);
