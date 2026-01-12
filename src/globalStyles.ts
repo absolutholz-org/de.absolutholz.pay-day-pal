@@ -86,16 +86,38 @@ export const globalStyles = css`
       }
     }
   }
+
+  button {
+    appearance: none;
+    background: none;
+    border: none;
+    border-radius: 0px;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    margin: 0px;
+    overflow: visible;
+    padding: 0px;
+    width: auto;
+    -webkit-font-smoothing: inherit;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
 `;
 
 // App.tsx styles
 
-export const Header = styled.header`
-  text-align: center;
-  margin-bottom: 3rem;
-  color: #2c3e50;
-  position: relative;
-`;
+// export const Header = styled.header`
+//   text-align: center;
+//   margin-bottom: 3rem;
+//   color: #2c3e50;
+//   position: relative;
+// `;
 
 export const IconButton = styled.button`
   position: absolute;
@@ -313,14 +335,6 @@ export const CardMeta = styled.div`
 `;
 
 // SettingsScreen.tsx styles
-
-export const SettingsHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  padding-top: 1rem;
-`;
 
 export const CloseButton = styled.button`
   background: none;

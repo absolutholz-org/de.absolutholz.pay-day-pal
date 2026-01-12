@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Global } from '@emotion/react';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Global } from "@emotion/react";
 
-import App from './App.tsx';
-import { globalStyles } from './styles.ts';
+import App from "./App.tsx";
+import { globalStyles } from "./globalStyles.ts";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Global styles={globalStyles} />
     <App />
