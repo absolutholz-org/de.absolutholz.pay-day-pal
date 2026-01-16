@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { PageContainer } from "../components/PageContainer";
-import { PageHeadline } from "../components/PageHeadline";
+import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
-import { Header, IconButton, Subtitle } from "../styles";
+import { Subtitle } from "../globalStyles";
 import { Period } from "../types";
+import { formatDate } from "../utils";
 
 export default function HistoryDetailScreen() {
   const { periodId } = useParams<{ periodId: string }>();
@@ -53,32 +54,23 @@ export default function HistoryDetailScreen() {
   //     });
   //   }, [allActivities, filterMember, sortOrder]);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(undefined, {
-      weekday: "short",
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
-  };
-
   return (
-    <PageContainer>
-      <Header>
-        <Link to="/history">
-          <IconButton>
+    <>
+      <PageHeader
+        title="History Details"
+        slotLead={
+          <Link to="/history">
             <ArrowLeft size={24} />
-          </IconButton>
-        </Link>
-        <PageHeadline>Details</PageHeadline>
-      </Header>
+          </Link>
+        }
+      />
+      <PageContainer>
+        <Subtitle style={{ marginBottom: "1rem" }}>
+          {formatDate(period.startDate)} -{" "}
+          {period.endDate ? formatDate(period.endDate) : "Now"}
+        </Subtitle>
 
-      <Subtitle style={{ marginBottom: "1rem" }}>
-        {formatDate(period.startDate)} -{" "}
-        {period.endDate ? formatDate(period.endDate) : "Now"}
-      </Subtitle>
-
-      {/* <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+        {/* <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
         <select
           value={filterMember}
           onChange={(e) => setFilterMember(e.target.value)}
@@ -149,6 +141,7 @@ export default function HistoryDetailScreen() {
           <Subtitle>No activity recorded for this period.</Subtitle>
         )}
       </div> */}
-    </PageContainer>
+      </PageContainer>
+    </>
   );
 }

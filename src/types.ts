@@ -1,46 +1,63 @@
-import { Timestamp } from "firebase/firestore";
+export type Language = "en" | "de" | "fr" | "pt";
+export type Currency = "USD" | "EUR";
 
-export type Member = {
-  id: string;
-  name: string;
-  disabled?: boolean;
+export type ChoreCategoryId =
+  | "bedroom"
+  | "living-room"
+  | "kitchen"
+  | "bathroom"
+  | "outside"
+  | "laundry"
+  | "household";
+
+export type ChoreCategoryIcon =
+  | "Bed"
+  | "Sofa"
+  | "Utensils"
+  | "Toilet"
+  | "Tree"
+  | "Shirt"
+  | "House";
+
+export type ChoreCategory = {
+  id: ChoreCategoryId;
+  labels: Record<Language, string>;
+  color: string;
+  icon: React.ElementType;
 };
 
 export type Chore = {
   id: string;
-  labels: { [key: string]: string };
+  labels: Record<Language, string>;
   value: number;
   frequency: string;
-  effort: "Low" | "Medium" | "High";
-  category:
-    | "bedroom"
-    | "living-room"
-    | "kitchen"
-    | "bathroom"
-    | "outside"
-    | "laundry"
-    | "household";
+  effort: "low" | "medium" | "high";
+  category: ChoreCategoryId;
+  disabled?: boolean;
 };
 
 export type ChoreData = {
   [key: string]: number;
 };
 
-export type HouseholdSettings = {
-  // Settings are currently empty as period management moved to subcollection
+export type HouseholdMember = {
+  id: string;
+  name: string;
+  disabled?: boolean;
 };
 
 export type Household = {
   id: string;
   name: string;
-  members: Member[];
+  members: HouseholdMember[];
   chores: Chore[];
-  settings: HouseholdSettings;
+  currency: Currency;
+  language: Language;
 };
 
 export type Period = {
   id: string;
-  startDate: string; // YYYY-MM-DD
-  endDate?: string | null; // YYYY-MM-DD
-  createdAt: Timestamp;
+  startDate: Date;
+  endDate?: Date | null;
+  createdAt: Date;
 };

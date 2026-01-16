@@ -1,25 +1,28 @@
-import { addDoc, collection, Firestore, onSnapshot } from "firebase/firestore";
-import { ArrowLeft, Loader, Plus, Trash2, Users } from "lucide-react";
+import {
+  addDoc,
+  collection,
+  Firestore,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
+import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageContainer } from "../components/PageContainer";
-import { PageHeadline } from "../components/PageHeadline";
+import { PageHeader } from "../components/PageHeader";
 import { DEFAULT_CHORES } from "../constants";
 import {
-  BackButton,
   Card,
   CardMeta,
   CardTitle,
   FormGroup,
-  Header,
   IconButton,
   Input,
   Label,
   LoadingIndicator,
   ResetButton,
   Subtitle,
-} from "../styles";
+} from "../globalStyles";
 import { Household } from "../types";
-import { formatDateKey } from "../utils";
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -93,7 +96,8 @@ export default function HouseholdSelectionScreen({
       name: newHouseholdName,
       members: validMembers,
       chores: DEFAULT_CHORES,
-      settings: {},
+      currency: "EUR",
+      language: "en",
     };
 
     try {
@@ -102,9 +106,9 @@ export default function HouseholdSelectionScreen({
 
       // Create initial period
       await addDoc(collection(db, "households", docRef.id, "periods"), {
-        startDate: formatDateKey(new Date()),
+        startDate: Timestamp.now(),
         endDate: null,
-        createdAt: new Date(),
+        createdAt: Timestamp.now(),
       });
 
       onSelectHousehold(created);
@@ -118,119 +122,133 @@ export default function HouseholdSelectionScreen({
 
   if (error) {
     return (
-      <PageContainer>
-        <Header>
-          <PageHeadline>Connection Error</PageHeadline>
-          <Subtitle style={{ color: "#e74c3c" }}>{error}</Subtitle>
-        </Header>
-      </PageContainer>
+      <>
+        <PageHeader
+          title="Connection Error"
+          slotMain={<Subtitle style={{ color: "#e74c3c" }}>{error}</Subtitle>}
+        />
+      </>
     );
   }
 
   if (view === "create") {
     return (
-      <PageContainer>
-        <Header>
+      <>
+        <PageHeader title="New Household" />
+        <PageContainer>
+          {/* <Header>
           <BackButton onClick={() => setView("list")}>
             <ArrowLeft size={24} />
           </BackButton>
           <PageHeadline>New Household</PageHeadline>
-        </Header>
-        <FormGroup>
-          <Label>Household Name</Label>
-          <Input
-            placeholder="e.g. The Smiths"
-            value={newHouseholdName}
-            onChange={(e) => setNewHouseholdName(e.target.value)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Members</Label>
-          {newMembers.map((member, index) => (
-            <div
-              key={index}
-              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
-            >
-              <Input
-                placeholder="Name"
-                value={member}
-                onChange={(e) => {
-                  const updated = [...newMembers];
-                  updated[index] = e.target.value;
-                  setNewMembers(updated);
+        </Header> */}
+          <FormGroup>
+            <Label>Household Name</Label>
+            <Input
+              placeholder="e.g. The Smiths"
+              value={newHouseholdName}
+              onChange={(e) => setNewHouseholdName(e.target.value)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>Members</Label>
+            {newMembers.map((member, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  marginBottom: "0.5rem",
                 }}
-                style={{ marginBottom: 0 }}
-              />
-              {newMembers.length > 1 && (
-                <IconButton
-                  onClick={() =>
-                    setNewMembers(newMembers.filter((_, i) => i !== index))
-                  }
-                  style={{ position: "static", color: "#e74c3c" }}
-                >
-                  <Trash2 size={20} />
-                </IconButton>
-              )}
-            </div>
-          ))}
+              >
+                <Input
+                  placeholder="Name"
+                  value={member}
+                  onChange={(e) => {
+                    const updated = [...newMembers];
+                    updated[index] = e.target.value;
+                    setNewMembers(updated);
+                  }}
+                  style={{ marginBottom: 0 }}
+                />
+                {newMembers.length > 1 && (
+                  <IconButton
+                    onClick={() =>
+                      setNewMembers(newMembers.filter((_, i) => i !== index))
+                    }
+                    style={{ position: "static", color: "#e74c3c" }}
+                  >
+                    <Trash2 size={20} />
+                  </IconButton>
+                )}
+              </div>
+            ))}
+            <ResetButton
+              onClick={() => setNewMembers([...newMembers, ""])}
+              style={{ marginTop: "0.5rem", background: "#3498db" }}
+            >
+              <Plus size={18} /> Add Member
+            </ResetButton>
+          </FormGroup>
           <ResetButton
-            onClick={() => setNewMembers([...newMembers, ""])}
-            style={{ marginTop: "0.5rem", background: "#3498db" }}
+            onClick={handleCreateHousehold}
+            style={{ marginTop: "2rem" }}
           >
-            <Plus size={18} /> Add Member
+            Create Household
           </ResetButton>
-        </FormGroup>
-        <ResetButton
-          onClick={handleCreateHousehold}
-          style={{ marginTop: "2rem" }}
-        >
-          Create Household
-        </ResetButton>
-      </PageContainer>
+        </PageContainer>
+      </>
     );
   }
 
   return (
-    <PageContainer>
-      <Header>
+    <>
+      <PageHeader
+        title="The Pay-Day Pal"
+        slotMain={
+          <Subtitle>
+            Manage chores, track allowances, and teach financial responsibility.
+          </Subtitle>
+        }
+      />
+      <PageContainer>
+        {/* <Header> */}
         {isSyncing && (
           <LoadingIndicator>
             <Loader size={20} />
           </LoadingIndicator>
         )}
-        <PageHeadline>The Pay-Day Pal</PageHeadline>
-        <Subtitle>
-          Manage chores, track allowances, and teach financial responsibility.
-        </Subtitle>
-      </Header>
+        {/* <PageHeadline>The Pay-Day Pal</PageHeadline> */}
+        {/* </Header> */}
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "3rem",
-        }}
-      >
-        <ResetButton
-          onClick={() => setView("create")}
-          style={{ background: "#3498db" }}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "3rem",
+          }}
         >
-          <Plus size={18} /> Create New Household
-        </ResetButton>
-      </div>
-
-      {households.length > 0 && (
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          {households.map((h) => (
-            <Card key={h.id} onClick={() => onSelectHousehold(h)}>
-              <CardTitle>{h.name}</CardTitle>
-              <CardMeta>
-                <Users size={16} /> {h.members.length} Members
-              </CardMeta>
-            </Card>
-          ))}
+          <ResetButton
+            onClick={() => setView("create")}
+            style={{ background: "#3498db" }}
+          >
+            <Plus size={18} /> Create New Household
+          </ResetButton>
         </div>
-      )}
-    </PageContainer>
+
+        {households.length > 0 && (
+          <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+            {households.map((h) => (
+              <Card key={h.id} onClick={() => onSelectHousehold(h)}>
+                <CardTitle>{h.name}</CardTitle>
+                <CardMeta>
+                  <Users size={16} /> {h.members.length} Members
+                </CardMeta>
+              </Card>
+            ))}
+          </div>
+        )}
+      </PageContainer>
+    </>
   );
 }

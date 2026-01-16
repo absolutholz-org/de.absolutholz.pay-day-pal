@@ -5,18 +5,18 @@ import {
   ModalText,
   ModalActions,
   ModalButton,
-} from '../../styles';
-import { ConfirmationDialogProps } from './ConfirmationDialog.types';
+} from "./_ConfirmationDialog.styles";
+import { ConfirmationDialogProps } from "./_ConfirmationDialog.types";
 
 export function ConfirmationDialog({
   isOpen,
   title,
   message,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = "Confirm",
+  cancelLabel = "Cancel",
   onConfirm,
   onCancel,
-  variant = 'primary',
+  variant = "primary",
   children,
 }: ConfirmationDialogProps) {
   if (!isOpen) return null;

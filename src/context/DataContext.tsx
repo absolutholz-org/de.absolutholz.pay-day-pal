@@ -15,7 +15,7 @@ import {
   where,
 } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { ChoreData, Household, Member, Period } from "../types";
+import { ChoreData, Household, HouseholdMember, Period } from "../types";
 import { formatDateKey } from "../utils";
 
 const firebaseConfig = {
@@ -90,7 +90,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const trimmedName = name.trim();
     if (trimmedName) {
       const newId = trimmedName.toLowerCase().replace(/\s+/g, "-");
-      const newMember: Member = {
+      const newMember: HouseholdMember = {
         id: newId,
         name: trimmedName,
       };
@@ -125,7 +125,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const q = query(periodsRef, where("endDate", "==", null));
     const snapshot = await getDocs(q);
 
-    const now = new Date().toISOString();
+    const now = Timestamp.now();
 
     const updates = snapshot.docs.map((doc) =>
       updateDoc(doc.ref, { endDate: now })
@@ -181,8 +181,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       })
     );
 
-    const start = new Date(period.startDate);
-    const end = period.endDate ? new Date(period.endDate) : new Date();
+    const start = period.startDate;
+    const end = period.endDate ? period.endDate : new Date();
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
 

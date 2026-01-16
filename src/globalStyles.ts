@@ -16,44 +16,81 @@ export const globalStyles = css`
       Helvetica, Arial, sans-serif;
     --font-spacing-primary: 0.05em;
 
+    container-type: scroll-state;
+    container-name: page;
+
     color-scheme: light dark;
     ${colorSchemeCss({
       lightCssVars: css`
         /* Day Scheme (Light Background) */
-        --bg-primary: #ffffff;
-        --bg-secondary: #f8f9fa;
-        --bg-tertiary: #e9ecef;
-        --text-primary: #1a1a1a;
-        --text-secondary: #4a4a4a;
+        --surface: oklch(100% 0 0);
+        --surface-2: oklch(98.5% 0.002 247.8);
+        --surface-3: oklch(94.5% 0.004 247.8);
+        --on-surface: oklch(18% 0 0);
+        --on-surface-2: oklch(38% 0 0);
 
         /* Accent Colors (Optimized for AA compliance on White) */
-        --accent-red: #d32f2f; /* Increased depth for contrast */
-        --accent-green: #2e7d32; /* Darkened to pass on white */
-        --accent-blue: #1976d2; /* Standard accessible blue */
-        --accent-yellow: #f57f17; /* Shifted toward amber to be visible on white */
-        --accent-orange: #e65100; /* Deep orange for legibility */
-        --accent-purple: #7b1fa2; /* Royal purple */
-        --accent-pink: #c2185b; /* Deep magenta */
+        --accent-red: oklch(
+          54.3% 0.207 28.6
+        ); /* Increased depth for contrast */
+        --on-accent-red: oklch(100% 0 0);
+
+        --accent-green: oklch(51% 0.168 142); /* Darkened to pass on white */
+        --on-accent-green: oklch(100% 0 0);
+
+        --accent-blue: oklch(54.8% 0.184 263.2); /* Standard accessible blue */
+        --on-accent-blue: oklch(100% 0 0);
+
+        --accent-yellow: oklch(
+          69.6% 0.192 69.1
+        ); /* Shifted toward amber to be visible on white */
+        --on-accent-yellow: oklch(0% 0 0);
+
+        --accent-orange: oklch(
+          57.6% 0.217 48.8
+        ); /* Deep orange for legibility */
+        --on-accent-orange: oklch(100% 0 0);
+
+        --accent-purple: oklch(46.1% 0.218 311.6); /* Royal purple */
+        --on-accent-purple: oklch(100% 0 0);
+
+        --accent-pink: oklch(51.3% 0.215 353.7); /* Deep magenta */
+        --on-accent-pink: oklch(100% 0 0);
 
         /* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
         --font-weight-primary: 300;
       `,
       darkCssVars: css`
         /* Night Scheme (Black Background) */
-        --bg-primary: #000000;
-        --bg-secondary: #1c1c1e;
-        --bg-tertiary: #2c2c2e;
-        --text-primary: #ffffff;
-        --text-secondary: #b3b3b3;
+        --surface: oklch(0% 0 0);
+        --surface-2: oklch(18% 0.002 270);
+        --surface-3: oklch(25% 0.002 270);
+        --on-surface: oklch(100% 0 0);
+        --on-surface-2: oklch(76% 0 0);
 
         /* Accent Colors (Optimized for AA compliance on Black) */
-        --accent-red: #ff5252; /* Brighter for "glow" effect */
-        --accent-green: #69f0ae; /* Neon green for high visibility */
-        --accent-blue: #40c4ff; /* Electric blue */
-        --accent-yellow: #ffd740; /* Pure yellow */
-        --accent-orange: #ffab40; /* Vibrant sunset orange */
-        --accent-purple: #e040fb; /* Neon purple/violet */
-        --accent-pink: #ff4081; /* Hot pink */
+        --accent-red: oklch(69.8% 0.226 26.3); /* Brighter for "glow" effect */
+        --on-accent-red: oklch(0% 0 0);
+
+        --accent-green: oklch(
+          85.9% 0.233 154.2
+        ); /* Neon green for high visibility */
+        --on-accent-green: oklch(0% 0 0);
+
+        --accent-blue: oklch(76.5% 0.174 243.6); /* Electric blue */
+        --on-accent-blue: oklch(0% 0 0);
+
+        --accent-yellow: oklch(88.5% 0.192 88.6); /* Pure yellow */
+        --on-accent-yellow: oklch(0% 0 0);
+
+        --accent-orange: oklch(79.5% 0.192 60.5); /* Vibrant sunset orange */
+        --on-accent-orange: oklch(0% 0 0);
+
+        --accent-purple: oklch(66.5% 0.288 310.5); /* Neon purple/violet */
+        --on-accent-purple: oklch(0% 0 0);
+
+        --accent-pink: oklch(68.5% 0.245 350.5); /* Hot pink */
+        --on-accent-pink: oklch(0% 0 0);
 
         /* Dark text on white can be slightly heavier */
         --font-weight-primary: 400;
@@ -62,8 +99,8 @@ export const globalStyles = css`
   }
 
   body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background-color: var(--surface);
+    color: var(--on-surface);
     font-family: var(--font-stack);
     font-weight: var(--font-weight-primary);
     letter-spacing: var(--font-spacing-primary);
@@ -126,12 +163,12 @@ export const IconButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #95a5a6;
+  color: oklch(69.6% 0.016 218.4);
   transition: color 0.2s;
   padding: 0.5rem;
 
   &:hover {
-    color: #2c3e50;
+    color: oklch(32.5% 0.045 253.7);
   }
 `;
 
@@ -144,7 +181,7 @@ export const LoadingIndicator = styled.div`
   position: absolute;
   top: 0.5rem;
   right: 3rem; /* Left of the settings/menu icon */
-  color: #3498db;
+  color: oklch(63.7% 0.152 253.7);
   animation: spin 1s linear infinite;
   @keyframes spin {
     100% {
@@ -155,7 +192,7 @@ export const LoadingIndicator = styled.div`
 `;
 
 export const Subtitle = styled.p`
-  color: var(--text-secondary);
+  color: var(--on-surface-2);
   font-size: 1.1rem;
 `;
 
@@ -173,13 +210,15 @@ export const TabButton = styled.button<{ active: boolean }>`
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  background-color: ${(props) => (props.active ? "#3498db" : "#ecf0f1")};
-  color: ${(props) => (props.active ? "white" : "#7f8c8d")};
+  background-color: ${(props) =>
+    props.active ? "oklch(63.7% 0.152 253.7)" : "oklch(94.6% 0.008 218.4)"};
+  color: ${(props) => (props.active ? "white" : "oklch(60.6% 0.016 218.4)")};
   transition: all 0.2s ease;
   font-family: inherit;
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#2980b9" : "#bdc3c7")};
+    background-color: ${(props) =>
+      props.active ? "oklch(54.8% 0.152 253.7)" : "oklch(81.6% 0.012 218.4)"};
   }
 `;
 
@@ -188,16 +227,16 @@ export const BalanceDisplay = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  background-color: var(--bg-primary);
+  background-color: var(--surface);
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
-  border: 1px solid #ecf0f1;
+  border: 1px solid oklch(94.6% 0.008 218.4);
 `;
 
 export const BalanceLabel = styled.div`
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: oklch(60.6% 0.016 218.4);
   margin-bottom: 0.25rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -207,7 +246,7 @@ export const BalanceLabel = styled.div`
 export const BalanceValue = styled.div`
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: oklch(32.5% 0.045 253.7);
   display: flex;
   align-items: center;
   gap: 0.25rem;
@@ -221,9 +260,12 @@ export const DateCard = styled.button<{ active: boolean }>`
   justify-content: center;
   min-width: 4.5rem;
   padding: 0.75rem 0.5rem;
-  background: ${(props) => (props.active ? "#2c3e50" : "white")};
-  color: ${(props) => (props.active ? "white" : "#2c3e50")};
-  border: 1px solid ${(props) => (props.active ? "#2c3e50" : "#ecf0f1")};
+  background: ${(props) =>
+    props.active ? "oklch(32.5% 0.045 253.7)" : "white"};
+  color: ${(props) => (props.active ? "white" : "oklch(32.5% 0.045 253.7)")};
+  border: 1px solid
+    ${(props) =>
+      props.active ? "oklch(32.5% 0.045 253.7)" : "oklch(94.6% 0.008 218.4)"};
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s;
@@ -280,10 +322,13 @@ export const DateEarnings = styled.span`
   opacity: 0.9;
 `;
 
-export const ChoreList = styled.div`
+export const ChoreList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 export const Footer = styled.div`
@@ -292,7 +337,7 @@ export const Footer = styled.div`
   align-items: center;
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 2px solid #ecf0f1;
+  border-top: 2px solid oklch(94.6% 0.008 218.4);
 `;
 
 export const TotalContainer = styled.div`
@@ -301,15 +346,15 @@ export const TotalContainer = styled.div`
   gap: 1rem;
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--on-surface);
 `;
 
 export const Card = styled.div`
-  background: var(--bg-primary);
+  background: var(--surface);
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--bg-secondary);
+  border: 1px solid var(--surface-2);
   margin-bottom: 1rem;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -322,12 +367,12 @@ export const Card = styled.div`
 
 export const CardTitle = styled.h3`
   font-size: 1.25rem;
-  color: #2c3e50;
+  color: oklch(32.5% 0.045 253.7);
   margin-bottom: 0.5rem;
 `;
 
 export const CardMeta = styled.div`
-  color: #7f8c8d;
+  color: oklch(60.6% 0.016 218.4);
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -340,11 +385,11 @@ export const CloseButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  color: #7f8c8d;
+  color: oklch(60.6% 0.016 218.4);
   padding: 0.25rem;
 
   &:hover {
-    color: #2c3e50;
+    color: oklch(32.5% 0.045 253.7);
   }
 `;
 
@@ -355,15 +400,15 @@ export const HistoryList = styled.div`
 `;
 
 export const HistoryItem = styled.div`
-  background: var(--bg-primary);
-  border: 1px solid #ecf0f1;
+  background: var(--surface);
+  border: 1px solid oklch(94.6% 0.008 218.4);
   border-radius: 12px;
   padding: 1rem;
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    border-color: #3498db;
+    border-color: oklch(63.7% 0.152 253.7);
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   }
@@ -371,7 +416,7 @@ export const HistoryItem = styled.div`
 
 export const HistoryDateRange = styled.div`
   font-weight: 600;
-  color: #2c3e50;
+  color: oklch(32.5% 0.045 253.7);
   margin-bottom: 0.5rem;
 `;
 
@@ -380,10 +425,10 @@ export const ActivityGroup = styled.div`
 `;
 
 export const ActivityDateHeader = styled.h4`
-  color: #2c3e50;
+  color: oklch(32.5% 0.045 253.7);
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
-  border-bottom: 2px solid #ecf0f1;
+  border-bottom: 2px solid oklch(94.6% 0.008 218.4);
   padding-bottom: 0.25rem;
 `;
 
@@ -392,92 +437,11 @@ export const ActivityRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
-  background: var(--bg-primary);
-  border-bottom: 1px solid #f0f0f0;
+  background: var(--surface);
+  border-bottom: 1px solid oklch(96% 0 0);
 
   &:last-child {
     border-bottom: none;
-  }
-`;
-
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-`;
-
-export const ModalContent = styled.div`
-  background: var(--bg-primary);
-  padding: 1.5rem;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.2s ease-out;
-
-  @keyframes slideIn {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-`;
-
-export const ModalTitle = styled.h3`
-  margin: 0 0 1rem 0;
-  color: #2c3e50;
-  font-size: 1.25rem;
-`;
-
-export const ModalText = styled.p`
-  color: #7f8c8d;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-`;
-
-export const ModalActions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-`;
-
-export const ModalButton = styled.button<{
-  variant?: "primary" | "danger" | "secondary";
-}>`
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s;
-  background-color: ${(props) =>
-    props.variant === "danger"
-      ? "#e74c3c"
-      : props.variant === "secondary"
-      ? "#ecf0f1"
-      : "#3498db"};
-  color: ${(props) => (props.variant === "secondary" ? "#7f8c8d" : "white")};
-
-  &:hover {
-    background-color: ${(props) =>
-      props.variant === "danger"
-        ? "#c0392b"
-        : props.variant === "secondary"
-        ? "#bdc3c7"
-        : "#2980b9"};
   }
 `;
 
@@ -488,7 +452,7 @@ export const FormGroup = styled.div`
 export const Label = styled.label`
   display: block;
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: oklch(32.5% 0.045 253.7);
   font-weight: 600;
 `;
 
@@ -496,16 +460,16 @@ export const Input = styled.input`
   width: 100%;
   padding: 0.75rem;
   border-radius: 8px;
-  border: 1px solid #bdc3c7;
+  border: 1px solid oklch(81.6% 0.012 218.4);
   font-size: 1rem;
   font-family: inherit;
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
+  color: var(--on-surface);
+  background-color: var(--surface);
   margin-bottom: 1rem;
 
   &:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: oklch(63.7% 0.152 253.7);
   }
 `;
 
@@ -514,7 +478,7 @@ export const ResetButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: #e74c3c;
+  background-color: oklch(61.4% 0.195 29.2);
   color: white;
   border: none;
   border-radius: 8px;
@@ -524,6 +488,6 @@ export const ResetButton = styled.button`
   font-family: inherit;
 
   &:hover {
-    background-color: #c0392b;
+    background-color: oklch(51.4% 0.195 29.2);
   }
 `;

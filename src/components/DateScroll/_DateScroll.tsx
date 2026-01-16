@@ -1,6 +1,7 @@
 import { formatDateKey } from "../../utils";
 import { DateScrollProps } from "./_DateScroll.types";
 import * as S from "./_DateScroll.styles";
+import { DateCard } from "../DateCard";
 
 export function DateScroll({
   dates,
@@ -19,36 +20,14 @@ export function DateScroll({
           const isToday = dateKey === todayKey;
           const dailyTotal = getDailyTotal(date);
           return (
-            <S.DateCard
+            <DateCard
               key={dateKey}
-              active={isActive}
+              date={date}
+              isActive={isActive}
               isToday={isToday}
+              dailyTotal={dailyTotal}
               onClick={() => onDateSelect(dateKey)}
-            >
-              <S.DateCardContent>
-                <S.DateWeekday isToday={isToday}>
-                  {isToday ? (
-                    "Today"
-                  ) : (
-                    <>
-                      <span className="short">
-                        {date.toLocaleDateString("en-US", { weekday: "short" })}
-                      </span>
-                      <span className="long">
-                        {date.toLocaleDateString("en-US", { weekday: "long" })}
-                      </span>
-                    </>
-                  )}
-                </S.DateWeekday>
-                <S.DateDay isToday={isToday}>
-                  {date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </S.DateDay>
-                <S.DateEarnings>€{dailyTotal.toFixed(2)}</S.DateEarnings>
-              </S.DateCardContent>
-            </S.DateCard>
+            />
           );
         })}
       </S.DateScroll>

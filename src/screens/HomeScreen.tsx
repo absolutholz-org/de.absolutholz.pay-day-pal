@@ -13,25 +13,24 @@ import { Euro, Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ChoreButton } from "../components/ChoreButton";
+import { ChoreCard } from "../components/ChoreCard";
 import { DateScroll } from "../components/DateScroll";
 import { PageContainer } from "../components/PageContainer";
-import { PageHeadline } from "../components/PageHeadline";
+import { PageHeader } from "../components/PageHeader";
+import { useData } from "../context/DataContext";
 import {
   BalanceDisplay,
   BalanceLabel,
   BalanceValue,
   ChoreList,
   Footer,
-  Header,
   LoadingIndicator,
   Subtitle,
   TabButton,
   TabContainer,
   TotalContainer,
-} from "../styles";
+} from "../globalStyles";
 import { ChoreData, Household, Period } from "../types";
-import { useData } from "../context/DataContext";
 import { formatDateKey } from "../utils";
 
 interface HomeScreenProps {
@@ -94,9 +93,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   const periodDates = useMemo(() => {
     if (!activePeriod) return [];
 
-    const periodStart = activePeriod.startDate;
-
-    const start = new Date(periodStart);
+    const start = new Date(activePeriod.startDate);
     const end = new Date(); // Today
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
@@ -209,107 +206,112 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   };
 
   return (
-    <PageContainer>
-      <Header>
+    <>
+      <PageHeader
+        title={householdData.name}
+        slotMain={<Subtitle>Track chores and earn your allowance!</Subtitle>}
+        slotTrail={
+          <Link to="/settings">
+            <Settings size={24} />
+          </Link>
+        }
+      />
+      <PageContainer>
         {isSyncing && (
           <LoadingIndicator>
             <Loader size={20} />
           </LoadingIndicator>
         )}
-        <Link to="/settings">
-          <Settings size={24} />
-        </Link>
-        {/* 
-        <IconButton onClick={() => navigate("/settings")}>
-          <Settings size={24} />
-        </IconButton> */}
-        <PageHeadline>{householdData.name}</PageHeadline>
-        <Subtitle>Track chores and earn your allowance!</Subtitle>
-      </Header>
 
-      <TabContainer>
-        {householdData.members
-          .filter((m) => !m.disabled)
-          .map((child) => (
-            <TabButton
-              key={child.id}
-              active={activeChild === child.id}
-              onClick={() => setActiveChild(child.id)}
-            >
-              {child.name}
-            </TabButton>
-          ))}
-      </TabContainer>
+        <TabContainer>
+          {householdData.members
+            .filter((m) => !m.disabled)
+            .map((child) => (
+              <TabButton
+                key={child.id}
+                active={activeChild === child.id}
+                onClick={() => setActiveChild(child.id)}
+              >
+                {child.name}
+              </TabButton>
+            ))}
+        </TabContainer>
 
-      {!activePeriod ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "2rem",
-            color: "#7f8c8d",
-            gap: "1rem",
-            flex: 1,
-          }}
-        >
-          <p style={{ fontSize: "1.2rem" }}>No active period.</p>
-          <p>Start a new period to track chores.</p>
-
-          <button
-            onClick={() => finishPeriod(true)}
+        {!activePeriod ? (
+          <div
             style={{
-              padding: "10px 20px",
-              backgroundColor: "#3498db",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "16px",
-              cursor: "pointer",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "2rem",
+              color: "#7f8c8d",
+              gap: "1rem",
+              flex: 1,
             }}
           >
-            Start New Period
-          </button>
-        </div>
-      ) : (
-        <>
-          <BalanceDisplay>
-            <BalanceLabel>Current Earnings</BalanceLabel>
-            <BalanceValue>
-              <Euro size={36} strokeWidth={2.5} color="#27ae60" />
-              {calculateTotal().toFixed(2)}
-            </BalanceValue>
-          </BalanceDisplay>
+            <p style={{ fontSize: "1.2rem" }}>No active period.</p>
+            <p>Start a new period to track chores.</p>
 
-          <DateScroll
-            dates={periodDates}
-            selectedDate={selectedDate}
-            onDateSelect={setSelectedDate}
-            getDailyTotal={calculateDailyTotal}
-          />
+            <button
+              onClick={() => finishPeriod(true)}
+              style={{
+                padding: "10px 20px",
+                backgroundColor: "#3498db",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                fontSize: "16px",
+                cursor: "pointer",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+              }}
+            >
+              Start New Period
+            </button>
+          </div>
+        ) : (
+          <>
+            <BalanceDisplay>
+              <BalanceLabel>Current Earnings</BalanceLabel>
+              <BalanceValue>
+                <Euro size={36} strokeWidth={2.5} color="#27ae60" />
+                {calculateTotal().toFixed(2)}
+              </BalanceValue>
+            </BalanceDisplay>
 
-          <ChoreList>
-            {chores.map((chore) => (
-              <ChoreButton
-                key={chore.id}
-                chore={chore}
-                count={Number(choreData[`${selectedDate}_${chore.id}`] || 0)}
-                onIncrement={() => updateChore(chore.id, selectedDate, 1)}
-                onDecrement={() => updateChore(chore.id, selectedDate, -1)}
-              />
-            ))}
-          </ChoreList>
+            <DateScroll
+              dates={periodDates}
+              selectedDate={selectedDate}
+              onDateSelect={setSelectedDate}
+              getDailyTotal={calculateDailyTotal}
+            />
 
-          <Footer>
-            <TotalContainer>
-              <Euro size={32} color="#27ae60" />
-              <span>Total Earned: €{calculateTotal().toFixed(2)}</span>
-            </TotalContainer>
-          </Footer>
-        </>
-      )}
-    </PageContainer>
+            <ChoreList role="list">
+              {chores.map((chore) => (
+                <li key={chore.id}>
+                  <ChoreCard
+                    label={chore.labels["en"]}
+                    category={chore.category}
+                    count={Number(
+                      choreData[`${selectedDate}_${chore.id}`] || 0
+                    )}
+                    value={chore.value}
+                    onIncrement={() => updateChore(chore.id, selectedDate, 1)}
+                    onDecrement={() => updateChore(chore.id, selectedDate, -1)}
+                  />
+                </li>
+              ))}
+            </ChoreList>
+
+            <Footer>
+              <TotalContainer>
+                <Euro size={32} color="#27ae60" />
+                <span>Total Earned: €{calculateTotal().toFixed(2)}</span>
+              </TotalContainer>
+            </Footer>
+          </>
+        )}
+      </PageContainer>
+    </>
   );
 }
