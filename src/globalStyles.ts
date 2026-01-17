@@ -145,6 +145,10 @@ export const globalStyles = css`
   select {
     font: inherit;
   }
+
+  [role="list"] {
+    list-style: none;
+  }
 `;
 
 // App.tsx styles
@@ -326,7 +330,6 @@ export const ChoreList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   gap: 1rem;
-  list-style: none;
   margin: 0;
   padding: 0;
 `;

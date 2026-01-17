@@ -12,25 +12,27 @@ export function DateScroll({
   const todayKey = formatDateKey(new Date());
 
   return (
-    <S.DateScrollContainer>
-      <S.DateScroll>
+    <S.DateScroll_Container>
+      <S.DateScroll role="list">
         {dates.map((date) => {
           const dateKey = formatDateKey(date);
           const isActive = selectedDate === dateKey;
           const isToday = dateKey === todayKey;
           const dailyTotal = getDailyTotal(date);
+
           return (
-            <DateCard
-              key={dateKey}
-              date={date}
-              isActive={isActive}
-              isToday={isToday}
-              dailyTotal={dailyTotal}
-              onClick={() => onDateSelect(dateKey)}
-            />
+            <S.DateScroll_ListItem key={dateKey}>
+              <DateCard
+                date={date}
+                isActive={isActive}
+                isToday={isToday}
+                dailyTotal={dailyTotal}
+                onClick={() => onDateSelect(dateKey)}
+              />
+            </S.DateScroll_ListItem>
           );
         })}
       </S.DateScroll>
-    </S.DateScrollContainer>
+    </S.DateScroll_Container>
   );
 }
