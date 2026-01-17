@@ -1,5 +1,13 @@
 import { css, type SerializedStyles } from "@emotion/react";
 
+export const onDarkScheme = (styles: SerializedStyles) => css`
+  @media (prefers-color-scheme: dark) {
+    &:not([data-color-scheme="light"]) {
+      ${styles}
+    }
+  }
+`;
+
 export function colorSchemeCss({
   lightCssVars,
   darkCssVars,
@@ -16,11 +24,7 @@ export function colorSchemeCss({
         ${darkCssVars}
       }
 
-      @media (prefers-color-scheme: dark) {
-        &:not([data-color-scheme="light"]) {
-          ${darkCssVars}
-        }
-      }
+      ${onDarkScheme(darkCssVars)}
     `}
   `;
 }
