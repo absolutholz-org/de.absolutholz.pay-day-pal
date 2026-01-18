@@ -103,7 +103,7 @@ export const DEFAULT_CHORES: Chore[] = [
       fr: "Étendre le linge",
       pt: "Estender a roupa",
     },
-    value: 1,
+    value: 1.25,
     frequency: "2x/Week",
     effort: "medium",
     category: "laundry",
