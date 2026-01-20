@@ -6,6 +6,7 @@ const ASSETS_TO_CACHE = [
   "/app.js", // Replace with your actual JS file
   "/web-app-manifest-192x192.png",
   "/web-app-manifest-512x512.png",
+  "/maskable-512x512.png",
 ];
 
 // 1. Install Event: Cache core assets
