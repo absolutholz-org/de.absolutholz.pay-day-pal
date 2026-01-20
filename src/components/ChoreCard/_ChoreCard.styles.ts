@@ -33,11 +33,9 @@ export const ChoreCard_Background = styled.div`
   flex-grow: 1;
   width: 100%;
 
-  ${onCardActive(
-    css`
-      background: none;
-    `
-  )}
+  ${onCardActive(css`
+    background: none;
+  `)}
 `;
 
 export const ChoreCard_Head = styled.div`
@@ -65,11 +63,9 @@ export const ChoreCard_Icon = styled.div`
     width: 4rem;
   }
 
-  ${onCardActive(
-    css`
-      color: inherit;
-    `
-  )}
+  ${onCardActive(css`
+    color: inherit;
+  `)}
 `;
 
 export const ChoreCard_Title = styled.div`
@@ -80,11 +76,9 @@ export const ChoreCard_Title = styled.div`
   font-weight: 400;
   padding: 0 ${HORIZONTAL_PADDING} 0.75rem;
 
-  ${onCardActive(
-    css`
-      color: inherit;
-    `
-  )}
+  ${onCardActive(css`
+    color: inherit;
+  `)}
 `;
 
 export const ChoreCard_Foot = styled.div`
@@ -99,7 +93,7 @@ export const ChoreCard_ButtonIncrementDecrement = styled.button`
   align-items: center;
   background: oklch(from white l c h / 0.25);
   border: 2px solid;
-  border-radius: calc(infinity * 1px);
+  border-radius: var(--radius-pill);
   color: var(--card-color);
   display: flex;
   height: 2rem;
@@ -117,19 +111,17 @@ export const ChoreCard_ButtonIncrementDecrement = styled.button`
     opacity: 0.25;
   }
 
-  ${onCardActive(
-    css`
-      color: var(--on-card-color);
-    `
-  )}
+  ${onCardActive(css`
+    color: var(--on-card-color);
+  `)}
 `;
 
 export const ChoreCard_ButtonDecrement = styled(
-  ChoreCard_ButtonIncrementDecrement
+  ChoreCard_ButtonIncrementDecrement,
 )``;
 
 export const ChoreCard_ButtonIncrement = styled(
-  ChoreCard_ButtonIncrementDecrement
+  ChoreCard_ButtonIncrementDecrement,
 )`
   // &::after {
   //   content: "";
@@ -150,9 +142,7 @@ export const ChoreCard_Quantity = styled.div`
   font-size: 1.5rem;
   font-weight: 400;
 
-  ${onCardActive(
-    css`
-      color: inherit;
-    `
-  )}
+  ${onCardActive(css`
+    color: inherit;
+  `)}
 `;

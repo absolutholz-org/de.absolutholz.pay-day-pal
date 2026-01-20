@@ -12,9 +12,12 @@ export const globalStyles = css`
 
   :root {
     /* The "Minimalist" Stack */
-    --font-stack: "Avenir Next", "Avenir", "Century Gothic", "Segoe UI", Roboto,
-      Helvetica, Arial, sans-serif;
+    --font-stack:
+      "Avenir Next", "Avenir", "Century Gothic", "Segoe UI", Roboto, Helvetica,
+      Arial, sans-serif;
     --font-spacing-primary: 0.05em;
+
+    --radius-pill: calc(infinity * 1px);
 
     container-type: scroll-state;
     container-name: page;
@@ -360,7 +363,9 @@ export const Card = styled.div`
   border: 1px solid var(--surface-2);
   margin-bottom: 1rem;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-2px);
