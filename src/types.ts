@@ -40,6 +40,16 @@ export type ChoreData = {
   [key: string]: number;
 };
 
+export type ActivityRecord = {
+  id: string;
+  choreId: string;
+  memberId: string;
+  date: string;
+  createdAt: Date;
+  value: number;
+  choreLabel: string;
+};
+
 export type HouseholdMember = {
   id: string;
   name: string;

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HistoryScreen from "./screens/HistoryScreen";
 import HomeScreen from "./screens/HomeScreen";
 import HouseholdSelectionScreen from "./screens/HouseholdSelectionScreen";
-import HistoryDetailScreen from "./screens/HistoryDetailScreen";
+import PeriodSelectionScreen from "./screens/PeriodSelectionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import { setColorSchemeFromLocalStorage } from "./components/ColorSchemeToggle";
 import { DataProvider, useData } from "./context/DataContext";
@@ -30,8 +30,8 @@ function AppContent() {
           element={<HomeScreen household={currentHousehold} db={db} />}
         />
         <Route path="/settings" element={<SettingsScreen />} />
-        <Route path="/history" element={<HistoryScreen />} />
-        <Route path="/history/:periodId" element={<HistoryDetailScreen />} />
+        <Route path="/history" element={<PeriodSelectionScreen />} />
+        <Route path="/history/:periodId" element={<HistoryScreen />} />
       </Routes>
     </BrowserRouter>
   );

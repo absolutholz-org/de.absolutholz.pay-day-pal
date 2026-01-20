@@ -15,6 +15,7 @@ export const Pill: React.FC<PillProps> = ({
     medium: S.Pill_Medium,
     large: S.Pill_Large,
   }[size];
+  console.log({ active });
 
   return (
     <PillVariant

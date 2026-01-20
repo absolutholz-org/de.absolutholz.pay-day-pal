@@ -7,7 +7,6 @@ import {
   orderBy,
   query,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { Euro, Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -39,7 +38,7 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({ household, db }: HomeScreenProps) {
-  const { finishPeriod } = useData();
+  const { finishPeriod, recordActivity } = useData();
   const [householdData, setHouseholdData] = useState<Household>(household);
   const [choreData, setChoreData] = useState<ChoreData>({});
   const [isSyncing, setIsSyncing] = useState(false);
@@ -57,7 +56,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           setHouseholdData(data);
           setIsSyncing(docSnap.metadata.fromCache);
         }
-      }
+      },
     );
     return () => unsub();
   }, [household.id, db]);
@@ -66,7 +65,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
     const q = query(
       collection(db, "households", household.id, "periods"),
       orderBy("startDate", "desc"),
-      limit(1)
+      limit(1),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -114,7 +113,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 
   useEffect(() => {
     const currentMember = householdData.members.find(
-      (m) => m.id === activeChild
+      (m) => m.id === activeChild,
     );
     if (currentMember?.disabled) {
       const firstActive = householdData.members.find((m) => !m.disabled);
@@ -127,7 +126,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   useEffect(() => {
     localStorage.setItem(
       `payDayPal_activeChild_${householdData.id}`,
-      activeChild
+      activeChild,
     );
   }, [activeChild, householdData.id]);
 
@@ -137,7 +136,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
       "households",
       householdData.id,
       "activity",
-      activeChild
+      activeChild,
     );
     const unsubscribe = onSnapshot(
       docRef,
@@ -152,7 +151,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
       },
       (error) => {
         console.error("Error fetching chores:", error);
-      }
+      },
     );
     return () => unsubscribe();
   }, [activeChild, householdData.id, db]);
@@ -160,23 +159,24 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   const updateChore = async (
     choreId: string,
     dateString: string,
-    change: number
+    change: number,
   ) => {
     const key = `${dateString}_${choreId}`;
     const currentVal = Number(choreData[key] || 0);
     const newVal = Math.max(0, currentVal + change);
+
+    if (newVal === currentVal) return;
+
     const newData = { ...choreData, [key]: newVal };
     setChoreData(newData);
 
     try {
-      const docRef = doc(
-        db,
-        "households",
-        householdData.id,
-        "activity",
-        activeChild
+      await recordActivity(
+        activeChild,
+        choreId,
+        dateString,
+        change > 0 ? "increment" : "decrement",
       );
-      await updateDoc(docRef, { [key]: newVal });
     } catch (error) {
       console.error("Error updating chore:", error);
     }
@@ -293,7 +293,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
                     label={chore.labels["en"]}
                     category={chore.category}
                     count={Number(
-                      choreData[`${selectedDate}_${chore.id}`] || 0
+                      choreData[`${selectedDate}_${chore.id}`] || 0,
                     )}
                     value={chore.value}
                     onIncrement={() => updateChore(chore.id, selectedDate, 1)}
