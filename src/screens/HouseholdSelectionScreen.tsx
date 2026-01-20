@@ -204,7 +204,7 @@ export default function HouseholdSelectionScreen({
   return (
     <>
       <PageHeader
-        title="The Pay-Day Pal"
+        title="The Payday Pal"
         slotMain={
           <Subtitle>
             Manage chores, track allowances, and teach financial responsibility.
