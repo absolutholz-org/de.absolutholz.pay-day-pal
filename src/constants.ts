@@ -1,6 +1,13 @@
 import { Bed, Sofa, Utensils, Trees, Bath, Shirt, Home } from "lucide-react";
 import { Chore, ChoreCategory, ChoreCategoryId } from "./types";
 
+export const SUPPORTED_LANGUAGES = [
+  { value: "en", label: "English" },
+  { value: "de", label: "Deutsch" },
+  { value: "fr", label: "Français" },
+  { value: "pt", label: "Português" },
+];
+
 export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   bedroom: {
     id: "bedroom",
