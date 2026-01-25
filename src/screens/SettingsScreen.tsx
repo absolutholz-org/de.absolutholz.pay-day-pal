@@ -93,15 +93,7 @@ export default function SettingsScreen({}) {
                 opacity: member.disabled ? 0.6 : 1,
               }}
             >
-              <Input
-                value={member.name}
-                readOnly
-                style={{
-                  marginBottom: 0,
-                  backgroundColor: "#f8f9fa",
-                  textDecoration: member.disabled ? "line-through" : "none",
-                }}
-              />
+              <Input value={member.name} readOnly />
               <IconButton
                 style={{
                   position: "static",

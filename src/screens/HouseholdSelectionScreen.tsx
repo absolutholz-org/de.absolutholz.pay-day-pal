@@ -127,7 +127,7 @@ export default function HouseholdSelectionScreen({
     return (
       <>
         <PageHeader
-          title="Connection Error"
+          title={"Connection Error"}
           slotMain={<Subtitle style={{ color: "#e74c3c" }}>{error}</Subtitle>}
         />
       </>
@@ -137,7 +137,7 @@ export default function HouseholdSelectionScreen({
   if (view === "create") {
     return (
       <>
-        <PageHeader title="New Household" />
+        <PageHeader title={"New Household"} />
         <PageContainer>
           {/* <Header>
           <BackButton onClick={() => setView("list")}>
@@ -217,7 +217,7 @@ export default function HouseholdSelectionScreen({
   return (
     <>
       <PageHeader
-        title="The Payday Pal"
+        title={"Payday Pal"}
         slotMain={
           <Subtitle>
             Manage chores, track allowances, and teach financial responsibility.

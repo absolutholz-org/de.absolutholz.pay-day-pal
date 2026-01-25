@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { PageHeadline } from "../PageHeadline";
 
 export const PageHeader = styled.header`
   > * {
@@ -15,8 +16,6 @@ export const PageHeader_Column_Main = styled.div``;
 
 export const PageHeader_Column_Trail = styled.div``;
 
-export const PageHeader_Headline = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
+export const PageHeader_Headline = styled(PageHeadline)`
+  margin-block: 0 0.5rem;
 `;

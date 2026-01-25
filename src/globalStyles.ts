@@ -27,6 +27,7 @@ export const globalStyles = css`
     font-family: var(--font-stack);
     font-weight: var(--font-weight-primary);
     letter-spacing: var(--font-spacing-primary);
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
