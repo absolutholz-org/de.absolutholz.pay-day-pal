@@ -290,6 +290,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
               {chores.map((chore) => (
                 <li key={chore.id}>
                   <ChoreCard
+                    id={chore.id}
                     label={chore.labels["en"]}
                     category={chore.category}
                     count={Number(
