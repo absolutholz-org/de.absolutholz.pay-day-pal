@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const DateCard = styled.button<{ active: boolean; isToday: boolean }>`
@@ -6,25 +7,35 @@ export const DateCard = styled.button<{ active: boolean; isToday: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  background: ${(props) =>
-    props.active ? "var(--surface-2)" : "var(--surface)"};
-  color: ${(props) =>
-    props.active ? "var(--on-surface)" : "var(--on-surface-2)"};
-  border: 1px solid ${(props) => (props.active ? "#2c3e50" : "#ecf0f1")};
+  background: var(--surface);
+  color: var(--on-surface-2);
+  border: 1px solid #ecf0f1;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
 
-  ${(props) =>
-    props.isToday &&
-    `
-    border-color: #3498db;
-    box-shadow: 0 8px 16px rgba(52, 152, 219, 0.25);
-    z-index: 2;
-    transform: scale(1.05);
-  `}
+  ${({ active }) =>
+    active &&
+    css`
+      background-image: linear-gradient(
+        to right bottom,
+        oklch(0.627 0.265 303.9) 0%,
+        oklch(0.656 0.241 354.308) 100%
+      );
+      border-color: #2c3e50;
+      color: white;
+    `}
+
+  ${({ isToday }) =>
+    isToday &&
+    css`
+      border-color: #3498db;
+      box-shadow: 0 8px 16px rgba(52, 152, 219, 0.25);
+      z-index: 2;
+      transform: scale(1.05);
+    `}
 
   &:hover {
     transform: ${(props) =>

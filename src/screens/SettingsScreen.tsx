@@ -14,23 +14,28 @@ import { ConfirmationDialog } from "../components/ConfirmationDialog";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
+import { useLocalization } from "../context/LocalizationContext";
+import { Language } from "../types";
 import {
   FormGroup,
   IconButton,
   Input,
   Label,
   ResetButton,
+  Select,
 } from "../globalStyles";
 
 export default function SettingsScreen({}) {
   const {
     currentHousehold: household,
     updateHouseholdName,
+    updateHouseholdLanguage,
     addMember,
     toggleMemberStatus,
     leaveHousehold,
     finishPeriod,
   } = useData();
+  const { t, language, setLanguage } = useLocalization();
 
   if (!household) return null;
 
@@ -47,7 +52,7 @@ export default function SettingsScreen({}) {
   return (
     <>
       <PageHeader
-        title="Settings"
+        title={t.settings}
         slotLead={
           <Link to="/">
             <ArrowLeft size={24} />
@@ -55,13 +60,27 @@ export default function SettingsScreen({}) {
         }
       />
       <PageContainer>
+        <h2>System</h2>
         <FormGroup>
-          <Label>Appearance</Label>
+          <Label>{t.appearance}</Label>
           <ColorSchemeToggle />
         </FormGroup>
-        <h2>Household</h2>
         <FormGroup>
-          <Label>Name</Label>
+          <Label>{t.appLanguage}</Label>
+          <Select
+            value={language}
+            onChange={(e) => setLanguage(e.target.value as Language)}
+          >
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+            <option value="pt">Português</option>
+          </Select>
+        </FormGroup>
+
+        <h2>{t.household}</h2>
+        <FormGroup>
+          <Label>{t.name}</Label>
           <Input
             value={settingsName}
             onChange={(e) => setSettingsName(e.target.value)}
@@ -69,7 +88,7 @@ export default function SettingsScreen({}) {
           />
         </FormGroup>
         <FormGroup>
-          <Label>Members</Label>
+          <Label>{t.members}</Label>
           {household.members.map((member) => (
             <div
               key={member.id}
@@ -98,7 +117,7 @@ export default function SettingsScreen({}) {
                 onClick={() => {
                   if (
                     member.disabled ||
-                    window.confirm(`Disable ${member.name}?`)
+                    window.confirm(`${t.disable} ${member.name}?`)
                   ) {
                     toggleMemberStatus(member.id);
                   }
@@ -114,7 +133,7 @@ export default function SettingsScreen({}) {
           ))}
           <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
             <Input
-              placeholder="New Member Name"
+              placeholder={t.newMemberName}
               value={newMemberName}
               onChange={(e) => setNewMemberName(e.target.value)}
               style={{ marginBottom: 0 }}
@@ -135,7 +154,22 @@ export default function SettingsScreen({}) {
           </div>
         </FormGroup>
         <FormGroup>
-          <Label as="h2">Period Management</Label>
+          <Label>{t.householdLanguage}</Label>
+          <Select
+            value={household.language}
+            onChange={(e) =>
+              updateHouseholdLanguage(e.target.value as Language)
+            }
+          >
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="fr">Français</option>
+            <option value="pt">Português</option>
+          </Select>
+        </FormGroup>
+
+        <FormGroup>
+          <Label as="h2">{t.periodManagement}</Label>
           <Link
             to="/history"
             style={{
@@ -158,7 +192,7 @@ export default function SettingsScreen({}) {
             }}
           >
             <History size={18} />
-            View History
+            {t.viewHistory}
           </Link>
           <ResetButton
             onClick={() => setIsPaydayDialogOpen(true)}
@@ -169,7 +203,7 @@ export default function SettingsScreen({}) {
               backgroundColor: "#2ecc71",
             }}
           >
-            <Euro size={18} /> End Period (Payday)
+            <Euro size={18} /> {t.endPeriod}
           </ResetButton>
         </FormGroup>
         <ResetButton
@@ -184,14 +218,15 @@ export default function SettingsScreen({}) {
           }}
         >
           <ArrowLeft size={18} />
-          Leave Household
+          {t.leaveHousehold}
         </ResetButton>
 
         <ConfirmationDialog
           isOpen={showLeaveConfirm}
-          title="Leave Household?"
-          message="Are you sure you want to leave this household? You will need to select it again from the main menu to return."
-          confirmLabel="Leave"
+          title={t.leaveHouseholdConfirmTitle}
+          message={t.leaveHouseholdConfirmMessage}
+          confirmLabel={t.leave}
+          cancelLabel={t.cancel}
           variant="danger"
           onConfirm={() => {
             window.history.pushState(null, "", "/");
@@ -202,9 +237,10 @@ export default function SettingsScreen({}) {
 
         <ConfirmationDialog
           isOpen={isPaydayDialogOpen}
-          title="Payday!"
-          message="Are you sure you want to end the current pay period?"
-          confirmLabel="Confirm"
+          title={t.paydayTitle}
+          message={t.paydayMessage}
+          confirmLabel={t.confirm}
+          cancelLabel={t.cancel}
           onConfirm={async () => {
             await finishPeriod(startNewPeriod);
             setIsPaydayDialogOpen(false);
@@ -220,7 +256,7 @@ export default function SettingsScreen({}) {
                 checked={startNewPeriod}
                 onChange={(e) => setStartNewPeriod(e.target.checked)}
               />
-              Start a new period immediately
+              {t.startNewPeriod}
             </label>
           </div>
         </ConfirmationDialog>

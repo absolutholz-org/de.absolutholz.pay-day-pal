@@ -9,7 +9,7 @@ import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
-import { DEFAULT_CHORES } from "../constants";
+import { DEFAULT_CHORES } from "../constants/constants";
 import {
   Card,
   CardMeta,
@@ -20,9 +20,10 @@ import {
   Label,
   LoadingIndicator,
   ResetButton,
+  Select,
   Subtitle,
 } from "../globalStyles";
-import { Household } from "../types";
+import { Household, Language } from "../types";
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -39,6 +40,8 @@ export default function HouseholdSelectionScreen({
 
   // Create Household Form State
   const [newHouseholdName, setNewHouseholdName] = useState("");
+  const [newHouseholdLanguage, setNewHouseholdLanguage] =
+    useState<Language>("en");
   const [newMembers, setNewMembers] = useState<string[]>([""]);
 
   useEffect(() => {
@@ -70,11 +73,11 @@ export default function HouseholdSelectionScreen({
         } catch (error) {
           console.error("Error loading households:", error);
           setError(
-            "Unable to connect to Firebase. This is often caused by an ad blocker or browser extension. Please try disabling them."
+            "Unable to connect to Firebase. This is often caused by an ad blocker or browser extension. Please try disabling them.",
           );
           setLoading(false);
         }
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -97,7 +100,7 @@ export default function HouseholdSelectionScreen({
       members: validMembers,
       chores: DEFAULT_CHORES,
       currency: "EUR",
-      language: "en",
+      language: newHouseholdLanguage,
     };
 
     try {
@@ -149,6 +152,20 @@ export default function HouseholdSelectionScreen({
               value={newHouseholdName}
               onChange={(e) => setNewHouseholdName(e.target.value)}
             />
+          </FormGroup>
+          <FormGroup>
+            <Label>Language</Label>
+            <Select
+              value={newHouseholdLanguage}
+              onChange={(e) =>
+                setNewHouseholdLanguage(e.target.value as Language)
+              }
+            >
+              <option value="en">English</option>
+              <option value="de">Deutsch</option>
+              <option value="fr">Français</option>
+              <option value="pt">Português</option>
+            </Select>
           </FormGroup>
           <FormGroup>
             <Label>Members</Label>

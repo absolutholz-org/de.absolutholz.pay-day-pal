@@ -23,6 +23,7 @@ import {
   ChoreData,
   Household,
   HouseholdMember,
+  Language,
   Period,
 } from "../types";
 import { formatDateKey } from "../utils";
@@ -56,6 +57,7 @@ interface DataContextType {
   selectHousehold: (household: Household) => void;
   leaveHousehold: () => void;
   updateHouseholdName: (name: string) => Promise<void>;
+  updateHouseholdLanguage: (language: Language) => Promise<void>;
   addMember: (name: string) => Promise<void>;
   toggleMemberStatus: (memberId: string) => Promise<void>;
   finishPeriod: (startNew: boolean) => Promise<void>;
@@ -98,6 +100,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
         name: trimmedName,
       });
       setCurrentHousehold({ ...currentHousehold, name: trimmedName });
+    }
+  };
+
+  const updateHouseholdLanguage = async (language: Language) => {
+    if (!currentHousehold) return;
+    if (language !== currentHousehold.language) {
+      await updateDoc(doc(db, "households", currentHousehold.id), {
+        language,
+      });
+      setCurrentHousehold({ ...currentHousehold, language });
     }
   };
 
@@ -377,6 +389,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         selectHousehold,
         leaveHousehold,
         updateHouseholdName,
+        updateHouseholdLanguage,
         addMember,
         toggleMemberStatus,
         finishPeriod,

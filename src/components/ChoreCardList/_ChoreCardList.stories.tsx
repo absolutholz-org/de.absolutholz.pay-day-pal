@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { DEFAULT_CHORES } from "../../constants";
+import { DEFAULT_CHORES } from "../../constants/constants";
 import { ChoreCardList } from ".";
 import { DataProvider } from "../../context/DataContext";
 

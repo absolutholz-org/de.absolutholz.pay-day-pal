@@ -8,6 +8,7 @@ import PeriodSelectionScreen from "./screens/PeriodSelectionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import { setColorSchemeFromLocalStorage } from "./components/ColorSchemeToggle";
 import { DataProvider, useData } from "./context/DataContext";
+import { LocalizationProvider } from "./context/LocalizationContext";
 
 function AppContent() {
   const { currentHousehold, selectHousehold, db } = useData();
@@ -40,7 +41,9 @@ function AppContent() {
 export default function App() {
   return (
     <DataProvider>
-      <AppContent />
+      <LocalizationProvider>
+        <AppContent />
+      </LocalizationProvider>
     </DataProvider>
   );
 }

@@ -453,6 +453,23 @@ export const Input = styled.input`
   }
 `;
 
+export const Select = styled.select`
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid oklch(81.6% 0.012 218.4);
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--on-surface);
+  background-color: var(--surface);
+  margin-bottom: 1rem;
+
+  &:focus {
+    outline: none;
+    border-color: oklch(63.7% 0.152 253.7);
+  }
+`;
+
 export const ResetButton = styled.button`
   display: flex;
   align-items: center;

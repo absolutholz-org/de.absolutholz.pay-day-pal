@@ -1,7 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { CHORE_CATEGORIES } from "../../constants";
+import { CHORE_CATEGORIES } from "../../constants/constants";
 import { useData } from "../../context/DataContext";
 import { useCurrency } from "../../hooks/useCurrency";
 import * as S from "./_ChoreCard.styles";

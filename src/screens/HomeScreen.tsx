@@ -16,6 +16,7 @@ import { DateScroll } from "../components/DateScroll";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
+import { useLocalization } from "../context/LocalizationContext";
 import {
   BalanceDisplay,
   BalanceLabel,
@@ -178,11 +179,13 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
     return total;
   };
 
+  const { t, language } = useLocalization();
+
   return (
     <>
       <PageHeader
         title={householdData.name}
-        slotMain={<Subtitle>Track chores and earn your allowance!</Subtitle>}
+        slotMain={<Subtitle>{t.trackChores}</Subtitle>}
         slotTrail={
           <Link to="/settings">
             <Settings size={24} />
@@ -223,8 +226,8 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
               flex: 1,
             }}
           >
-            <p style={{ fontSize: "1.2rem" }}>No active period.</p>
-            <p>Start a new period to track chores.</p>
+            <p style={{ fontSize: "1.2rem" }}>{t.noActivePeriod}</p>
+            <p>{t.startNewPeriodDescription}</p>
 
             <button
               onClick={() => finishPeriod(true)}
@@ -239,13 +242,13 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
                 boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
               }}
             >
-              Start New Period
+              {t.startNewPeriodButton}
             </button>
           </div>
         ) : (
           <>
             <BalanceDisplay>
-              <BalanceLabel>Current Earnings</BalanceLabel>
+              <BalanceLabel>{t.currentEarnings}</BalanceLabel>
               <BalanceValue>
                 <Euro size={36} strokeWidth={2.5} color="#27ae60" />
                 {calculateTotal().toFixed(2)}
@@ -264,13 +267,15 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
               counts={choreData}
               currentActivityDate={selectedDate}
               currentMemberId={activeChild}
-              language={householdData.language}
+              language={language}
             />
 
             <Footer>
               <TotalContainer>
                 <Euro size={32} color="#27ae60" />
-                <span>Total Earned: €{calculateTotal().toFixed(2)}</span>
+                <span>
+                  {t.totalEarned}: €{calculateTotal().toFixed(2)}
+                </span>
               </TotalContainer>
             </Footer>
           </>
