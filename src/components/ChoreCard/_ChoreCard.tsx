@@ -1,7 +1,6 @@
 import { Minus, Plus } from "lucide-react";
 import { CHORE_CATEGORIES } from "../../constants";
 import { useCurrency } from "../../hooks/useCurrency";
-import { VisuallyHidden } from "../VisuallyHidden";
 import * as S from "./_ChoreCard.styles";
 import { ChoreCardProps } from "./_ChoreCard.types";
 

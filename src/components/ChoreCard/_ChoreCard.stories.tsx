@@ -36,6 +36,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    id: "laundry-fold",
     category: "kitchen",
     label: "Wash Dishes",
     value: 1.5,
@@ -45,6 +46,7 @@ export const Default: Story = {
 
 export const Active: Story = {
   args: {
+    id: "make-bed",
     category: "bedroom",
     label: "Make Bed",
     value: 0.25,
