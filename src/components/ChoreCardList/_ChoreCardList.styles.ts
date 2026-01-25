@@ -1,11 +1,9 @@
 import styled from "@emotion/styled";
 
-export const CardList = styled.ul`
+export const ChoreCardList = styled.ul`
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  margin: 0;
-  padding: 0;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
 `;
 
-export const CardList_Item = styled.li``;
+export const ChoreCardList_Item = styled.li``;

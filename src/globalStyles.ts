@@ -19,10 +19,18 @@ export const globalStyles = css`
 
     --radius-pill: calc(infinity * 1px);
 
-    container-type: scroll-state;
-    container-name: page;
-
+    color: var(--on-surface);
     color-scheme: light dark;
+    container-name: page;
+    container-type: scroll-state;
+    font-family: var(--font-stack);
+    font-weight: var(--font-weight-primary);
+    letter-spacing: var(--font-spacing-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
     ${colorSchemeCss({
       lightCssVars: css`
         /* Day Scheme (Light Background) */
@@ -32,36 +40,24 @@ export const globalStyles = css`
         --on-surface: oklch(18% 0 0);
         --on-surface-2: oklch(38% 0 0);
 
-        /* Accent Colors (Optimized for AA compliance on White) */
-        --accent-red: oklch(
-          54.3% 0.207 28.6
-        ); /* Increased depth for contrast */
-        --on-accent-red: oklch(100% 0 0);
-
-        --accent-green: oklch(51% 0.168 142); /* Darkened to pass on white */
-        --on-accent-green: oklch(100% 0 0);
-
-        --accent-blue: oklch(54.8% 0.184 263.2); /* Standard accessible blue */
-        --on-accent-blue: oklch(100% 0 0);
-
-        --accent-yellow: oklch(
-          69.6% 0.192 69.1
-        ); /* Shifted toward amber to be visible on white */
-        --on-accent-yellow: oklch(0% 0 0);
-
-        --accent-orange: oklch(
-          57.6% 0.217 48.8
-        ); /* Deep orange for legibility */
-        --on-accent-orange: oklch(100% 0 0);
-
-        --accent-purple: oklch(46.1% 0.218 311.6); /* Royal purple */
-        --on-accent-purple: oklch(100% 0 0);
-
-        --accent-pink: oklch(51.3% 0.215 353.7); /* Deep magenta */
-        --on-accent-pink: oklch(100% 0 0);
+        --accent-blue: oklch(0.546 0.245 262.881); // Deep Azure
+        --accent-green: oklch(0.627 0.194 149.214); // Vivid Green
+        --accent-purple: oklch(0.558 0.288 302.321); // Deep Violet
+        --accent-orange: oklch(0.646 0.222 41.116); // Burnt Orange
+        --accent-red: oklch(0.577 0.245 27.325); // Crimson Red
+        --accent-yellow: oklch(0.681 0.162 75.834); // Something Yellow
+        --accent-pink: oklch(0.592 0.249 0.584); // Magenta
+        --accent-indigo: oklch(0.511 0.262 276.966); // Deep Indigo
 
         /* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
         --font-weight-primary: 300;
+
+        background-image: linear-gradient(
+          to right bottom,
+          oklch(0.97 0.014 254.604) 0%,
+          oklch(0.977 0.014 308.299) 50%,
+          oklch(0.971 0.014 343.198) 100%
+        );
       `,
       darkCssVars: css`
         /* Night Scheme (Black Background) */
@@ -71,44 +67,27 @@ export const globalStyles = css`
         --on-surface: oklch(100% 0 0);
         --on-surface-2: oklch(76% 0 0);
 
-        /* Accent Colors (Optimized for AA compliance on Black) */
-        --accent-red: oklch(69.8% 0.226 26.3); /* Brighter for "glow" effect */
-        --on-accent-red: oklch(0% 0 0);
-
-        --accent-green: oklch(
-          85.9% 0.233 154.2
-        ); /* Neon green for high visibility */
-        --on-accent-green: oklch(0% 0 0);
-
-        --accent-blue: oklch(76.5% 0.174 243.6); /* Electric blue */
-        --on-accent-blue: oklch(0% 0 0);
-
-        --accent-yellow: oklch(88.5% 0.192 88.6); /* Pure yellow */
-        --on-accent-yellow: oklch(0% 0 0);
-
-        --accent-orange: oklch(79.5% 0.192 60.5); /* Vibrant sunset orange */
-        --on-accent-orange: oklch(0% 0 0);
-
-        --accent-purple: oklch(66.5% 0.288 310.5); /* Neon purple/violet */
-        --on-accent-purple: oklch(0% 0 0);
-
-        --accent-pink: oklch(68.5% 0.245 350.5); /* Hot pink */
-        --on-accent-pink: oklch(0% 0 0);
+        --accent-blue: oklch(0.488 0.243 264.376); // Deep Azure
+        --accent-green: oklch(0.527 0.154 150.069); // Vivid Green
+        --accent-purple: oklch(0.496 0.265 301.924); // Deep Violet
+        --accent-orange: oklch(0.553 0.195 38.402); // Burnt Orange
+        --accent-red: oklch(0.505 0.213 27.518); // Crimson Red
+        --accent-yellow: oklch(0.544 0.135 66.442); // Something Yellow
+        --accent-pink: oklch(0.525 0.223 3.958); // Magenta
+        --accent-indigo: oklch(0.457 0.24 277.023); // Deep Indigo
 
         /* Dark text on white can be slightly heavier */
         --font-weight-primary: 400;
+
+        background-image: linear-gradient(
+          to right bottom,
+          oklch(0.21 0.034 264.665) 0%,
+          oklch(0.291 0.149 302.717) 50%,
+          oklch(0.282 0.091 267.935) 100%
+        );
       `,
     })}
-  }
-
-  body {
-    background-color: var(--surface);
     color: var(--on-surface);
-    font-family: var(--font-stack);
-    font-weight: var(--font-weight-primary);
-    letter-spacing: var(--font-spacing-primary);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   img {

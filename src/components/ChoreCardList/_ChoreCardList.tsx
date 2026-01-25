@@ -10,10 +10,11 @@ export function ChoreCardList({
   language = "en",
 }: ChoreCardListProps) {
   return (
-    <S.CardList>
+    <S.ChoreCardList role="list">
       {chores.map((chore) => (
-        <S.CardList_Item key={chore.id}>
+        <S.ChoreCardList_Item key={chore.id}>
           <ChoreCard
+            id={chore.id}
             category={chore.category}
             label={chore.labels[language]}
             value={chore.value}
@@ -21,8 +22,8 @@ export function ChoreCardList({
             onIncrement={() => onIncrement(chore.id)}
             onDecrement={() => onDecrement(chore.id)}
           />
-        </S.CardList_Item>
+        </S.ChoreCardList_Item>
       ))}
-    </S.CardList>
+    </S.ChoreCardList>
   );
 }

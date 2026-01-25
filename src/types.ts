@@ -24,6 +24,7 @@ export type ChoreCategory = {
   labels: Record<Language, string>;
   color: string;
   icon: React.ElementType;
+  emoji: string;
 };
 
 export type Chore = {

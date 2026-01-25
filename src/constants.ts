@@ -6,6 +6,7 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
     id: "bedroom",
     color: "yellow",
     icon: Bed,
+    emoji: "🛏️",
     labels: {
       en: "Bedroom",
       de: "Schlafzimmer",
@@ -17,6 +18,7 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
     id: "living-room",
     color: "purple",
     icon: Sofa,
+    emoji: "🛋️",
     labels: {
       en: "Living Room",
       de: "Wohnzimmer",
@@ -28,6 +30,7 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
     id: "kitchen",
     color: "green",
     icon: Utensils,
+    emoji: "🍽️",
     labels: {
       en: "Kitchen",
       de: "Küche",
@@ -37,8 +40,9 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   },
   bathroom: {
     id: "bathroom",
-    color: "blue",
+    color: "orange",
     icon: Bath,
+    emoji: "🛁",
     labels: {
       en: "Bathroom",
       de: "Badezimmer",
@@ -50,6 +54,7 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
     id: "outside",
     color: "green",
     icon: Trees,
+    emoji: "🌳",
     labels: {
       en: "Outside",
       de: "Draußen",
@@ -59,8 +64,9 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   },
   laundry: {
     id: "laundry",
-    color: "orange",
+    color: "blue",
     icon: Shirt,
+    emoji: "👕",
     labels: {
       en: "Laundry",
       de: "Wäsche",
@@ -72,6 +78,7 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
     id: "household",
     color: "pink",
     icon: Home,
+    emoji: "🏠",
     labels: {
       en: "Household",
       de: "Haushalt",

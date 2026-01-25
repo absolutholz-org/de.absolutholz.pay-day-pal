@@ -2,12 +2,12 @@ import { ChoreCategoryId } from "../../types";
 
 declare module "react" {
   interface CSSProperties {
-    "--card-color"?: string;
-    "--on-card-color"?: string;
+    "--chore-color"?: string;
   }
 }
 
 export interface ChoreCardProps {
+  id: string;
   category: ChoreCategoryId;
   label: string;
   value: number;
