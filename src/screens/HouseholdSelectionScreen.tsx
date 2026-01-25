@@ -8,19 +8,19 @@ import {
 import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageContainer } from "../components/PageContainer";
+import { Input } from "../components/Input";
+import { Label } from "../components/Label";
+import { Select } from "../components/Select";
 import { PageHeader } from "../components/PageHeader";
-import { DEFAULT_CHORES } from "../constants/constants";
+import { DEFAULT_CHORES, SUPPORTED_LANGUAGES } from "../constants";
 import {
   Card,
   CardMeta,
   CardTitle,
   FormGroup,
   IconButton,
-  Input,
-  Label,
   LoadingIndicator,
   ResetButton,
-  Select,
   Subtitle,
 } from "../globalStyles";
 import { Household, Language } from "../types";
@@ -160,12 +160,8 @@ export default function HouseholdSelectionScreen({
               onChange={(e) =>
                 setNewHouseholdLanguage(e.target.value as Language)
               }
-            >
-              <option value="en">English</option>
-              <option value="de">Deutsch</option>
-              <option value="fr">Français</option>
-              <option value="pt">Português</option>
-            </Select>
+              options={SUPPORTED_LANGUAGES}
+            />
           </FormGroup>
           <FormGroup>
             <Label>Members</Label>

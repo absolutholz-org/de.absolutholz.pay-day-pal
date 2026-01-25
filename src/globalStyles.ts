@@ -37,9 +37,10 @@ export const globalStyles = css`
         /* Day Scheme (Light Background) */
         --surface: oklch(100% 0 0);
         --surface-2: oklch(98.5% 0.002 247.8);
-        --surface-3: oklch(94.5% 0.004 247.8);
-        --on-surface: oklch(18% 0 0);
-        --on-surface-2: oklch(38% 0 0);
+
+        --on-surface: oklch(0.446 0.03 256.802);
+        --on-surface-2: oklch(0.373 0.034 259.733);
+        --on-surface-3: oklch(0.551 0.027 264.364);
 
         --accent-blue: oklch(0.546 0.245 262.881); // Deep Azure
         --accent-green: oklch(0.627 0.194 149.214); // Vivid Green
@@ -64,9 +65,10 @@ export const globalStyles = css`
         /* Night Scheme (Black Background) */
         --surface: oklch(0% 0 0);
         --surface-2: oklch(18% 0.002 270);
-        --surface-3: oklch(25% 0.002 270);
-        --on-surface: oklch(100% 0 0);
-        --on-surface-2: oklch(76% 0 0);
+
+        --on-surface: oklch(0.707 0.022 261.325);
+        --on-surface-2: oklch(0.928 0.006 264.531);
+        --on-surface-3: oklch(0.872 0.01 258.338);
 
         --accent-blue: oklch(0.488 0.243 264.376); // Deep Azure
         --accent-green: oklch(0.527 0.154 150.069); // Vivid Green
@@ -429,47 +431,6 @@ export const FormGroup = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const Label = styled.label`
-  display: block;
-  margin-bottom: 0.5rem;
-  color: oklch(32.5% 0.045 253.7);
-  font-weight: 600;
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid oklch(81.6% 0.012 218.4);
-  font-size: 1rem;
-  font-family: inherit;
-  color: var(--on-surface);
-  background-color: var(--surface);
-  margin-bottom: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: oklch(63.7% 0.152 253.7);
-  }
-`;
-
-export const Select = styled.select`
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid oklch(81.6% 0.012 218.4);
-  font-size: 1rem;
-  font-family: inherit;
-  color: var(--on-surface);
-  background-color: var(--surface);
-  margin-bottom: 1rem;
-
-  &:focus {
-    outline: none;
-    border-color: oklch(63.7% 0.152 253.7);
-  }
-`;
-
 export const ResetButton = styled.button`
   display: flex;
   align-items: center;
@@ -486,5 +447,22 @@ export const ResetButton = styled.button`
 
   &:hover {
     background-color: oklch(51.4% 0.195 29.2);
+  }
+`;
+
+export const baseInputStyles = css`
+  background-color: var(--surface);
+  border: 2px solid oklch(from var(--on-surface) l c h / 0.5);
+  border-radius: 8px;
+  color: var(--on-surface);
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  width: 100%;
+
+  &:focus {
+    border-color: oklch(from var(--on-surface) l c h / 0.85);
+    outline: none;
   }
 `;

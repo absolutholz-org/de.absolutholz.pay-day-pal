@@ -11,19 +11,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
 import { ConfirmationDialog } from "../components/ConfirmationDialog";
+import { Input } from "../components/Input";
+import { Label } from "../components/Label";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
+import { SUPPORTED_LANGUAGES } from "../constants";
+import { Select } from "../components/Select";
 import { Language } from "../types";
-import {
-  FormGroup,
-  IconButton,
-  Input,
-  Label,
-  ResetButton,
-  Select,
-} from "../globalStyles";
+import { FormGroup, IconButton, ResetButton } from "../globalStyles";
 
 export default function SettingsScreen({}) {
   const {
@@ -70,12 +67,8 @@ export default function SettingsScreen({}) {
           <Select
             value={language}
             onChange={(e) => setLanguage(e.target.value as Language)}
-          >
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="fr">Français</option>
-            <option value="pt">Português</option>
-          </Select>
+            options={SUPPORTED_LANGUAGES}
+          />
         </FormGroup>
 
         <h2>{t.household}</h2>
@@ -160,12 +153,8 @@ export default function SettingsScreen({}) {
             onChange={(e) =>
               updateHouseholdLanguage(e.target.value as Language)
             }
-          >
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-            <option value="fr">Français</option>
-            <option value="pt">Português</option>
-          </Select>
+            options={SUPPORTED_LANGUAGES}
+          />
         </FormGroup>
 
         <FormGroup>
