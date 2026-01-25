@@ -29,7 +29,10 @@ export type TranslationKey =
   | "appLanguage"
   | "householdLanguage"
   | "cancel"
-  | "startNewPeriodDescription";
+  | "startNewPeriodDescription"
+  | "system"
+  | "light"
+  | "dark";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -63,6 +66,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     householdLanguage: "Household Language",
     cancel: "Cancel",
     startNewPeriodDescription: "Start a new period to track chores.",
+    system: "System",
+    light: "Light",
+    dark: "Dark",
   },
   de: {
     settings: "Einstellungen",
@@ -97,6 +103,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     cancel: "Abbrechen",
     startNewPeriodDescription:
       "Starte einen neuen Zeitraum, um Aufgaben zu erfassen.",
+    system: "System",
+    light: "Hell",
+    dark: "Dunkel",
   },
   fr: {
     settings: "Paramètres",
@@ -131,6 +140,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     cancel: "Annuler",
     startNewPeriodDescription:
       "Commencez une nouvelle période pour suivre les corvées.",
+    system: "Système",
+    light: "Clair",
+    dark: "Sombre",
   },
   pt: {
     settings: "Configurações",
@@ -165,5 +177,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     cancel: "Cancelar",
     startNewPeriodDescription:
       "Inicie um novo período para acompanhar as tarefas.",
+    system: "Sistema",
+    light: "Claro",
+    dark: "Escuro",
   },
 };
