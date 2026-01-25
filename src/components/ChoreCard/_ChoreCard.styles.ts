@@ -50,12 +50,8 @@ export const ChoreCard = styled.div`
   color: var(--on-surface);
   border-radius: 1.5rem;
   box-shadow:
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-    rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
+    0 10px 15px -3px rgb(var(--shadow-color) / 10%),
+    0 4px 6px -4px rgb(var(--shadow-color) / 10%);
   overflow: hidden;
   position: relative;
   z-index: 0;

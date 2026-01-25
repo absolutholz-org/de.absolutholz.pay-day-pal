@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useArgs } from "storybook/preview-api";
 
 import { ChoreCard } from ".";
+import { DataProvider } from "../../context/DataContext";
 
 const meta = {
   title: "Components/ChoreCard",
@@ -9,25 +9,20 @@ const meta = {
   parameters: {
     layout: "centered",
   },
+  decorators: [
+    (Story) => (
+      <DataProvider>
+        <Story />
+      </DataProvider>
+    ),
+  ],
   tags: ["autodocs"],
   argTypes: {
     count: { control: "number" },
   },
   args: {
-    onIncrement: () => {},
-    onDecrement: () => {},
-  },
-  render: function Render(args) {
-    const [{ count }, updateArgs] = useArgs();
-
-    return (
-      <ChoreCard
-        {...args}
-        count={count}
-        onIncrement={() => updateArgs({ count: count + 1 })}
-        onDecrement={() => updateArgs({ count: Math.max(0, count - 1) })}
-      />
-    );
+    currentMemberId: "storybook-child",
+    currentActivityDate: "2024-01-01",
   },
 } satisfies Meta<typeof ChoreCard>;
 

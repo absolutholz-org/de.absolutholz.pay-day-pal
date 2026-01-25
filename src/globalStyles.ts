@@ -18,6 +18,7 @@ export const globalStyles = css`
     --font-spacing-primary: 0.05em;
 
     --radius-pill: calc(infinity * 1px);
+    --shadow-color: 0 0 0;
 
     color: var(--on-surface);
     color-scheme: light dark;
@@ -306,14 +307,6 @@ export const DateEarnings = styled.span`
   font-weight: 500;
   margin-top: 0.25rem;
   opacity: 0.9;
-`;
-
-export const ChoreList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
 `;
 
 export const Footer = styled.div`

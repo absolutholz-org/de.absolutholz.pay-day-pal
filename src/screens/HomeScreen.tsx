@@ -12,7 +12,6 @@ import { Euro, Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ChoreCard } from "../components/ChoreCard";
 import { DateScroll } from "../components/DateScroll";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
@@ -21,7 +20,6 @@ import {
   BalanceDisplay,
   BalanceLabel,
   BalanceValue,
-  ChoreList,
   Footer,
   LoadingIndicator,
   Subtitle,
@@ -31,6 +29,7 @@ import {
 } from "../globalStyles";
 import { ChoreData, Household, Period } from "../types";
 import { formatDateKey } from "../utils";
+import { ChoreCardList } from "../components/ChoreCardList";
 
 interface HomeScreenProps {
   household: Household;
@@ -38,7 +37,7 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({ household, db }: HomeScreenProps) {
-  const { finishPeriod, recordActivity } = useData();
+  const { finishPeriod } = useData();
   const [householdData, setHouseholdData] = useState<Household>(household);
   const [choreData, setChoreData] = useState<ChoreData>({});
   const [isSyncing, setIsSyncing] = useState(false);
@@ -156,32 +155,6 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
     return () => unsubscribe();
   }, [activeChild, householdData.id, db]);
 
-  const updateChore = async (
-    choreId: string,
-    dateString: string,
-    change: number,
-  ) => {
-    const key = `${dateString}_${choreId}`;
-    const currentVal = Number(choreData[key] || 0);
-    const newVal = Math.max(0, currentVal + change);
-
-    if (newVal === currentVal) return;
-
-    const newData = { ...choreData, [key]: newVal };
-    setChoreData(newData);
-
-    try {
-      await recordActivity(
-        activeChild,
-        choreId,
-        dateString,
-        change > 0 ? "increment" : "decrement",
-      );
-    } catch (error) {
-      console.error("Error updating chore:", error);
-    }
-  };
-
   const calculateTotal = () => {
     let total = 0;
     chores.forEach((chore) => {
@@ -286,23 +259,13 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
               getDailyTotal={calculateDailyTotal}
             />
 
-            <ChoreList role="list">
-              {chores.map((chore) => (
-                <li key={chore.id}>
-                  <ChoreCard
-                    id={chore.id}
-                    label={chore.labels["en"]}
-                    category={chore.category}
-                    count={Number(
-                      choreData[`${selectedDate}_${chore.id}`] || 0,
-                    )}
-                    value={chore.value}
-                    onIncrement={() => updateChore(chore.id, selectedDate, 1)}
-                    onDecrement={() => updateChore(chore.id, selectedDate, -1)}
-                  />
-                </li>
-              ))}
-            </ChoreList>
+            <ChoreCardList
+              chores={chores}
+              counts={choreData}
+              currentActivityDate={selectedDate}
+              currentMemberId={activeChild}
+              language={householdData.language}
+            />
 
             <Footer>
               <TotalContainer>

@@ -12,6 +12,4 @@ export interface ChoreCardProps {
   label: string;
   value: number;
   count: number;
-  onIncrement: () => void;
-  onDecrement: () => void;
 }

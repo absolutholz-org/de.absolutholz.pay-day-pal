@@ -1,8 +1,20 @@
 import { Minus, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+
 import { CHORE_CATEGORIES } from "../../constants";
+import { useData } from "../../context/DataContext";
 import { useCurrency } from "../../hooks/useCurrency";
 import * as S from "./_ChoreCard.styles";
-import { ChoreCardProps } from "./_ChoreCard.types";
+
+export interface ChoreCardProps {
+  id: string;
+  label: string;
+  category: keyof typeof CHORE_CATEGORIES;
+  count: number;
+  value: number;
+  currentMemberId: string;
+  currentActivityDate: string;
+}
 
 export function ChoreCard({
   id,
@@ -10,18 +22,44 @@ export function ChoreCard({
   category,
   count,
   value,
-  onIncrement,
-  onDecrement,
+  currentMemberId,
+  currentActivityDate,
 }: ChoreCardProps) {
+  const { recordActivity } = useData();
+  const [optimisticCount, setOptimisticCount] = useState(count);
+
   const color = CHORE_CATEGORIES[category].color;
   const formattedValue = useCurrency(value, "en-DE", "EUR");
   const icon = CHORE_CATEGORIES[category].emoji;
+
+  useEffect(() => {
+    setOptimisticCount(count);
+  }, [count]);
+
+  const handleUpdate = async (change: number) => {
+    const newCount = Math.max(0, optimisticCount + change);
+    if (newCount === optimisticCount) return;
+
+    setOptimisticCount(newCount); // Optimistic update
+
+    try {
+      await recordActivity(
+        currentMemberId,
+        id,
+        currentActivityDate,
+        change > 0 ? "increment" : "decrement",
+      );
+    } catch (error) {
+      console.error("Error updating chore:", error);
+      setOptimisticCount(count); // Revert on error
+    }
+  };
 
   return (
     <S.ChoreCard
       role="group"
       aria-labelledby={id}
-      data-count={count > 0 ? count : undefined}
+      data-count={optimisticCount > 0 ? optimisticCount : undefined}
       style={{
         "--chore-color": `var(--accent-${color})`,
       }}
@@ -47,19 +85,19 @@ export function ChoreCard({
         <S.ChoreCard_Stepper>
           {/* Minus Button */}
           <S.ChoreCard_StepperButton_Decrement
-            onClick={onDecrement}
-            disabled={count === 0}
+            onClick={() => handleUpdate(-1)}
+            disabled={optimisticCount === 0}
             aria-label="Decrease count"
           >
             <Minus />
           </S.ChoreCard_StepperButton_Decrement>
 
           {/* Current Count */}
-          <S.ChoreCard_StepperValue>{count}</S.ChoreCard_StepperValue>
+          <S.ChoreCard_StepperValue>{optimisticCount}</S.ChoreCard_StepperValue>
 
           {/* Plus Button */}
           <S.ChoreCard_StepperButton_Increment
-            onClick={onIncrement}
+            onClick={() => handleUpdate(1)}
             aria-label="Increase count"
           >
             <Plus />
@@ -67,42 +105,5 @@ export function ChoreCard({
         </S.ChoreCard_Stepper>
       </S.ChoreCard_Bottom>
     </S.ChoreCard>
-
-    // <S.ChoreCard
-    //   role="group"
-    //   aria-labelledby={id}
-    //   data-count={count > 0 ? count : undefined}
-    //   style={{
-    //     "--card-color": `var(--accent-${color})`,
-    //     "--on-card-color": `var(--on-accent-${color})`,
-    //   }}
-    // >
-    //   <S.ChoreCard_Head>{formattedValue}</S.ChoreCard_Head>
-    //   <S.ChoreCard_Background>
-    //     <S.ChoreCard_Icon>
-    //       <Icon size={24} color="var(--accent)" height="80" width="80" />
-    //     </S.ChoreCard_Icon>
-    //     <S.ChoreCard_Title id={id}>{label}</S.ChoreCard_Title>
-    //     <S.ChoreCard_Foot>
-    //       <S.ChoreCard_ButtonDecrement
-    //         aria-label="Decrease laundry count"
-    //         onClick={onDecrement}
-    //         disabled={count === 0}
-    //       >
-    //         <Minus size={18} />
-    //       </S.ChoreCard_ButtonDecrement>
-    //       <S.ChoreCard_Quantity aria-live="polite" aria-atomic="true">
-    //         <VisuallyHidden>Current laundry count:</VisuallyHidden>
-    //         {count}
-    //       </S.ChoreCard_Quantity>
-    //       <S.ChoreCard_ButtonIncrement
-    //         aria-label="Increase laundry count"
-    //         onClick={onIncrement}
-    //       >
-    //         <Plus size={18} />
-    //       </S.ChoreCard_ButtonIncrement>
-    //     </S.ChoreCard_Foot>
-    //   </S.ChoreCard_Background>
-    // </S.ChoreCard>
   );
 }
