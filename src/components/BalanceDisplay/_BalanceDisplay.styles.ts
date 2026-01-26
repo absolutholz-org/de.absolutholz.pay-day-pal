@@ -12,6 +12,7 @@ export const BalanceDisplay = styled.div`
   border-radius: 24px;
   color: white;
   margin-bottom: 2rem;
+  max-width: 30rem;
   padding: 1.5rem;
 `;
 

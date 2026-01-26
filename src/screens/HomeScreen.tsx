@@ -17,16 +17,12 @@ import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import {
-  LoadingIndicator,
-  Subtitle,
-  TabButton,
-  TabContainer,
-} from "../globalStyles";
+import { LoadingIndicator, Subtitle } from "../globalStyles";
 import { ChoreData, Household, Period } from "../types";
 import { formatDateKey } from "../utils";
 import { ChoreCardList } from "../components/ChoreCardList";
 import { BalanceDisplay } from "../components/BalanceDisplay";
+import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
 
 interface HomeScreenProps {
   household: Household;
@@ -195,19 +191,11 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           </LoadingIndicator>
         )}
 
-        <TabContainer>
-          {householdData.members
-            .filter((m) => !m.disabled)
-            .map((child) => (
-              <TabButton
-                key={child.id}
-                active={activeChild === child.id}
-                onClick={() => setActiveChild(child.id)}
-              >
-                {child.name}
-              </TabButton>
-            ))}
-        </TabContainer>
+        <HouseholdMemberSelector
+          members={householdData.members}
+          activeMemberId={activeChild}
+          onSelectMember={setActiveChild}
+        />
 
         {!activePeriod ? (
           <div
