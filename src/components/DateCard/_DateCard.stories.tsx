@@ -49,3 +49,12 @@ export const Today: Story = {
     dailyTotal: 5.0,
   },
 };
+
+export const ZeroEarnings: Story = {
+  args: {
+    date: new Date("2023-10-25"),
+    isActive: false,
+    isToday: false,
+    dailyTotal: 0,
+  },
+};
