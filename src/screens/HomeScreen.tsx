@@ -8,7 +8,7 @@ import {
   query,
   setDoc,
 } from "firebase/firestore";
-import { Euro, Loader, Settings } from "lucide-react";
+import { Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,19 +18,15 @@ import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import {
-  BalanceDisplay,
-  BalanceLabel,
-  BalanceValue,
-  Footer,
   LoadingIndicator,
   Subtitle,
   TabButton,
   TabContainer,
-  TotalContainer,
 } from "../globalStyles";
 import { ChoreData, Household, Period } from "../types";
 import { formatDateKey } from "../utils";
 import { ChoreCardList } from "../components/ChoreCardList";
+import { BalanceDisplay } from "../components/BalanceDisplay";
 
 interface HomeScreenProps {
   household: Household;
@@ -247,13 +243,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           </div>
         ) : (
           <>
-            <BalanceDisplay>
-              <BalanceLabel>{t.currentEarnings}</BalanceLabel>
-              <BalanceValue>
-                <Euro size={36} strokeWidth={2.5} color="#27ae60" />
-                {calculateTotal().toFixed(2)}
-              </BalanceValue>
-            </BalanceDisplay>
+            <BalanceDisplay total={calculateTotal()} />
 
             <DateScroll
               dates={periodDates}
@@ -269,15 +259,6 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
               currentMemberId={activeChild}
               language={language}
             />
-
-            <Footer>
-              <TotalContainer>
-                <Euro size={32} color="#27ae60" />
-                <span>
-                  {t.totalEarned}: €{calculateTotal().toFixed(2)}
-                </span>
-              </TotalContainer>
-            </Footer>
           </>
         )}
       </PageContainer>

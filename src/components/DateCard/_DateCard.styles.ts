@@ -26,13 +26,13 @@ export const DateWeekday = styled.span`
   display: block;
   font-size: 0.75rem;
   font-weight: 700;
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.25rem;
   text-transform: uppercase;
 `;
 
 export const DateDay = styled.span`
   display: block;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
 `;
 
@@ -57,6 +57,6 @@ export const DateCard_Active = styled(DateCard)`
   scale: 1.05;
 
   > * {
-    color: inherit;
+    color: inherit !important;
   }
 `;

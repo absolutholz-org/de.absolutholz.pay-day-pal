@@ -18,7 +18,7 @@ export const DateScroll = styled.ol`
   gap: 0.75rem;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   padding: 0.5rem 0.25rem;
   width: max-content;
 

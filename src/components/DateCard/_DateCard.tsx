@@ -1,6 +1,7 @@
 import * as S from "./_DateCard.styles";
 import { DateCardProps } from "./_DateCard.types";
 import { useLocalization } from "../../context/LocalizationContext";
+import { useCurrency } from "../../hooks/useCurrency";
 
 export function DateCard({
   date,
@@ -10,8 +11,8 @@ export function DateCard({
   onClick,
 }: DateCardProps) {
   const { t, language } = useLocalization();
-
   const Component = isActive ? S.DateCard_Active : S.DateCard;
+  const formattedValue = useCurrency(dailyTotal, "en-DE", "EUR");
 
   return (
     <Component onClick={onClick}>
@@ -30,7 +31,7 @@ export function DateCard({
           day: "numeric",
         })}
       </S.DateDay>
-      <S.DateEarnings>€{dailyTotal.toFixed(2)}</S.DateEarnings>
+      <S.DateEarnings>{formattedValue}</S.DateEarnings>
     </Component>
   );
 }
