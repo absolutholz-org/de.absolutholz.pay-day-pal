@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ColorSchemeToggle } from ".";
 import { DataProvider } from "../../context/DataContext";
-import { LocalizationProvider } from "../../context/LocalizationContext";
 
 const meta = {
   title: "Components/ColorSchemeToggle",
@@ -13,9 +12,7 @@ const meta = {
   decorators: [
     (Story) => (
       <DataProvider>
-        <LocalizationProvider>
-          <Story />
-        </LocalizationProvider>
+        <Story />
       </DataProvider>
     ),
   ],

@@ -65,7 +65,7 @@ export const globalStyles = css`
       darkCssVars: css`
         /* Night Scheme (Black Background) */
         --surface: oklch(0% 0 0);
-        --surface-2: oklch(18% 0.002 270);
+        --surface-2: oklch(0.278 0.033 256.848);
 
         --on-surface: oklch(0.707 0.022 261.325);
         --on-surface-2: oklch(0.928 0.006 264.531);

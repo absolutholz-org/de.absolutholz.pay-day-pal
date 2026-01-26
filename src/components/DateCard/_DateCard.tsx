@@ -1,5 +1,6 @@
 import * as S from "./_DateCard.styles";
 import { DateCardProps } from "./_DateCard.types";
+import { useLocalization } from "../../context/LocalizationContext";
 
 export function DateCard({
   date,
@@ -8,31 +9,28 @@ export function DateCard({
   dailyTotal,
   onClick,
 }: DateCardProps) {
+  const { t, language } = useLocalization();
+
+  const Component = isActive ? S.DateCard_Active : S.DateCard;
+
   return (
-    <S.DateCard active={isActive} isToday={isToday} onClick={onClick}>
-      <S.DateCardContent>
-        <S.DateWeekday isToday={isToday}>
-          {isToday ? (
-            "Today"
-          ) : (
-            <>
-              <span className="short">
-                {date.toLocaleDateString("en-US", { weekday: "short" })}
-              </span>
-              <span className="long">
-                {date.toLocaleDateString("en-US", { weekday: "long" })}
-              </span>
-            </>
-          )}
-        </S.DateWeekday>
-        <S.DateDay isToday={isToday}>
-          {date.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          })}
-        </S.DateDay>
-        <S.DateEarnings>€{dailyTotal.toFixed(2)}</S.DateEarnings>
-      </S.DateCardContent>
-    </S.DateCard>
+    <Component onClick={onClick}>
+      <S.DateWeekday>
+        {isToday ? (
+          t.today
+        ) : (
+          <span className="long">
+            {date.toLocaleDateString(language, { weekday: "long" })}
+          </span>
+        )}
+      </S.DateWeekday>
+      <S.DateDay>
+        {date.toLocaleDateString(language, {
+          month: "short",
+          day: "numeric",
+        })}
+      </S.DateDay>
+      <S.DateEarnings>€{dailyTotal.toFixed(2)}</S.DateEarnings>
+    </Component>
   );
 }

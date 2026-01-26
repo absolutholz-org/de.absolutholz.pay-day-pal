@@ -1,92 +1,62 @@
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-export const DateCard = styled.button<{ active: boolean; isToday: boolean }>`
+export const DateCard = styled.button`
+  align-items: center;
+  background: var(--surface-2);
+  border-radius: 16px;
+  color: var(--on-surface-2);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  min-width: 10rem;
   padding: 0.75rem;
-  background: var(--surface);
-  color: var(--on-surface-2);
-  border: 1px solid #ecf0f1;
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
-
-  ${({ active }) =>
-    active &&
-    css`
-      background-image: linear-gradient(
-        to right bottom,
-        oklch(0.627 0.265 303.9) 0%,
-        oklch(0.656 0.241 354.308) 100%
-      );
-      border-color: #2c3e50;
-      color: white;
-    `}
-
-  ${({ isToday }) =>
-    isToday &&
-    css`
-      border-color: #3498db;
-      box-shadow: 0 8px 16px rgba(52, 152, 219, 0.25);
-      z-index: 2;
-      transform: scale(1.05);
-    `}
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   &:hover {
-    transform: ${(props) =>
-      props.isToday ? "scale(1.02) translateY(-2px)" : "translateY(-2px)"};
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow:
+      0 4px 6px -1px rgb(var(--shadow-color) / 10%),
+      0 2px 4px -2px rgb(var(--shadow-color) / 10%);
   }
 `;
 
-export const DateCardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.2;
-  width: 100%;
-`;
-
-export const DateWeekday = styled.span<{ isToday?: boolean }>`
+export const DateWeekday = styled.span`
+  color: var(--on-surface-3);
   display: block;
-  font-size: ${(props) => (props.isToday ? "0.9rem" : "0.8rem")};
-  font-weight: ${(props) => (props.isToday ? "800" : "600")};
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 0.25rem;
-
-  .long {
-    display: none;
-  }
-  .short {
-    display: block;
-  }
-
-  @media (min-width: 640px) {
-    .long {
-      display: block;
-    }
-    .short {
-      display: none;
-    }
-  }
-`;
-
-export const DateDay = styled.span<{ isToday?: boolean }>`
-  display: block;
-  font-size: ${(props) => (props.isToday ? "1.4rem" : "1.2rem")};
+  font-size: 0.75rem;
   font-weight: 700;
+  margin-bottom: 0.375rem;
+  text-transform: uppercase;
+`;
+
+export const DateDay = styled.span`
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 600;
 `;
 
 export const DateEarnings = styled.span`
+  color: var(--accent-green);
   display: block;
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-top: 0.25rem;
-  opacity: 0.9;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-top: 0.375rem;
+`;
+
+export const DateCard_Active = styled(DateCard)`
+  background-image: linear-gradient(
+    to right bottom,
+    oklch(0.627 0.265 303.9) 0%,
+    oklch(0.656 0.241 354.308) 100%
+  );
+  box-shadow:
+    0 20px 25px -5px rgb(var(--shadow-color) / 10%),
+    0 8px 10px -6px rgb(var(--shadow-color) / 10%);
+  color: white;
+  scale: 1.05;
+
+  > * {
+    color: inherit;
+  }
 `;

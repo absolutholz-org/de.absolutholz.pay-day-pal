@@ -5,6 +5,8 @@ import { themes } from "storybook/theming";
 import { useEffect } from "react";
 
 import { globalStyles } from "../src/globalStyles";
+import { DataProvider } from "../src/context/DataContext";
+import { LocalizationProvider } from "../src/context/LocalizationContext";
 
 const preview: Preview = {
   globalTypes: {
@@ -28,10 +30,12 @@ const preview: Preview = {
       }, [scheme]);
 
       return (
-        <>
-          <Global styles={globalStyles} />
-          <Story />
-        </>
+        <DataProvider>
+          <LocalizationProvider>
+            <Global styles={globalStyles} />
+            <Story />
+          </LocalizationProvider>
+        </DataProvider>
       );
     },
   ],

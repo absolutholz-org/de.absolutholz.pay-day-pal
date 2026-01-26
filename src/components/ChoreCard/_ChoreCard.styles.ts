@@ -131,7 +131,7 @@ export const ChoreCard_Title = styled.h3`
   align-items: center;
   /* color: oklch(0.278 0.033 256.848); */
   display: flex;
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   font-weight: 600;
   justify-content: center;
   line-height: 1.25;

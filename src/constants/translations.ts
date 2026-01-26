@@ -32,7 +32,8 @@ export type TranslationKey =
   | "startNewPeriodDescription"
   | "system"
   | "light"
-  | "dark";
+  | "dark"
+  | "today";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -69,6 +70,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     system: "System",
     light: "Light",
     dark: "Dark",
+    today: "Today",
   },
   de: {
     settings: "Einstellungen",
@@ -106,6 +108,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     system: "System",
     light: "Hell",
     dark: "Dunkel",
+    today: "Heute",
   },
   fr: {
     settings: "Paramètres",
@@ -143,6 +146,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     system: "Système",
     light: "Clair",
     dark: "Sombre",
+    today: "Aujourd'hui",
   },
   pt: {
     settings: "Configurações",
@@ -180,5 +184,6 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     system: "Sistema",
     light: "Claro",
     dark: "Escuro",
+    today: "Hoje",
   },
 };
