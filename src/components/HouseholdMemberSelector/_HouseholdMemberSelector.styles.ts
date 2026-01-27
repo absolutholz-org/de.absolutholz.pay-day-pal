@@ -8,7 +8,7 @@ export const HouseholdMemberSelector = styled.div`
 
 export const HouseholdMemberSelector_Member = styled.button`
   align-items: center;
-  background-color: var(--surface2);
+  background-color: var(--surface-2);
   border: 2px solid var(--member-color);
   border-radius: var(--radius-pill);
   color: var(--member-color);
