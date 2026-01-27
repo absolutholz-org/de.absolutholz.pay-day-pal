@@ -55,6 +55,8 @@ export type HouseholdMember = {
   id: string;
   name: string;
   disabled?: boolean;
+  color: string;
+  emoji: string;
 };
 
 export type Household = {

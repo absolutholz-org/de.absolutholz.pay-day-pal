@@ -121,6 +121,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const newMember: HouseholdMember = {
         id: newId,
         name: trimmedName,
+        emoji: "👤",
+        color: "red",
       };
       const newMembers = [...currentHousehold.members, newMember];
       await updateDoc(doc(db, "households", currentHousehold.id), {

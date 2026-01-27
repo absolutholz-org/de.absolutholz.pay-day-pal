@@ -90,6 +90,8 @@ export default function HouseholdSelectionScreen({
       .map((name) => ({
         id: name.toLowerCase().replace(/\s+/g, "-"),
         name,
+        emoji: "👤",
+        color: "red",
       }));
 
     if (validMembers.length === 0)

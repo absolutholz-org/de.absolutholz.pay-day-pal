@@ -6,7 +6,7 @@ export const Pill: React.FC<PillProps> = ({
   slotLead,
   slotTrail,
   size = "medium",
-  active,
+  // active,
   color = "firebrick",
   onClick,
 }) => {
@@ -15,7 +15,6 @@ export const Pill: React.FC<PillProps> = ({
     medium: S.Pill_Medium,
     large: S.Pill_Large,
   }[size];
-  console.log({ active });
 
   return (
     <PillVariant

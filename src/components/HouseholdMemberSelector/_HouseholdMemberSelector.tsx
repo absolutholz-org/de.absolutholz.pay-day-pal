@@ -3,7 +3,7 @@ import { HouseholdMemberSelectorProps } from "./_HouseholdMemberSelector.types";
 
 export function HouseholdMemberSelector({
   members,
-  activeMemberId,
+  // activeMemberId,
   onSelectMember,
 }: HouseholdMemberSelectorProps) {
   return (
@@ -13,9 +13,14 @@ export function HouseholdMemberSelector({
         .map((member) => (
           <S.HouseholdMemberSelector_Member
             key={member.id}
-            active={activeMemberId === member.id}
             onClick={() => onSelectMember(member.id)}
+            style={{ "--member-color": member.color } as any}
           >
+            {member.emoji && (
+              <S.HouseholdMemberSelector_MemberIcon>
+                {member.emoji}
+              </S.HouseholdMemberSelector_MemberIcon>
+            )}
             {member.name}
           </S.HouseholdMemberSelector_Member>
         ))}

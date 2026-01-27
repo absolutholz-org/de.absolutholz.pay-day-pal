@@ -6,23 +6,35 @@ export const HouseholdMemberSelector = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const HouseholdMemberSelector_Member = styled.button<{
-  active: boolean;
-}>`
-  padding: 0.75rem 2rem;
-  font-size: 1.2rem;
+export const HouseholdMemberSelector_Member = styled.button`
+  align-items: center;
+  background-color: var(--surface2);
+  border: 2px solid var(--member-color);
+  border-radius: var(--radius-pill);
+  color: var(--member-color);
+  display: flex;
+  font-size: 1rem;
   font-weight: 600;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  background-color: ${(props) =>
-    props.active ? "oklch(63.7% 0.152 253.7)" : "oklch(94.6% 0.008 218.4)"};
-  color: ${(props) => (props.active ? "white" : "oklch(60.6% 0.016 218.4)")};
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem 1rem;
   transition: all 0.2s ease;
-  font-family: inherit;
 
   &:hover {
-    background-color: ${(props) =>
-      props.active ? "oklch(54.8% 0.152 253.7)" : "oklch(81.6% 0.012 218.4)"};
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+      rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
   }
+`;
+
+export const HouseholdMemberSelector_MemberIcon = styled.span`
+  align-items: center;
+  background-color: var(--member-color);
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  font-size: 1.125rem;
+  height: 2rem;
+  justify-content: center;
+  margin-left: -0.5rem;
+  width: 2rem;
 `;
