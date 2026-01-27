@@ -21,9 +21,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockMembers = [
-  { id: "1", name: "Alice", disabled: false, emoji: "👩", color: "#e74c3c" },
-  { id: "2", name: "Bob", disabled: false, emoji: "👨", color: "#3498db" },
-  { id: "3", name: "Charlie", disabled: false, emoji: "👦", color: "#2ecc71" },
+  { id: "1", name: "Alice", disabled: false, emoji: "👩", color: "red" },
+  { id: "2", name: "Bob", disabled: false, emoji: "👨", color: "blue" },
+  { id: "3", name: "Charlie", disabled: false, emoji: "👦", color: "green" },
 ];
 
 export const Default: Story = {

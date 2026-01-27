@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const HouseholdMemberSelector = styled.div`
@@ -6,7 +7,9 @@ export const HouseholdMemberSelector = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const HouseholdMemberSelector_Member = styled.button`
+export const HouseholdMemberSelector_Member = styled.button<{
+  isActive?: boolean;
+}>`
   align-items: center;
   background-color: var(--surface-2);
   border: 2px solid var(--member-color);
@@ -25,9 +28,22 @@ export const HouseholdMemberSelector_Member = styled.button`
       rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
       rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
   }
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      background-color: var(--member-color);
+      box-shadow:
+        rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+        rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
+      color: white;
+      scale: 105% 105%;
+    `}
 `;
 
-export const HouseholdMemberSelector_MemberIcon = styled.span`
+export const HouseholdMemberSelector_MemberIcon = styled.span<{
+  isActive?: boolean;
+}>`
   align-items: center;
   background-color: var(--member-color);
   border-radius: var(--radius-pill);
@@ -37,4 +53,11 @@ export const HouseholdMemberSelector_MemberIcon = styled.span`
   justify-content: center;
   margin-left: -0.5rem;
   width: 2rem;
+
+  ${({ isActive }) =>
+    isActive &&
+    css`
+      backdrop-filter: 8px;
+      background-color: oklch(from white l c h / 0.5);
+    `}
 `;
