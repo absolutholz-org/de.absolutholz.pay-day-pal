@@ -191,12 +191,6 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           </LoadingIndicator>
         )}
 
-        <HouseholdMemberSelector
-          members={householdData.members}
-          activeMemberId={activeChild}
-          onSelectMember={setActiveChild}
-        />
-
         {!activePeriod ? (
           <div
             style={{
@@ -231,6 +225,12 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           </div>
         ) : (
           <>
+            <HouseholdMemberSelector
+              members={householdData.members}
+              activeMemberId={activeChild}
+              onSelectMember={setActiveChild}
+            />
+
             <BalanceDisplay total={calculateTotal()} />
 
             <DateScroll

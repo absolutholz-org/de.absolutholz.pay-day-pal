@@ -40,24 +40,3 @@ export const HouseholdMemberSelector_Member = styled.button<{
       scale: 105% 105%;
     `}
 `;
-
-export const HouseholdMemberSelector_MemberIcon = styled.span<{
-  isActive?: boolean;
-}>`
-  align-items: center;
-  background-color: var(--member-color);
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  font-size: 1.125rem;
-  height: 2rem;
-  justify-content: center;
-  margin-left: -0.5rem;
-  width: 2rem;
-
-  ${({ isActive }) =>
-    isActive &&
-    css`
-      backdrop-filter: 8px;
-      background-color: oklch(from white l c h / 0.5);
-    `}
-`;
