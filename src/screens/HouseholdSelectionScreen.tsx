@@ -23,7 +23,7 @@ import {
   ResetButton,
   Subtitle,
 } from "../globalStyles";
-import { Household, Language } from "../types";
+import { AccentColor, Household, Language } from "../types";
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -91,7 +91,7 @@ export default function HouseholdSelectionScreen({
         id: name.toLowerCase().replace(/\s+/g, "-"),
         name,
         emoji: "👤",
-        color: "red",
+        color: "red" as AccentColor,
       }));
 
     if (validMembers.length === 0)
