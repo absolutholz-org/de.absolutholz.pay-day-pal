@@ -4,9 +4,9 @@ import {
   Firestore,
   limit,
   onSnapshot,
-  orderBy,
   query,
   setDoc,
+  where,
 } from "firebase/firestore";
 import { Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -56,19 +56,33 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   useEffect(() => {
     const q = query(
       collection(db, "households", household.id, "periods"),
-      orderBy("startDate", "desc"),
+      where("endDate", "==", null),
       limit(1),
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        const docData = snapshot.docs[0].data();
-        const period = { id: snapshot.docs[0].id, ...docData } as Period;
-        setActivePeriod(!period.endDate ? period : null);
-      } else {
-        setActivePeriod(null);
-      }
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const docData = snapshot.docs[0].data();
+          const toDate = (t: any) => (t?.toDate ? t.toDate() : t);
+          const period = {
+            id: snapshot.docs[0].id,
+            ...docData,
+            startDate: toDate(docData.startDate),
+            endDate: toDate(docData.endDate),
+            createdAt: toDate(docData.createdAt),
+          } as Period;
+
+          setActivePeriod(period);
+        } else {
+          setActivePeriod(null);
+        }
+      },
+      (error) => {
+        console.error("Error fetching periods:", error);
+      },
+    );
     return () => unsubscribe();
   }, [household.id, db]);
 
@@ -88,7 +102,6 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
     const end = new Date(); // Today
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
-
     const dates: Date[] = [];
     const current = new Date(start);
 
