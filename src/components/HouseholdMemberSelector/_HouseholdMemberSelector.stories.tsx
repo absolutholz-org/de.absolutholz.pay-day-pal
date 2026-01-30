@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { ACCENT_COLORS, HouseholdMember } from "../../types";
 import { HouseholdMemberSelector } from "./_HouseholdMemberSelector";
 
 const meta = {
@@ -20,7 +21,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const mockMembers = [
+const mockMembers: HouseholdMember[] = [
   { id: "1", name: "Alice", disabled: false, emoji: "👩", color: "red" },
   { id: "2", name: "Bob", disabled: false, emoji: "👨", color: "blue" },
   { id: "3", name: "Charlie", disabled: false, emoji: "👦", color: "green" },
@@ -42,7 +43,7 @@ export const WithDisabledMembers: Story = {
         name: "Dave (Disabled)",
         disabled: true,
         emoji: "👴",
-        color: "#95a5a6",
+        color: "blue",
       },
     ],
     activeMemberId: "1",
@@ -56,7 +57,7 @@ export const ManyMembers: Story = {
       name: `Member ${i + 1}`,
       disabled: false,
       emoji: "👤",
-      color: `hsl(${i * 36}, 70%, 50%)`,
+      color: ACCENT_COLORS[i % ACCENT_COLORS.length],
     })),
     activeMemberId: "0",
   },

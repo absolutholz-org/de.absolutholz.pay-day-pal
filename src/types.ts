@@ -1,6 +1,19 @@
 export type Language = "en" | "de" | "fr" | "pt";
 export type Currency = "USD" | "EUR";
 
+export const ACCENT_COLORS = [
+  "blue",
+  "green",
+  "purple",
+  "orange",
+  "red",
+  "yellow",
+  "pink",
+  "indigo",
+] as const;
+
+export type AccentColor = (typeof ACCENT_COLORS)[number];
+
 export type ChoreCategoryId =
   | "bedroom"
   | "living-room"
@@ -22,7 +35,7 @@ export type ChoreCategoryIcon =
 export type ChoreCategory = {
   id: ChoreCategoryId;
   labels: Record<Language, string>;
-  color: string;
+  color: AccentColor;
   icon: React.ElementType;
   emoji: string;
 };
@@ -55,7 +68,7 @@ export type HouseholdMember = {
   id: string;
   name: string;
   disabled?: boolean;
-  color: string;
+  color: AccentColor;
   emoji: string;
 };
 

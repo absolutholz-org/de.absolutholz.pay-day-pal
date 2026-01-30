@@ -19,6 +19,7 @@ import {
 } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useState } from "react";
 import {
+  AccentColor,
   ActivityRecord,
   ChoreData,
   Household,
@@ -58,8 +59,12 @@ interface DataContextType {
   leaveHousehold: () => void;
   updateHouseholdName: (name: string) => Promise<void>;
   updateHouseholdLanguage: (language: Language) => Promise<void>;
-  addMember: (name: string) => Promise<void>;
+  addMember: (name: string, emoji: string, color: AccentColor) => Promise<void>;
   toggleMemberStatus: (memberId: string) => Promise<void>;
+  updateMember: (
+    memberId: string,
+    data: Partial<HouseholdMember>,
+  ) => Promise<void>;
   finishPeriod: (startNew: boolean) => Promise<void>;
   getPastPeriods: () => Promise<Period[]>;
   getPeriodActivities: (periodId: string) => Promise<{
@@ -113,7 +118,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const addMember = async (name: string) => {
+  const addMember = async (name: string, emoji: string, color: AccentColor) => {
     if (!currentHousehold) return;
     const trimmedName = name.trim();
     if (trimmedName) {
@@ -121,8 +126,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const newMember: HouseholdMember = {
         id: newId,
         name: trimmedName,
-        emoji: "👤",
-        color: "red",
+        emoji,
+        color,
       };
       const newMembers = [...currentHousehold.members, newMember];
       await updateDoc(doc(db, "households", currentHousehold.id), {
@@ -136,6 +141,20 @@ export function DataProvider({ children }: { children: ReactNode }) {
     if (!currentHousehold) return;
     const newMembers = currentHousehold.members.map((m) =>
       m.id === memberId ? { ...m, disabled: !m.disabled } : m,
+    );
+    await updateDoc(doc(db, "households", currentHousehold.id), {
+      members: newMembers,
+    });
+    setCurrentHousehold({ ...currentHousehold, members: newMembers });
+  };
+
+  const updateMember = async (
+    memberId: string,
+    data: Partial<HouseholdMember>,
+  ) => {
+    if (!currentHousehold) return;
+    const newMembers = currentHousehold.members.map((m) =>
+      m.id === memberId ? { ...m, ...data } : m,
     );
     await updateDoc(doc(db, "households", currentHousehold.id), {
       members: newMembers,
@@ -394,6 +413,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         updateHouseholdLanguage,
         addMember,
         toggleMemberStatus,
+        updateMember,
         finishPeriod,
         getPastPeriods,
         getPeriodActivities,

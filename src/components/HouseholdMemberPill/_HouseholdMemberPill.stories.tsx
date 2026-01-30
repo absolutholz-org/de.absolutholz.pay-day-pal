@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { ACCENT_COLORS } from "../../types";
 import { HouseholdMemberPill } from "./_HouseholdMemberPill";
 
 const meta = {
@@ -11,7 +12,7 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     emoji: { control: "text" },
-    color: { control: "text" },
+    color: { control: "select", options: ACCENT_COLORS },
   },
 } satisfies Meta<typeof HouseholdMemberPill>;
 

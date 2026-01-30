@@ -1,11 +1,4 @@
-import {
-  ArrowLeft,
-  Euro,
-  History,
-  Plus,
-  RotateCcw,
-  Trash2,
-} from "lucide-react";
+import { ArrowLeft, Euro, History } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
@@ -13,6 +6,7 @@ import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
 import { ConfirmationDialog } from "../components/ConfirmationDialog";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
+import { HouseholdMemberListEditor } from "../components/HouseholdMemberListEditor";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
@@ -20,7 +14,7 @@ import { useLocalization } from "../context/LocalizationContext";
 import { SUPPORTED_LANGUAGES } from "../constants";
 import { Select } from "../components/Select";
 import { Language } from "../types";
-import { FormGroup, IconButton, ResetButton } from "../globalStyles";
+import { FormGroup, ResetButton } from "../globalStyles";
 
 export default function SettingsScreen({}) {
   const {
@@ -28,6 +22,7 @@ export default function SettingsScreen({}) {
     updateHouseholdName,
     updateHouseholdLanguage,
     addMember,
+    updateMember,
     toggleMemberStatus,
     leaveHousehold,
     finishPeriod,
@@ -37,7 +32,6 @@ export default function SettingsScreen({}) {
   if (!household) return null;
 
   const [settingsName, setSettingsName] = useState(household.name);
-  const [newMemberName, setNewMemberName] = useState("");
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [isPaydayDialogOpen, setIsPaydayDialogOpen] = useState(false);
   const [startNewPeriod, setStartNewPeriod] = useState(true);
@@ -82,61 +76,16 @@ export default function SettingsScreen({}) {
         </FormGroup>
         <FormGroup>
           <Label>{t.members}</Label>
-          {household.members.map((member) => (
-            <div
-              key={member.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                marginBottom: "0.5rem",
-                opacity: member.disabled ? 0.6 : 1,
-              }}
-            >
-              <Input value={member.name} readOnly />
-              <IconButton
-                style={{
-                  position: "static",
-                  color: member.disabled ? "#2ecc71" : "#e74c3c",
-                }}
-                onClick={() => {
-                  if (
-                    member.disabled ||
-                    window.confirm(`${t.disable} ${member.name}?`)
-                  ) {
-                    toggleMemberStatus(member.id);
-                  }
-                }}
-              >
-                {member.disabled ? (
-                  <RotateCcw size={20} />
-                ) : (
-                  <Trash2 size={20} />
-                )}
-              </IconButton>
-            </div>
-          ))}
-          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-            <Input
-              placeholder={t.newMemberName}
-              value={newMemberName}
-              onChange={(e) => setNewMemberName(e.target.value)}
-              style={{ marginBottom: 0 }}
-            />
-            <ResetButton
-              style={{
-                margin: 0,
-                padding: "0.5rem 1rem",
-                background: "#3498db",
-              }}
-              onClick={async () => {
-                await addMember(newMemberName);
-                setNewMemberName("");
-              }}
-            >
-              <Plus size={20} />
-            </ResetButton>
-          </div>
+          <HouseholdMemberListEditor
+            members={household.members}
+            onAddMember={addMember}
+            onUpdateMember={updateMember}
+            onToggleMemberStatus={toggleMemberStatus}
+            labels={{
+              newMemberNamePlaceholder: t.newMemberName,
+              disableConfirm: `${t.disable} {name}?`,
+            }}
+          />
         </FormGroup>
         <FormGroup>
           <Label>{t.householdLanguage}</Label>
