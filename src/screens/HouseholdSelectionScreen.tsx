@@ -1,10 +1,4 @@
-import {
-  addDoc,
-  collection,
-  Firestore,
-  onSnapshot,
-  Timestamp,
-} from "firebase/firestore";
+import { addDoc, collection, Firestore, onSnapshot } from "firebase/firestore";
 import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageContainer } from "../components/PageContainer";
@@ -111,9 +105,9 @@ export default function HouseholdSelectionScreen({
 
       // Create initial period
       await addDoc(collection(db, "households", docRef.id, "periods"), {
-        startDate: Timestamp.now(),
+        startDate: new Date(),
         endDate: null,
-        createdAt: Timestamp.now(),
+        createdAt: new Date(),
       });
 
       onSelectHousehold(created);

@@ -13,7 +13,6 @@ import {
   orderBy,
   persistentLocalCache,
   query,
-  Timestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -81,6 +80,8 @@ interface DataContextType {
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
+
+const toDate = (t: any) => (t?.toDate ? t.toDate() : t);
 
 export function DataProvider({ children }: { children: ReactNode }) {
   const [currentHousehold, setCurrentHousehold] = useState<Household | null>(
@@ -174,7 +175,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const q = query(periodsRef, where("endDate", "==", null));
     const snapshot = await getDocs(q);
 
-    const now = Timestamp.now();
+    const now = new Date();
 
     const updates = snapshot.docs.map((doc) =>
       updateDoc(doc.ref, { endDate: now }),
@@ -185,7 +186,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       await addDoc(periodsRef, {
         startDate: now,
         endDate: null,
-        createdAt: Timestamp.now(),
+        createdAt: now,
       });
     }
   };
@@ -201,7 +202,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const q = query(periodsRef, orderBy("startDate", "desc"));
     const snapshot = await getDocs(q);
     return snapshot.docs
-      .map((doc) => ({ id: doc.id, ...doc.data() }) as Period)
+      .map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          startDate: toDate(data.startDate),
+          endDate: toDate(data.endDate),
+          createdAt: toDate(data.createdAt),
+        } as Period;
+      })
       .filter((p) => p.endDate);
   };
 
@@ -230,7 +240,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
           memberId,
           choreId,
           date: dateKey,
-          createdAt: Timestamp.now(),
+          createdAt: new Date(),
           value: chore.value,
           choreLabel:
             chore.labels[currentHousehold.language] || chore.labels["en"],
@@ -310,7 +320,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
       throw new Error("Period not found");
     }
 
-    const period = { id: periodDoc.id, ...periodDoc.data() } as Period;
+    const pData = periodDoc.data();
+    const period = {
+      id: periodDoc.id,
+      ...pData,
+      startDate: toDate(pData?.startDate),
+      endDate: toDate(pData?.endDate),
+      createdAt: toDate(pData?.createdAt),
+    } as Period;
 
     const start = new Date(period.startDate);
     const end = period.endDate ? new Date(period.endDate) : new Date();
