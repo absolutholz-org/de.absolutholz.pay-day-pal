@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CHORE_CATEGORIES } from "../../constants/constants";
 import { useData } from "../../context/DataContext";
 import { useCurrency } from "../../hooks/useCurrency";
+import { useLocalization } from "../../context/LocalizationContext";
 import * as S from "./_ChoreCard.styles";
 
 export interface ChoreCardProps {
@@ -26,6 +27,7 @@ export function ChoreCard({
   currentActivityDate,
 }: ChoreCardProps) {
   const { recordActivity } = useData();
+  const { t } = useLocalization();
   const [optimisticCount, setOptimisticCount] = useState(count);
 
   const color = CHORE_CATEGORIES[category].color;
@@ -87,9 +89,10 @@ export function ChoreCard({
           <S.ChoreCard_StepperButton_Decrement
             onClick={() => handleUpdate(-1)}
             disabled={optimisticCount === 0}
-            aria-label="Decrease count"
+            aria-label={(t as any).decrease || "Decrease count"}
+            title={(t as any).decrease || "Decrease count"}
           >
-            <Minus />
+            <Minus aria-hidden="true" />
           </S.ChoreCard_StepperButton_Decrement>
 
           {/* Current Count */}
@@ -98,9 +101,10 @@ export function ChoreCard({
           {/* Plus Button */}
           <S.ChoreCard_StepperButton_Increment
             onClick={() => handleUpdate(1)}
-            aria-label="Increase count"
+            aria-label={(t as any).increase || "Increase count"}
+            title={(t as any).increase || "Increase count"}
           >
-            <Plus />
+            <Plus aria-hidden="true" />
           </S.ChoreCard_StepperButton_Increment>
         </S.ChoreCard_Stepper>
       </S.ChoreCard_Bottom>
