@@ -89,8 +89,8 @@ export function ChoreCard({
           <S.ChoreCard_StepperButton_Decrement
             onClick={() => handleUpdate(-1)}
             disabled={optimisticCount === 0}
-            aria-label={(t as any).decrease || "Decrease count"}
-            title={(t as any).decrease || "Decrease count"}
+            aria-label={t.decrease}
+            title={t.decrease}
           >
             <Minus aria-hidden="true" />
           </S.ChoreCard_StepperButton_Decrement>
@@ -101,8 +101,8 @@ export function ChoreCard({
           {/* Plus Button */}
           <S.ChoreCard_StepperButton_Increment
             onClick={() => handleUpdate(1)}
-            aria-label={(t as any).increase || "Increase count"}
-            title={(t as any).increase || "Increase count"}
+            aria-label={t.increase}
+            title={t.increase}
           >
             <Plus aria-hidden="true" />
           </S.ChoreCard_StepperButton_Increment>

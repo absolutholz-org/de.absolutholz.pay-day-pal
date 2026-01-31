@@ -33,7 +33,9 @@ export type TranslationKey =
   | "system"
   | "light"
   | "dark"
-  | "today";
+  | "today"
+  | "increase"
+  | "decrease";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -71,6 +73,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     light: "Light",
     dark: "Dark",
     today: "Today",
+    increase: "Increase count",
+    decrease: "Decrease count",
   },
   de: {
     settings: "Einstellungen",
@@ -109,6 +113,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     light: "Hell",
     dark: "Dunkel",
     today: "Heute",
+    increase: "Anzahl erhöhen",
+    decrease: "Anzahl verringern",
   },
   fr: {
     settings: "Paramètres",
@@ -147,6 +153,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     light: "Clair",
     dark: "Sombre",
     today: "Aujourd'hui",
+    increase: "Augmenter",
+    decrease: "Diminuer",
   },
   pt: {
     settings: "Configurações",
@@ -185,5 +193,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     light: "Claro",
     dark: "Escuro",
     today: "Hoje",
+    increase: "Aumentar",
+    decrease: "Diminuir",
   },
 };
