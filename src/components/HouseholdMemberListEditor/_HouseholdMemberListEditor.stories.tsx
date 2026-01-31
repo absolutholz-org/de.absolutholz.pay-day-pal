@@ -30,6 +30,7 @@ export const Default: Story = {
     labels: {
       newMemberNamePlaceholder: "New Member Name",
       disableConfirm: "Disable {name}?",
+      addMember: "Add Member",
     },
   },
 };

@@ -1,11 +1,23 @@
-import { Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { IconButton, ResetButton } from "../../globalStyles";
-import { ACCENT_COLORS, AccentColor } from "../../types";
+import { ResetButton } from "../../globalStyles";
+import { ACCENT_COLORS, AccentColor, HouseholdMember } from "../../types";
+import { HouseholdMemberEditorRow } from "../HouseholdMemberEditorRow";
 import { Input } from "../Input";
 import { Select } from "../Select";
-import { HouseholdMemberListEditorProps } from "./_HouseholdMemberListEditor.types";
+
+export interface HouseholdMemberListEditorProps {
+  members: HouseholdMember[];
+  onAddMember: (name: string, emoji: string, color: AccentColor) => void;
+  onUpdateMember: (id: string, data: Partial<HouseholdMember>) => void;
+  onToggleMemberStatus: (id: string) => void;
+  labels?: {
+    newMemberNamePlaceholder?: string;
+    disableConfirm?: string;
+    addMember?: string;
+  };
+}
 
 export function HouseholdMemberListEditor({
   members,
@@ -17,6 +29,7 @@ export function HouseholdMemberListEditor({
   const [newMemberName, setNewMemberName] = useState("");
   const [newMemberEmoji, setNewMemberEmoji] = useState("👤");
   const [newMemberColor, setNewMemberColor] = useState<AccentColor>("blue");
+  const [isAdding, setIsAdding] = useState(false);
 
   const handleAdd = () => {
     if (!newMemberName.trim()) return;
@@ -24,6 +37,7 @@ export function HouseholdMemberListEditor({
     setNewMemberName("");
     setNewMemberEmoji("👤");
     setNewMemberColor("blue");
+    setIsAdding(false);
   };
 
   const colorOptions = ACCENT_COLORS.map((c) => ({ value: c, label: c }));
@@ -31,96 +45,63 @@ export function HouseholdMemberListEditor({
   return (
     <div>
       {members.map((member) => (
-        <div
+        <HouseholdMemberEditorRow
           key={member.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            marginBottom: "0.5rem",
-            opacity: member.disabled ? 0.6 : 1,
-          }}
-        >
+          member={member}
+          onUpdate={onUpdateMember}
+          onToggleStatus={onToggleMemberStatus}
+          disableConfirmLabel={labels.disableConfirm}
+        />
+      ))}
+      {isAdding ? (
+        <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
           <div style={{ width: "60px" }}>
             <Input
-              value={member.emoji}
-              onChange={(e) =>
-                onUpdateMember(member.id, { emoji: e.target.value })
-              }
+              value={newMemberEmoji}
+              onChange={(e) => setNewMemberEmoji(e.target.value)}
               style={{ textAlign: "center", marginBottom: 0 }}
             />
           </div>
           <div style={{ flex: 1 }}>
-            <Input value={member.name} readOnly style={{ marginBottom: 0 }} />
+            <Input
+              placeholder={labels.newMemberNamePlaceholder || "New Member Name"}
+              value={newMemberName}
+              onChange={(e) => setNewMemberName(e.target.value)}
+              style={{ marginBottom: 0 }}
+            />
           </div>
           <div style={{ width: "120px" }}>
             <Select
-              value={member.color}
-              onChange={(e) =>
-                onUpdateMember(member.id, {
-                  color: e.target.value as AccentColor,
-                })
-              }
+              value={newMemberColor}
+              onChange={(e) => setNewMemberColor(e.target.value as AccentColor)}
               options={colorOptions}
               style={{ marginBottom: 0 }}
             />
           </div>
-          <IconButton
+          <ResetButton
             style={{
-              position: "static",
-              color: member.disabled ? "#2ecc71" : "#e74c3c",
+              margin: 0,
+              padding: "0.5rem 1rem",
+              background: "#3498db",
             }}
-            onClick={() => {
-              if (
-                member.disabled ||
-                !labels.disableConfirm ||
-                window.confirm(
-                  labels.disableConfirm.replace("{name}", member.name),
-                )
-              ) {
-                onToggleMemberStatus(member.id);
-              }
-            }}
+            onClick={handleAdd}
           >
-            {member.disabled ? <RotateCcw size={20} /> : <Trash2 size={20} />}
-          </IconButton>
+            <Plus size={20} />
+          </ResetButton>
         </div>
-      ))}
-      <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-        <div style={{ width: "60px" }}>
-          <Input
-            value={newMemberEmoji}
-            onChange={(e) => setNewMemberEmoji(e.target.value)}
-            style={{ textAlign: "center", marginBottom: 0 }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <Input
-            placeholder={labels.newMemberNamePlaceholder || "New Member Name"}
-            value={newMemberName}
-            onChange={(e) => setNewMemberName(e.target.value)}
-            style={{ marginBottom: 0 }}
-          />
-        </div>
-        <div style={{ width: "120px" }}>
-          <Select
-            value={newMemberColor}
-            onChange={(e) => setNewMemberColor(e.target.value as AccentColor)}
-            options={colorOptions}
-            style={{ marginBottom: 0 }}
-          />
-        </div>
+      ) : (
         <ResetButton
           style={{
-            margin: 0,
-            padding: "0.5rem 1rem",
-            background: "#3498db",
+            marginTop: "0.5rem",
+            width: "100%",
+            justifyContent: "center",
           }}
-          onClick={handleAdd}
+          onClick={() => setIsAdding(true)}
         >
-          <Plus size={20} />
+          <Plus size={20} style={{ marginRight: "0.5rem" }} />
+          {labels.addMember || "Add Member"}
         </ResetButton>
-      </div>
+      )}
     </div>
   );
 }

@@ -35,7 +35,8 @@ export type TranslationKey =
   | "dark"
   | "today"
   | "increase"
-  | "decrease";
+  | "decrease"
+  | "addMember";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -75,6 +76,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     today: "Today",
     increase: "Increase count",
     decrease: "Decrease count",
+    addMember: "Add Member",
   },
   de: {
     settings: "Einstellungen",
@@ -115,6 +117,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     today: "Heute",
     increase: "Anzahl erhöhen",
     decrease: "Anzahl verringern",
+    addMember: "Mitglied hinzufügen",
   },
   fr: {
     settings: "Paramètres",
@@ -155,6 +158,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     today: "Aujourd'hui",
     increase: "Augmenter",
     decrease: "Diminuer",
+    addMember: "Ajouter un membre",
   },
   pt: {
     settings: "Configurações",
@@ -195,5 +199,6 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     today: "Hoje",
     increase: "Aumentar",
     decrease: "Diminuir",
+    addMember: "Adicionar Membro",
   },
 };

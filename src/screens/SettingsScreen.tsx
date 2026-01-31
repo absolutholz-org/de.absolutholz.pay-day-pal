@@ -84,7 +84,7 @@ export default function SettingsScreen({}) {
             labels={{
               newMemberNamePlaceholder: t.newMemberName,
               disableConfirm: `${t.disable} {name}?`,
-              addMember: (t as any).addMember || "Add Member",
+              addMember: t.addMember,
             }}
           />
         </FormGroup>
