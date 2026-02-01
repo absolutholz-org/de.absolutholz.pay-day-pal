@@ -14,7 +14,8 @@ import { useLocalization } from "../context/LocalizationContext";
 import { SUPPORTED_LANGUAGES } from "../constants";
 import { Select } from "../components/Select";
 import { Language } from "../types";
-import { FormGroup, ResetButton } from "../globalStyles";
+import { FormGroup } from "../globalStyles";
+import { Button } from "../components/Button";
 
 export default function SettingsScreen({}) {
   const {
@@ -98,6 +99,16 @@ export default function SettingsScreen({}) {
             options={SUPPORTED_LANGUAGES}
           />
         </FormGroup>
+        <Button
+          variant="text"
+          color="danger"
+          onClick={() => {
+            setShowLeaveConfirm(true);
+          }}
+          startIcon={<ArrowLeft size={20} aria-hidden="true" />}
+        >
+          {t.leaveHousehold}
+        </Button>
 
         <FormGroup>
           <Label as="h2">{t.periodManagement}</Label>
@@ -125,32 +136,15 @@ export default function SettingsScreen({}) {
             <History size={18} />
             {t.viewHistory}
           </Link>
-          <ResetButton
+
+          <Button
+            color="secondary"
             onClick={() => setIsPaydayDialogOpen(true)}
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              marginTop: "0.5rem",
-              backgroundColor: "#2ecc71",
-            }}
+            startIcon={<Euro size={20} aria-hidden="true" />}
           >
-            <Euro size={18} /> {t.endPeriod}
-          </ResetButton>
+            {t.endPeriod}
+          </Button>
         </FormGroup>
-        <ResetButton
-          onClick={() => {
-            setShowLeaveConfirm(true);
-          }}
-          style={{
-            width: "100%",
-            justifyContent: "center",
-            marginTop: "1rem",
-            backgroundColor: "#95a5a6",
-          }}
-        >
-          <ArrowLeft size={18} />
-          {t.leaveHousehold}
-        </ResetButton>
 
         <ConfirmationDialog
           isOpen={showLeaveConfirm}

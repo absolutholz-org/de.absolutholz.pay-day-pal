@@ -87,7 +87,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   }, [household.id, db]);
 
   const [activeChild, setActiveChild] = useState<string>(() => {
-    const saved = localStorage.getItem(`payDayPal_activeChild_${household.id}`);
+    const saved = localStorage.getItem(`paydayPal_activeChild_${household.id}`);
     const savedMember = household.members.find((c) => c.id === saved);
     if (savedMember && !savedMember.disabled) {
       return savedMember.id;
@@ -130,7 +130,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 
   useEffect(() => {
     localStorage.setItem(
-      `payDayPal_activeChild_${householdData.id}`,
+      `paydayPal_activeChild_${householdData.id}`,
       activeChild,
     );
   }, [activeChild, householdData.id]);

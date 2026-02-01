@@ -4,19 +4,18 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore,
   getDoc,
   getDocs,
   increment,
   initializeFirestore,
   limit,
+  memoryLocalCache,
   orderBy,
-  persistentLocalCache,
   query,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   AccentColor,
   ActivityRecord,
@@ -25,8 +24,9 @@ import {
   HouseholdMember,
   Language,
   Period,
-} from "../types";
-import { formatDateKey } from "../utils";
+} from "../../types";
+import { formatDateKey } from "../../utils";
+import { Activity, DataContext } from "./context";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -39,51 +39,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
-  localCache: persistentLocalCache(),
+  localCache: memoryLocalCache(),
 });
-
-export interface Activity {
-  id: string;
-  date: string;
-  memberId: string;
-  memberName: string;
-  choreLabel: string;
-  value: number;
-}
-
-interface DataContextType {
-  db: Firestore;
-  currentHousehold: Household | null;
-  selectHousehold: (household: Household) => void;
-  leaveHousehold: () => void;
-  updateHouseholdName: (name: string) => Promise<void>;
-  updateHouseholdLanguage: (language: Language) => Promise<void>;
-  addMember: (name: string, emoji: string, color: AccentColor) => Promise<void>;
-  toggleMemberStatus: (memberId: string) => Promise<void>;
-  updateMember: (
-    memberId: string,
-    data: Partial<HouseholdMember>,
-  ) => Promise<void>;
-  finishPeriod: (startNew: boolean) => Promise<void>;
-  getPastPeriods: () => Promise<Period[]>;
-  getPeriodActivities: (periodId: string) => Promise<{
-    period: Period;
-    activities: Activity[];
-  }>;
-  addActivityRecord: (
-    memberId: string,
-    choreId: string,
-    dateKey: string,
-  ) => Promise<void>;
-  removeActivityRecord: (
-    memberId: string,
-    choreId: string,
-    dateKey: string,
-  ) => Promise<void>;
-  getRecentActivities: (limitCount?: number) => Promise<Activity[]>;
-}
-
-const DataContext = createContext<DataContextType | undefined>(undefined);
 
 const toDate = (t: any) => (t?.toDate ? t.toDate() : t);
 
@@ -94,12 +51,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const selectHousehold = (household: Household) => {
     setCurrentHousehold(household);
-    localStorage.setItem("paydayPal_selectedHouseholdId", household.id);
+    localStorage.setItem("payDayPal_selectedHouseholdId", household.id);
   };
 
   const leaveHousehold = () => {
     setCurrentHousehold(null);
-    localStorage.removeItem("paydayPal_selectedHouseholdId");
+    localStorage.removeItem("payDayPal_selectedHouseholdId");
   };
 
   const updateHouseholdName = async (name: string) => {
@@ -459,9 +416,3 @@ export function DataProvider({ children }: { children: ReactNode }) {
     </DataContext.Provider>
   );
 }
-
-export const useData = () => {
-  const context = useContext(DataContext);
-  if (!context) throw new Error("useData must be used within DataProvider");
-  return context;
-};

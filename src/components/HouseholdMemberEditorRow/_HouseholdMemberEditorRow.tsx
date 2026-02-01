@@ -5,6 +5,7 @@ import { Input } from "../Input";
 import { Select } from "../Select";
 import * as S from "./_HouseholdMemberEditorRow.styles";
 import { HouseholdMemberEditorRowProps } from "./_HouseholdMemberEditorRow.types";
+import { Button } from "../Button";
 
 export function HouseholdMemberEditorRow({
   member,
@@ -38,20 +39,40 @@ export function HouseholdMemberEditorRow({
           style={{ marginBottom: 0 }}
         />
       </S.ColorContainer>
-      <S.ActionButton
-        disabledMember={member.disabled}
-        onClick={() => {
-          if (
-            member.disabled ||
-            !disableConfirmLabel ||
-            window.confirm(disableConfirmLabel.replace("{name}", member.name))
-          ) {
-            onToggleStatus(member.id);
-          }
-        }}
-      >
-        {member.disabled ? <RotateCcw size={20} /> : <Trash2 size={20} />}
-      </S.ActionButton>
+      {member.disabled ? (
+        <Button
+          variant="text"
+          size="large"
+          onClick={() => {
+            if (
+              member.disabled ||
+              !disableConfirmLabel ||
+              window.confirm(disableConfirmLabel.replace("{name}", member.name))
+            ) {
+              onToggleStatus(member.id);
+            }
+          }}
+        >
+          <RotateCcw size={20} />
+        </Button>
+      ) : (
+        <Button
+          variant="text"
+          size="large"
+          color="danger"
+          onClick={() => {
+            if (
+              member.disabled ||
+              !disableConfirmLabel ||
+              window.confirm(disableConfirmLabel.replace("{name}", member.name))
+            ) {
+              onToggleStatus(member.id);
+            }
+          }}
+        >
+          <Trash2 size={20} />
+        </Button>
+      )}
     </S.Row>
   );
 }

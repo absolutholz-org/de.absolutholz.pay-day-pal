@@ -24,7 +24,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   const { currentHousehold } = useData();
 
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem("payDayPal_language");
+    const saved = localStorage.getItem("paydayPal_language");
     if (saved) {
       return saved as Language;
     }
@@ -32,7 +32,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem("payDayPal_language");
+    const saved = localStorage.getItem("paydayPal_language");
     if (!saved && currentHousehold?.language) {
       setLanguageState(currentHousehold.language);
     }
@@ -40,7 +40,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);
-    localStorage.setItem("payDayPal_language", newLanguage);
+    localStorage.setItem("paydayPal_language", newLanguage);
   };
 
   const value = useMemo(() => {

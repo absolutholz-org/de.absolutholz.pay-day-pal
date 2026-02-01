@@ -1,11 +1,11 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-import { ResetButton } from "../../globalStyles";
 import { ACCENT_COLORS, AccentColor, HouseholdMember } from "../../types";
 import { HouseholdMemberEditorRow } from "../HouseholdMemberEditorRow";
 import { Input } from "../Input";
 import { Select } from "../Select";
+import { Button } from "../Button";
 
 export interface HouseholdMemberListEditorProps {
   members: HouseholdMember[];
@@ -78,29 +78,20 @@ export function HouseholdMemberListEditor({
               style={{ marginBottom: 0 }}
             />
           </div>
-          <ResetButton
-            style={{
-              margin: 0,
-              padding: "0.5rem 1rem",
-              background: "#3498db",
-            }}
+          <Button
             onClick={handleAdd}
-          >
-            <Plus size={20} />
-          </ResetButton>
+            startIcon={<Plus size={20} aria-hidden="true" />}
+          ></Button>
         </div>
       ) : (
-        <ResetButton
-          style={{
-            marginTop: "0.5rem",
-            width: "100%",
-            justifyContent: "center",
-          }}
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<Plus size={20} aria-hidden="true" />}
           onClick={() => setIsAdding(true)}
         >
-          <Plus size={20} style={{ marginRight: "0.5rem" }} />
           {labels.addMember || "Add Member"}
-        </ResetButton>
+        </Button>
       )}
     </div>
   );

@@ -14,10 +14,10 @@ import {
   FormGroup,
   IconButton,
   LoadingIndicator,
-  ResetButton,
   Subtitle,
 } from "../globalStyles";
 import { AccentColor, Household, Language } from "../types";
+import { Button } from "../components/Button";
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -53,7 +53,7 @@ export default function HouseholdSelectionScreen({
           setHouseholds(loadedHouseholds);
 
           // Auto-select if saved in local storage
-          const savedId = localStorage.getItem("payDayPal_selectedHouseholdId");
+          const savedId = localStorage.getItem("paydayPal_selectedHouseholdId");
           if (savedId) {
             const found = loadedHouseholds.find((h) => h.id === savedId);
             if (found) {
@@ -192,19 +192,16 @@ export default function HouseholdSelectionScreen({
                 )}
               </div>
             ))}
-            <ResetButton
+            <Button
               onClick={() => setNewMembers([...newMembers, ""])}
-              style={{ marginTop: "0.5rem", background: "#3498db" }}
+              startIcon={<Plus size={18} aria-hidden="true" />}
             >
-              <Plus size={18} /> Add Member
-            </ResetButton>
+              Add Member
+            </Button>
           </FormGroup>
-          <ResetButton
-            onClick={handleCreateHousehold}
-            style={{ marginTop: "2rem" }}
-          >
+          <Button onClick={handleCreateHousehold} style={{ marginTop: "2rem" }}>
             Create Household
-          </ResetButton>
+          </Button>
         </PageContainer>
       </>
     );
@@ -237,12 +234,12 @@ export default function HouseholdSelectionScreen({
             marginBottom: "3rem",
           }}
         >
-          <ResetButton
+          <Button
             onClick={() => setView("create")}
-            style={{ background: "#3498db" }}
+            startIcon={<Plus size={18} aria-hidden="true" />}
           >
-            <Plus size={18} /> Create New Household
-          </ResetButton>
+            Create New Household
+          </Button>
         </div>
 
         {households.length > 0 && (

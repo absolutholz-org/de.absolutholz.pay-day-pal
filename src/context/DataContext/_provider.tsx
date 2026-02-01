@@ -4,7 +4,6 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore,
   getDoc,
   getDocs,
   increment,
@@ -16,7 +15,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   AccentColor,
   ActivityRecord,
@@ -25,8 +24,9 @@ import {
   HouseholdMember,
   Language,
   Period,
-} from "../types";
-import { formatDateKey } from "../utils";
+} from "../../types";
+import { formatDateKey } from "../../utils";
+import { Activity, DataContext } from "./_context";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -41,49 +41,6 @@ const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
   localCache: persistentLocalCache(),
 });
-
-export interface Activity {
-  id: string;
-  date: string;
-  memberId: string;
-  memberName: string;
-  choreLabel: string;
-  value: number;
-}
-
-interface DataContextType {
-  db: Firestore;
-  currentHousehold: Household | null;
-  selectHousehold: (household: Household) => void;
-  leaveHousehold: () => void;
-  updateHouseholdName: (name: string) => Promise<void>;
-  updateHouseholdLanguage: (language: Language) => Promise<void>;
-  addMember: (name: string, emoji: string, color: AccentColor) => Promise<void>;
-  toggleMemberStatus: (memberId: string) => Promise<void>;
-  updateMember: (
-    memberId: string,
-    data: Partial<HouseholdMember>,
-  ) => Promise<void>;
-  finishPeriod: (startNew: boolean) => Promise<void>;
-  getPastPeriods: () => Promise<Period[]>;
-  getPeriodActivities: (periodId: string) => Promise<{
-    period: Period;
-    activities: Activity[];
-  }>;
-  addActivityRecord: (
-    memberId: string,
-    choreId: string,
-    dateKey: string,
-  ) => Promise<void>;
-  removeActivityRecord: (
-    memberId: string,
-    choreId: string,
-    dateKey: string,
-  ) => Promise<void>;
-  getRecentActivities: (limitCount?: number) => Promise<Activity[]>;
-}
-
-const DataContext = createContext<DataContextType | undefined>(undefined);
 
 const toDate = (t: any) => (t?.toDate ? t.toDate() : t);
 
@@ -219,10 +176,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
       .filter((p) => p.endDate);
   };
 
-  const addActivityRecord = async (
+  const recordActivity = async (
     memberId: string,
     choreId: string,
     dateKey: string,
+    direction: "increment" | "decrement",
   ) => {
     if (!currentHousehold) return;
     const chore = currentHousehold.chores.find((c) => c.id === choreId);
@@ -236,58 +194,44 @@ export function DataProvider({ children }: { children: ReactNode }) {
       memberId,
     );
 
-    await addDoc(
-      collection(db, "households", currentHousehold.id, "activity_records"),
-      {
-        memberId,
-        choreId,
-        date: dateKey,
-        createdAt: new Date(),
-        value: chore.value,
-        choreLabel:
-          chore.labels[currentHousehold.language] || chore.labels["en"],
-      },
-    );
-    await updateDoc(activityRef, {
-      [`${dateKey}_${choreId}`]: increment(1),
-    });
-  };
-
-  const removeActivityRecord = async (
-    memberId: string,
-    choreId: string,
-    dateKey: string,
-  ) => {
-    if (!currentHousehold) return;
-
-    const activityRef = doc(
-      db,
-      "households",
-      currentHousehold.id,
-      "activity",
-      memberId,
-    );
-
-    const recordsRef = collection(
-      db,
-      "households",
-      currentHousehold.id,
-      "activity_records",
-    );
-    const q = query(
-      recordsRef,
-      where("memberId", "==", memberId),
-      where("choreId", "==", choreId),
-      where("date", "==", dateKey),
-      limit(1),
-    );
-    const snapshot = await getDocs(q);
-    if (!snapshot.empty) {
-      await deleteDoc(snapshot.docs[0].ref);
+    if (direction === "increment") {
+      await addDoc(
+        collection(db, "households", currentHousehold.id, "activity_records"),
+        {
+          memberId,
+          choreId,
+          date: dateKey,
+          createdAt: new Date(),
+          value: chore.value,
+          choreLabel:
+            chore.labels[currentHousehold.language] || chore.labels["en"],
+        },
+      );
+      await updateDoc(activityRef, {
+        [`${dateKey}_${choreId}`]: increment(1),
+      });
+    } else {
+      const recordsRef = collection(
+        db,
+        "households",
+        currentHousehold.id,
+        "activity_records",
+      );
+      const q = query(
+        recordsRef,
+        where("memberId", "==", memberId),
+        where("choreId", "==", choreId),
+        where("date", "==", dateKey),
+        limit(1),
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) {
+        await deleteDoc(snapshot.docs[0].ref);
+      }
+      await updateDoc(activityRef, {
+        [`${dateKey}_${choreId}`]: increment(-1),
+      });
     }
-    await updateDoc(activityRef, {
-      [`${dateKey}_${choreId}`]: increment(-1),
-    });
   };
 
   const getRecentActivities = async (limitCount = 50) => {
@@ -450,8 +394,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
         finishPeriod,
         getPastPeriods,
         getPeriodActivities,
-        addActivityRecord,
-        removeActivityRecord,
+        recordActivity,
         getRecentActivities,
       }}
     >
@@ -459,9 +402,3 @@ export function DataProvider({ children }: { children: ReactNode }) {
     </DataContext.Provider>
   );
 }
-
-export const useData = () => {
-  const context = useContext(DataContext);
-  if (!context) throw new Error("useData must be used within DataProvider");
-  return context;
-};

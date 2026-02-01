@@ -26,7 +26,7 @@ export function ChoreCard({
   currentMemberId,
   currentActivityDate,
 }: ChoreCardProps) {
-  const { recordActivity } = useData();
+  const { addActivityRecord, removeActivityRecord } = useData();
   const { t } = useLocalization();
   const [optimisticCount, setOptimisticCount] = useState(count);
 
@@ -45,12 +45,11 @@ export function ChoreCard({
     setOptimisticCount(newCount); // Optimistic update
 
     try {
-      await recordActivity(
-        currentMemberId,
-        id,
-        currentActivityDate,
-        change > 0 ? "increment" : "decrement",
-      );
+      if (change > 0) {
+        await addActivityRecord(currentMemberId, id, currentActivityDate);
+      } else {
+        await removeActivityRecord(currentMemberId, id, currentActivityDate);
+      }
     } catch (error) {
       console.error("Error updating chore:", error);
       setOptimisticCount(count); // Revert on error

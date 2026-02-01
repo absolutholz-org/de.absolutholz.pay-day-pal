@@ -289,25 +289,6 @@ export const FormGroup = styled.div`
   margin-bottom: 1rem;
 `;
 
-export const ResetButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: oklch(61.4% 0.195 29.2);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: inherit;
-
-  &:hover {
-    background-color: oklch(51.4% 0.195 29.2);
-  }
-`;
-
 export const baseInputStyles = css`
   background-color: var(--surface);
   border: 2px solid oklch(from var(--on-surface) l c h / 0.5);
