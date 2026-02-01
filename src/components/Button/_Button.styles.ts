@@ -63,19 +63,19 @@ const SIZES: Record<ButtonSize, SerializedStyles> = {
     border-radius: 12px;
     font-size: 0.875rem; /* text-sm */
     height: 2.5625rem;
-    padding: 8px 16px;
+    padding: 0.5rem 1rem;
   `,
   medium: css`
     border-radius: 12px;
     font-size: 1rem;
     height: 3rem;
-    padding: 10px 20px;
+    padding: 0.675rem 1.25rem;
   `,
   large: css`
     border-radius: 16px;
     font-size: 1.125rem; /* text-lg */
     height: 3.4375rem;
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
   `,
 };
 
@@ -141,7 +141,7 @@ export const Button = styled.button<ButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0.5rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);

@@ -24,6 +24,7 @@ import { ChoreCardList } from "../components/ChoreCardList";
 import { BalanceDisplay } from "../components/BalanceDisplay";
 import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
 import { Button } from "../components/Button";
+import { BackToTop } from "../components/BackToTop";
 
 interface HomeScreenProps {
   household: Household;
@@ -190,7 +191,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   return (
     <>
       <PageHeader
-        title={householdData.name}
+        title={`Payday Pal for ${householdData.name}`}
         slotMain={<Subtitle>{t.trackChores}</Subtitle>}
         slotTrail={
           <Button
@@ -268,6 +269,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
           </>
         )}
       </PageContainer>
+      <BackToTop label={t.backToTop} />
     </>
   );
 }

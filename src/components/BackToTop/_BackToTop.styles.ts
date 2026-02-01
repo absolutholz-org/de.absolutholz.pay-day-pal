@@ -11,19 +11,8 @@ export const BackToTop = styled.div`
 
 export const BackToTop_Anchor = styled(Button)`
   position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  width: 3rem;
-  height: 3rem;
-  background-color: #3498db;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  pointer-events: auto;
+  bottom: 0.5rem;
+  right: 0.5rem;
 
   /* Hidden state */
   opacity: 0;
