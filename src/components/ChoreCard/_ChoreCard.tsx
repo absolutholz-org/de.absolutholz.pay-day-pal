@@ -6,6 +6,7 @@ import { useData } from "../../context/DataContext";
 import { useCurrency } from "../../hooks/useCurrency";
 import { useLocalization } from "../../context/LocalizationContext";
 import * as S from "./_ChoreCard.styles";
+import { ConfettiBurst } from "../ConfettiBurst";
 
 export interface ChoreCardProps {
   id: string;
@@ -29,6 +30,7 @@ export function ChoreCard({
   const { addActivityRecord, removeActivityRecord } = useData();
   const { t } = useLocalization();
   const [optimisticCount, setOptimisticCount] = useState(count);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const color = CHORE_CATEGORIES[category].color;
   const formattedValue = useCurrency(value, "en-DE", "EUR");
@@ -42,11 +44,17 @@ export function ChoreCard({
     const newCount = Math.max(0, optimisticCount + change);
     if (newCount === optimisticCount) return;
 
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      navigator.vibrate(10);
+    }
+
     setOptimisticCount(newCount); // Optimistic update
 
     try {
       if (change > 0) {
+        setShowConfetti(true);
         await addActivityRecord(currentMemberId, id, currentActivityDate);
+        setTimeout(() => setShowConfetti(false), 50);
       } else {
         await removeActivityRecord(currentMemberId, id, currentActivityDate);
       }
@@ -107,6 +115,7 @@ export function ChoreCard({
           </S.ChoreCard_StepperButton_Increment>
         </S.ChoreCard_Stepper>
       </S.ChoreCard_Bottom>
+      <ConfettiBurst trigger={showConfetti} />
     </S.ChoreCard>
   );
 }
