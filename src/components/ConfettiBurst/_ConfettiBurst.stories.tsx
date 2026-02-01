@@ -22,6 +22,9 @@ export const Default: Story = {
 };
 
 export const Interactive: Story = {
+  args: {
+    trigger: false,
+  },
   render: () => {
     const [trigger, setTrigger] = useState(false);
 
