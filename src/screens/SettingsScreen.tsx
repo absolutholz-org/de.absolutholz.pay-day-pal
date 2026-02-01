@@ -46,9 +46,13 @@ export default function SettingsScreen({}) {
       <PageHeader
         title={t.settings}
         slotLead={
-          <Link to="/">
-            <ArrowLeft size={24} />
-          </Link>
+          <Button
+            as={Link}
+            to="/"
+            variant="text"
+            label={t.backToHome}
+            startIcon={<ArrowLeft size={24} aria-hidden="true" />}
+          />
         }
       />
       <PageContainer>
@@ -112,30 +116,14 @@ export default function SettingsScreen({}) {
 
         <FormGroup>
           <Label as="h2">{t.periodManagement}</Label>
-          <Link
+          <Button
+            as={Link}
             to="/history"
-            style={{
-              width: "100%",
-              justifyContent: "center",
-              marginTop: "0.5rem",
-              background: "#34495e",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              padding: "0.75rem 1.5rem",
-              color: "white",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: "600",
-              cursor: "pointer",
-              transition: "background-color 0.2s",
-              fontFamily: "inherit",
-              textDecoration: "none",
-            }}
+            variant="text"
+            startIcon={<History size={20} aria-hidden="true" />}
           >
-            <History size={18} />
             {t.viewHistory}
-          </Link>
+          </Button>
 
           <Button
             color="secondary"

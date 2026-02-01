@@ -10,6 +10,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   endIcon?: ReactNode;
   isLoading?: boolean;
   fullWidth?: boolean;
+  as?: React.ElementType;
+  to?: string;
+  href?: string;
+  label?: string;
 }
 
 const spin = keyframes`
@@ -142,6 +146,7 @@ export const Button = styled.button<ButtonProps>`
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  text-decoration: none;
 
   /* Full Width Prop */
   width: ${(props) => (props.fullWidth ? "100%" : "auto")};

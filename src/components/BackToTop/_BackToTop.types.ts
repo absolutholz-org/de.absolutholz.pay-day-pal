@@ -1,3 +1,3 @@
 export interface BackToTopProps {
-  label?: string;
+  label: string;
 }

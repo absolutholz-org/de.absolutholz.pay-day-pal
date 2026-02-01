@@ -5,12 +5,15 @@ import { Link } from "react-router-dom";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
+import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
 import { Period } from "../types";
 import { formatDate } from "../utils";
+import { Button } from "../components/Button";
 
 export default function PeriodSelectionScreen() {
   const { getPastPeriods } = useData();
+  const { t } = useLocalization();
   const [periods, setPeriods] = useState<Period[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,9 +29,13 @@ export default function PeriodSelectionScreen() {
       <PageHeader
         title="History"
         slotLead={
-          <Link to="/settings">
-            <ArrowLeft size={24} />
-          </Link>
+          <Button
+            as={Link}
+            to="/settings"
+            variant="text"
+            label={t.backToSettings}
+            startIcon={<ArrowLeft size={24} aria-hidden="true" />}
+          />
         }
       />
       <PageContainer>

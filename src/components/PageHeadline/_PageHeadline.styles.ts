@@ -24,5 +24,5 @@ export const PageHeadline = styled.h1`
   color: transparent;
   font-size: 1.875rem;
   font-weight: 700;
-  margin: 0;
+  margin-block: 0;
 `;

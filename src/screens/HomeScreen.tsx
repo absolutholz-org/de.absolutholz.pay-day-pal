@@ -23,6 +23,7 @@ import { formatDateKey } from "../utils";
 import { ChoreCardList } from "../components/ChoreCardList";
 import { BalanceDisplay } from "../components/BalanceDisplay";
 import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
+import { Button } from "../components/Button";
 
 interface HomeScreenProps {
   household: Household;
@@ -192,9 +193,13 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
         title={householdData.name}
         slotMain={<Subtitle>{t.trackChores}</Subtitle>}
         slotTrail={
-          <Link to="/settings">
-            <Settings size={24} />
-          </Link>
+          <Button
+            as={Link}
+            to="/settings"
+            variant="text"
+            label={t.settings}
+            startIcon={<Settings size={24} aria-hidden="true" />}
+          />
         }
       />
       <PageContainer>

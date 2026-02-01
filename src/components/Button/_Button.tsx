@@ -11,6 +11,7 @@ export const Button = ({
   isLoading = false,
   disabled = false,
   fullWidth = false,
+  label,
   ...props
 }: ButtonProps) => {
   return (
@@ -20,11 +21,13 @@ export const Button = ({
       size={size}
       fullWidth={fullWidth}
       disabled={disabled || isLoading}
+      aria-label={label}
+      title={label}
       {...props}
     >
       {isLoading && <S.Spinner />}
       {!isLoading && startIcon}
-      <span>{children}</span>
+      {children && <span>{children}</span>}
       {!isLoading && endIcon}
     </S.Button>
   );

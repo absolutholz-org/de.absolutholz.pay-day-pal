@@ -36,7 +36,10 @@ export type TranslationKey =
   | "today"
   | "increase"
   | "decrease"
-  | "addMember";
+  | "addMember"
+  | "backToHome"
+  | "backToSettings"
+  | "backToHistory";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
@@ -77,6 +80,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     increase: "Increase count",
     decrease: "Decrease count",
     addMember: "Add Member",
+    backToHome: "Back to Home",
+    backToSettings: "Back to Settings",
+    backToHistory: "Back to History",
   },
   de: {
     settings: "Einstellungen",
@@ -118,6 +124,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     increase: "Anzahl erhöhen",
     decrease: "Anzahl verringern",
     addMember: "Mitglied hinzufügen",
+    backToHome: "Zurück zur Startseite",
+    backToSettings: "Zurück zu Einstellungen",
+    backToHistory: "Zurück zum Verlauf",
   },
   fr: {
     settings: "Paramètres",
@@ -159,6 +168,9 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     increase: "Augmenter",
     decrease: "Diminuer",
     addMember: "Ajouter un membre",
+    backToHome: "Retour à l'accueil",
+    backToSettings: "Retour aux paramètres",
+    backToHistory: "Retour à l'historique",
   },
   pt: {
     settings: "Configurações",
@@ -200,5 +212,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     increase: "Aumentar",
     decrease: "Diminuir",
     addMember: "Adicionar Membro",
+    backToHome: "Voltar para o Início",
+    backToSettings: "Voltar para Configurações",
+    backToHistory: "Voltar para o Histórico",
   },
 };

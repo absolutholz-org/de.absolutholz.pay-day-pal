@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Button } from "../Button";
 
 export const BackToTop = styled.div`
   position: fixed;
@@ -8,7 +9,7 @@ export const BackToTop = styled.div`
   container-type: size;
 `;
 
-export const BackToTop_Anchor = styled.a`
+export const BackToTop_Anchor = styled(Button)`
   position: absolute;
   bottom: 2rem;
   right: 2rem;
@@ -33,7 +34,9 @@ export const BackToTop_Anchor = styled.a`
   animation-timeline: scroll();
   animation-range: 0 100px;
 
-  transition: background-color 0.2s, transform 0.2s;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
 
   &:hover {
     background-color: #2980b9;

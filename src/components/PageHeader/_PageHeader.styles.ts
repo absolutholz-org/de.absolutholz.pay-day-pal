@@ -3,19 +3,19 @@ import { PageHeadline } from "../PageHeadline";
 
 export const PageHeader = styled.header`
   > * {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
     align-items: center;
+    display: flex;
     gap: 1rem;
   }
 `;
 
 export const PageHeader_Column_Lead = styled.div``;
 
-export const PageHeader_Column_Main = styled.div``;
+export const PageHeader_Column_Main = styled.div`
+  flex-grow: 1;
+`;
 
 export const PageHeader_Column_Trail = styled.div``;
 
-export const PageHeader_Headline = styled(PageHeadline)`
-  margin-block: 0 0.5rem;
-`;
+export const PageHeader_MainHeadline = styled(PageHeadline)``;
+export const PageHeader_MainAdditional = styled.div``;

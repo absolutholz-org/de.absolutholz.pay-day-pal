@@ -11,12 +11,20 @@ export function PageHeader({
   return (
     <S.PageHeader>
       <PageContainer>
-        <S.PageHeader_Column_Lead>{slotLead}</S.PageHeader_Column_Lead>
+        {slotLead && (
+          <S.PageHeader_Column_Lead>{slotLead}</S.PageHeader_Column_Lead>
+        )}
         <S.PageHeader_Column_Main>
-          <S.PageHeader_Headline>{title}</S.PageHeader_Headline>
-          {slotMain}
+          <S.PageHeader_MainHeadline>{title}</S.PageHeader_MainHeadline>
+          {slotMain && (
+            <S.PageHeader_MainAdditional>
+              {slotMain}
+            </S.PageHeader_MainAdditional>
+          )}
         </S.PageHeader_Column_Main>
-        <S.PageHeader_Column_Trail>{slotTrail}</S.PageHeader_Column_Trail>
+        {slotTrail && (
+          <S.PageHeader_Column_Trail>{slotTrail}</S.PageHeader_Column_Trail>
+        )}
       </PageContainer>
     </S.PageHeader>
   );

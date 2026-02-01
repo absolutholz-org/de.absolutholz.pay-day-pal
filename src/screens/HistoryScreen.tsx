@@ -5,15 +5,18 @@ import { Link, useParams } from "react-router-dom";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { Activity, useData } from "../context/DataContext";
+import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
 import { Period } from "../types";
 import { formatDate } from "../utils";
+import { Button } from "../components/Button";
 
 type GroupBy = "none" | "date" | "member" | "activity";
 
 export default function HistoryScreen() {
   const { periodId } = useParams<{ periodId: string }>();
   const { getPeriodActivities, currentHousehold } = useData();
+  const { t } = useLocalization();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [period, setPeriod] = useState<Period | null>(null);
   const [loading, setLoading] = useState(true);
@@ -109,9 +112,13 @@ export default function HistoryScreen() {
             : "History"
         }
         slotLead={
-          <Link to="/history">
-            <ArrowLeft size={24} />
-          </Link>
+          <Button
+            as={Link}
+            to="/history"
+            variant="text"
+            label={t.backToHistory}
+            startIcon={<ArrowLeft size={24} aria-hidden="true" />}
+          />
         }
         slotTrail={
           <button
