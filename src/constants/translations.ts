@@ -4,7 +4,8 @@ export type TranslationKey =
   | "settings"
   | "appearance"
   | "household"
-  | "name"
+  | "householdName"
+  | "editHouseholdName"
   | "members"
   | "newMemberName"
   | "periodManagement"
@@ -47,7 +48,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     settings: "Settings",
     appearance: "Appearance",
     household: "Household",
-    name: "Name",
+    householdName: "Name",
+    editHouseholdName: "Edit household name",
     members: "Members",
     newMemberName: "New Member Name",
     periodManagement: "Period Management",
@@ -90,7 +92,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     settings: "Einstellungen",
     appearance: "Erscheinungsbild",
     household: "Haushalt",
-    name: "Name",
+    householdName: "Name",
+    editHouseholdName: "Haushaltnamen bearbeiten",
     members: "Mitglieder",
     newMemberName: "Neuer Name",
     periodManagement: "Zeitraumverwaltung",
@@ -135,7 +138,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     settings: "Paramètres",
     appearance: "Apparence",
     household: "Ménage",
-    name: "Nom",
+    householdName: "Nom",
+    editHouseholdName: "Modifier le nom du ménage",
     members: "Membres",
     newMemberName: "Nouveau nom",
     periodManagement: "Gestion de la période",
@@ -180,7 +184,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     settings: "Configurações",
     appearance: "Aparência",
     household: "Família",
-    name: "Nome",
+    householdName: "Nome",
+    editHouseholdName: "Editar nome da Família",
     members: "Membros",
     newMemberName: "Novo Nome",
     periodManagement: "Gestão de Período",

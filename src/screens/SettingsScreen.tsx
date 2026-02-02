@@ -1,9 +1,9 @@
 import { ArrowLeft, Euro, History } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Link } from "react-router-dom";
 import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
-import { ConfirmationDialog } from "../components/ConfirmationDialog";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
 import { HouseholdMemberListEditor } from "../components/HouseholdMemberListEditor";
@@ -17,6 +17,8 @@ import { Language } from "../types";
 import { FormGroup } from "../globalStyles";
 import { Button } from "../components/Button";
 import { PageSection } from "../components/PageSection";
+import { DataDisplay } from "../components/DataDisplay";
+import { PromptDialog } from "../components/PromptDialog";
 
 export default function SettingsScreen({}) {
   const {
@@ -33,14 +35,10 @@ export default function SettingsScreen({}) {
 
   if (!household) return null;
 
-  const [settingsName, setSettingsName] = useState(household.name);
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [isPaydayDialogOpen, setIsPaydayDialogOpen] = useState(false);
+  const [isEditNameDialogOpen, setIsEditNameDialogOpen] = useState(false);
   const [startNewPeriod, setStartNewPeriod] = useState(true);
-
-  useEffect(() => {
-    setSettingsName(household.name);
-  }, [household.name]);
 
   return (
     <>
@@ -73,14 +71,14 @@ export default function SettingsScreen({}) {
         </PageSection>
 
         <PageSection headline={t.household}>
-          <FormGroup>
-            <Label>{t.name}</Label>
-            <Input
-              value={settingsName}
-              onChange={(e) => setSettingsName(e.target.value)}
-              onBlur={() => updateHouseholdName(settingsName)}
-            />
-          </FormGroup>
+          <DataDisplay
+            label={t.householdName}
+            data={household.name}
+            onEdit={() => {
+              setIsEditNameDialogOpen(true);
+            }}
+            editLabel={t.editHouseholdName}
+          />
           <FormGroup>
             <Label>{t.householdLanguage}</Label>
             <Select
@@ -136,7 +134,7 @@ export default function SettingsScreen({}) {
           </Button>
         </PageSection>
 
-        <ConfirmationDialog
+        <ConfirmDialog
           isOpen={showLeaveConfirm}
           title={t.leaveHouseholdConfirmTitle}
           message={t.leaveHouseholdConfirmMessage}
@@ -150,7 +148,7 @@ export default function SettingsScreen({}) {
           onCancel={() => setShowLeaveConfirm(false)}
         />
 
-        <ConfirmationDialog
+        <ConfirmDialog
           isOpen={isPaydayDialogOpen}
           title={t.paydayTitle}
           message={t.paydayMessage}
@@ -174,7 +172,21 @@ export default function SettingsScreen({}) {
               {t.startNewPeriod}
             </label>
           </div>
-        </ConfirmationDialog>
+        </ConfirmDialog>
+
+        <PromptDialog
+          isOpen={isEditNameDialogOpen}
+          title={t.editHouseholdName}
+          message={t.householdName}
+          defaultValue={household.name}
+          onConfirm={(value) => {
+            updateHouseholdName(value);
+            setIsEditNameDialogOpen(false);
+          }}
+          onCancel={() => setIsEditNameDialogOpen(false)}
+          confirmLabel={t.confirm}
+          cancelLabel={t.cancel}
+        />
       </PageContainer>
     </>
   );
