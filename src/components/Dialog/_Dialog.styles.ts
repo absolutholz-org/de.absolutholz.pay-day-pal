@@ -17,7 +17,7 @@ export const DialogBase = styled.dialog`
   padding: 0;
   margin: auto;
   background: transparent;
-  max-width: 100%;
+  max-width: calc(100% - 2rem);
 
   /* Positioning & Layering */
   &::backdrop {
@@ -57,22 +57,23 @@ export const DialogContainer = styled.div`
 `;
 
 export const Header = styled.div`
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
   background: linear-gradient(
     to right,
     rgba(88, 28, 135, 0.2),
     rgba(131, 24, 67, 0.2)
   ); /* purple/pink hint */
   border-bottom: 1px solid rgba(55, 65, 81, 0.7);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 20px 24px;
 `;
 
 export const Title = styled.h2`
-  margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
+  margin: 0;
 
   /* Gradient Text Effect */
   background: linear-gradient(

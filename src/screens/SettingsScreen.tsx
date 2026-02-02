@@ -38,6 +38,8 @@ export default function SettingsScreen({}) {
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const [isPaydayDialogOpen, setIsPaydayDialogOpen] = useState(false);
   const [isEditNameDialogOpen, setIsEditNameDialogOpen] = useState(false);
+  const [isEditLanguageDialogOpen, setIsEditLanguageDialogOpen] =
+    useState(false);
   const [startNewPeriod, setStartNewPeriod] = useState(true);
 
   return (
@@ -79,16 +81,15 @@ export default function SettingsScreen({}) {
             }}
             editLabel={t.editHouseholdName}
           />
-          <FormGroup>
-            <Label>{t.householdLanguage}</Label>
-            <Select
-              value={household.language}
-              onChange={(e) =>
-                updateHouseholdLanguage(e.target.value as Language)
-              }
-              options={SUPPORTED_LANGUAGES}
-            />
-          </FormGroup>
+          <DataDisplay
+            label={t.householdLanguage}
+            data={
+              SUPPORTED_LANGUAGES.find((l) => l.value === household.language)
+                ?.label || household.language
+            }
+            onEdit={() => setIsEditLanguageDialogOpen(true)}
+            editLabel={t.editHouseholdLanguage}
+          />
           <FormGroup>
             <Label>{t.members}</Label>
             <HouseholdMemberListEditor
@@ -184,6 +185,21 @@ export default function SettingsScreen({}) {
             setIsEditNameDialogOpen(false);
           }}
           onCancel={() => setIsEditNameDialogOpen(false)}
+          confirmLabel={t.confirm}
+          cancelLabel={t.cancel}
+        />
+
+        <PromptDialog
+          isOpen={isEditLanguageDialogOpen}
+          title={t.editHouseholdLanguage}
+          message={t.householdLanguage}
+          defaultValue={household.language}
+          options={SUPPORTED_LANGUAGES}
+          onConfirm={(value) => {
+            updateHouseholdLanguage(value as Language);
+            setIsEditLanguageDialogOpen(false);
+          }}
+          onCancel={() => setIsEditLanguageDialogOpen(false)}
           confirmLabel={t.confirm}
           cancelLabel={t.cancel}
         />

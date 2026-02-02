@@ -39,3 +39,17 @@ export const WithDefaultValue: Story = {
     confirmLabel: "Save",
   },
 };
+
+export const WithOptions: Story = {
+  args: {
+    isOpen: true,
+    title: "Select Option",
+    message: "Choose an option:",
+    defaultValue: "option2",
+    options: [
+      { value: "option1", label: "Option 1" },
+      { value: "option2", label: "Option 2" },
+      { value: "option3", label: "Option 3" },
+    ],
+  },
+};

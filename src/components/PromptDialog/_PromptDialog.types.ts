@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 export interface PromptDialogProps {
   isOpen: boolean;
-  title?: string;
+  title: string;
   message: ReactNode;
   defaultValue?: string;
   onConfirm: (value: string) => void;
@@ -10,4 +10,5 @@ export interface PromptDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   inputPlaceholder?: string;
+  options?: { value: string; label: string }[];
 }

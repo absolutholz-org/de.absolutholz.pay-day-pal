@@ -29,6 +29,7 @@ export type TranslationKey =
   | "language"
   | "appLanguage"
   | "householdLanguage"
+  | "editHouseholdLanguage"
   | "cancel"
   | "startNewPeriodDescription"
   | "system"
@@ -73,7 +74,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     totalEarned: "Total Earned",
     language: "Language",
     appLanguage: "App Language",
-    householdLanguage: "Household Language",
+    householdLanguage: "Language",
+    editHouseholdLanguage: "Edit language",
     cancel: "Cancel",
     startNewPeriodDescription: "Start a new period to track chores.",
     system: "System",
@@ -118,7 +120,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     totalEarned: "Gesamtverdienst",
     language: "Sprache",
     appLanguage: "App-Sprache",
-    householdLanguage: "Haushaltssprache",
+    householdLanguage: "Sprache",
+    editHouseholdLanguage: "Sprache bearbeiten",
     cancel: "Abbrechen",
     startNewPeriodDescription:
       "Starte einen neuen Zeitraum, um Aufgaben zu erfassen.",
@@ -164,7 +167,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     totalEarned: "Total gagné",
     language: "Langue",
     appLanguage: "Langue de l'application",
-    householdLanguage: "Langue du ménage",
+    householdLanguage: "Langue",
+    editHouseholdLanguage: "Modifier la langue",
     cancel: "Annuler",
     startNewPeriodDescription:
       "Commencez une nouvelle période pour suivre les corvées.",
@@ -210,7 +214,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     totalEarned: "Total Ganho",
     language: "Idioma",
     appLanguage: "Idioma do App",
-    householdLanguage: "Idioma da Família",
+    householdLanguage: "Idioma",
+    editHouseholdLanguage: "Editar idioma",
     cancel: "Cancelar",
     startNewPeriodDescription:
       "Inicie um novo período para acompanhar as tarefas.",

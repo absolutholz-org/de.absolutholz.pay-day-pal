@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import { Button } from "../Button";
 import { Dialog } from "../Dialog";
 import { Input } from "../Input";
+import { Select } from "../Select";
 import { PromptDialogProps } from "./_PromptDialog.types";
+import { VisuallyHidden } from "../VisuallyHidden";
 
 export function PromptDialog({
   isOpen,
@@ -15,6 +17,7 @@ export function PromptDialog({
   confirmLabel = "OK",
   cancelLabel = "Cancel",
   inputPlaceholder,
+  options,
 }: PromptDialogProps) {
   const [value, setValue] = useState(defaultValue);
 
@@ -28,7 +31,7 @@ export function PromptDialog({
     <Dialog
       isOpen={isOpen}
       onClose={onCancel}
-      title={title || ""}
+      title={title}
       footer={
         <>
           <Button variant="text" onClick={onCancel}>
@@ -38,15 +41,24 @@ export function PromptDialog({
         </>
       }
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div>{message}</div>
-        <Input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          placeholder={inputPlaceholder}
-          autoFocus
-        />
-      </div>
+      <label style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <VisuallyHidden>{message}</VisuallyHidden>
+        {options ? (
+          <Select
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            options={options}
+            autoFocus
+          />
+        ) : (
+          <Input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder={inputPlaceholder}
+            autoFocus
+          />
+        )}
+      </label>
     </Dialog>
   );
 }
