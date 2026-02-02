@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
 import { ConfirmDialog } from "../components/ConfirmDialog";
-import { Input } from "../components/Input";
 import { Label } from "../components/Label";
 import { HouseholdMemberListEditor } from "../components/HouseholdMemberListEditor";
 import { PageContainer } from "../components/PageContainer";
