@@ -16,6 +16,7 @@ import { Select } from "../components/Select";
 import { Language } from "../types";
 import { FormGroup } from "../globalStyles";
 import { Button } from "../components/Button";
+import { PageSection } from "../components/PageSection";
 
 export default function SettingsScreen({}) {
   const {
@@ -56,66 +57,67 @@ export default function SettingsScreen({}) {
         }
       />
       <PageContainer>
-        <h2>System</h2>
-        <FormGroup>
-          <Label>{t.appearance}</Label>
-          <ColorSchemeToggle />
-        </FormGroup>
-        <FormGroup>
-          <Label>{t.appLanguage}</Label>
-          <Select
-            value={language}
-            onChange={(e) => setLanguage(e.target.value as Language)}
-            options={SUPPORTED_LANGUAGES}
-          />
-        </FormGroup>
+        <PageSection headline={t.system}>
+          <FormGroup>
+            <Label>{t.appearance}</Label>
+            <ColorSchemeToggle />
+          </FormGroup>
+          <FormGroup>
+            <Label>{t.appLanguage}</Label>
+            <Select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as Language)}
+              options={SUPPORTED_LANGUAGES}
+            />
+          </FormGroup>
+        </PageSection>
 
-        <h2>{t.household}</h2>
-        <FormGroup>
-          <Label>{t.name}</Label>
-          <Input
-            value={settingsName}
-            onChange={(e) => setSettingsName(e.target.value)}
-            onBlur={() => updateHouseholdName(settingsName)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>{t.members}</Label>
-          <HouseholdMemberListEditor
-            members={household.members}
-            onAddMember={addMember}
-            onUpdateMember={updateMember}
-            onToggleMemberStatus={toggleMemberStatus}
-            labels={{
-              newMemberNamePlaceholder: t.newMemberName,
-              disableConfirm: `${t.disable} {name}?`,
-              addMember: t.addMember,
+        <PageSection headline={t.household}>
+          <FormGroup>
+            <Label>{t.name}</Label>
+            <Input
+              value={settingsName}
+              onChange={(e) => setSettingsName(e.target.value)}
+              onBlur={() => updateHouseholdName(settingsName)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>{t.householdLanguage}</Label>
+            <Select
+              value={household.language}
+              onChange={(e) =>
+                updateHouseholdLanguage(e.target.value as Language)
+              }
+              options={SUPPORTED_LANGUAGES}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label>{t.members}</Label>
+            <HouseholdMemberListEditor
+              members={household.members}
+              onAddMember={addMember}
+              onUpdateMember={updateMember}
+              onToggleMemberStatus={toggleMemberStatus}
+              labels={{
+                newMemberNamePlaceholder: t.newMemberName,
+                disableConfirm: `${t.disable} {name}?`,
+                addMember: t.addMember,
+              }}
+            />
+          </FormGroup>
+          <Button
+            variant="text"
+            color="danger"
+            onClick={() => {
+              setShowLeaveConfirm(true);
             }}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>{t.householdLanguage}</Label>
-          <Select
-            value={household.language}
-            onChange={(e) =>
-              updateHouseholdLanguage(e.target.value as Language)
-            }
-            options={SUPPORTED_LANGUAGES}
-          />
-        </FormGroup>
-        <Button
-          variant="text"
-          color="danger"
-          onClick={() => {
-            setShowLeaveConfirm(true);
-          }}
-          startIcon={<ArrowLeft size={20} aria-hidden="true" />}
-        >
-          {t.leaveHousehold}
-        </Button>
+            startIcon={<ArrowLeft size={20} aria-hidden="true" />}
+          >
+            {t.leaveHousehold}
+          </Button>
+        </PageSection>
 
-        <FormGroup>
-          <Label as="h2">{t.periodManagement}</Label>
+        <PageSection headline={t.periodManagement}>
           <Button
             as={Link}
             to="/history"
@@ -132,7 +134,7 @@ export default function SettingsScreen({}) {
           >
             {t.endPeriod}
           </Button>
-        </FormGroup>
+        </PageSection>
 
         <ConfirmationDialog
           isOpen={showLeaveConfirm}
