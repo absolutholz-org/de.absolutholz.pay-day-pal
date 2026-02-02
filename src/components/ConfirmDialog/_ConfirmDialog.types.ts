@@ -1,4 +1,4 @@
-export interface ConfirmationDialogProps {
+export interface ConfirmDialogProps {
   isOpen: boolean;
   title: string;
   message: string;
@@ -6,6 +6,6 @@ export interface ConfirmationDialogProps {
   cancelLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
-  variant?: 'primary' | 'danger';
+  variant?: "primary" | "danger";
   children?: React.ReactNode;
 }

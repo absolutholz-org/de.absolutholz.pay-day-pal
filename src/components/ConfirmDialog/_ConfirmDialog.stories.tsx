@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ConfirmationDialog } from "./_ConfirmationDialog";
+
+import { ConfirmDialog } from "./_ConfirmDialog";
 
 const meta = {
-  title: "Components/ConfirmationDialog",
-  component: ConfirmationDialog,
+  title: "Components/ConfirmDialog",
+  component: ConfirmDialog,
   parameters: {
     layout: "centered",
   },
@@ -19,7 +20,7 @@ const meta = {
     onConfirm: () => console.log("Confirmed"),
     onCancel: () => console.log("Cancelled"),
   },
-} satisfies Meta<typeof ConfirmationDialog>;
+} satisfies Meta<typeof ConfirmDialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
