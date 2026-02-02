@@ -10,9 +10,10 @@ export const BackToTop = styled.div`
 `;
 
 export const BackToTop_Anchor = styled(Button)`
+  bottom: 1rem;
+  pointer-events: auto;
   position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
+  right: 1rem;
 
   /* Hidden state */
   opacity: 0;
