@@ -5,9 +5,7 @@ import { DataDisplay } from "./_DataDisplay";
 const meta = {
   title: "Components/DataDisplay",
   component: DataDisplay,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof DataDisplay>;
 

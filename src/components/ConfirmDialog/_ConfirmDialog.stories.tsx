@@ -5,9 +5,7 @@ import { ConfirmDialog } from "./_ConfirmDialog";
 const meta = {
   title: "Components/ConfirmDialog",
   component: ConfirmDialog,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     variant: {

@@ -6,9 +6,7 @@ import { DataProvider } from "../../context/DataContext";
 const meta = {
   title: "Components/ColorSchemeToggle",
   component: ColorSchemeToggle,
-  parameters: {
-    layout: "centered",
-  },
+
   decorators: [
     (Story) => (
       <DataProvider>

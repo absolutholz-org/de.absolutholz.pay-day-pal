@@ -5,9 +5,7 @@ import { HistoryItem } from ".";
 const meta = {
   title: "Components/HistoryItem",
   component: HistoryItem,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     emoji: { control: "text" },

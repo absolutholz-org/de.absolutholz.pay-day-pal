@@ -6,9 +6,7 @@ import { HouseholdMemberSelector } from "./_HouseholdMemberSelector";
 const meta = {
   title: "Components/HouseholdMemberSelector",
   component: HouseholdMemberSelector,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     activeMemberId: { control: "text" },

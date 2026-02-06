@@ -5,9 +5,7 @@ import { Select } from ".";
 const meta = {
   title: "Components/Select",
   component: Select,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof Select>;
 

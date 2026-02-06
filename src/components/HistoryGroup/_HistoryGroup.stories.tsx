@@ -5,9 +5,7 @@ import { HistoryGroup } from ".";
 const meta = {
   title: "Components/HistoryGroup",
   component: HistoryGroup,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     emoji: { control: "text" },

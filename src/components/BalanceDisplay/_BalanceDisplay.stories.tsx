@@ -5,9 +5,7 @@ import { BalanceDisplay } from "./_BalanceDisplay";
 const meta = {
   title: "Components/BalanceDisplay",
   component: BalanceDisplay,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     total: { control: "number" },

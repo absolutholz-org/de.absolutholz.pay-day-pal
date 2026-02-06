@@ -5,9 +5,7 @@ import { DateCard } from "./_DateCard";
 const meta = {
   title: "Components/DateCard",
   component: DateCard,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     date: { control: "date" },

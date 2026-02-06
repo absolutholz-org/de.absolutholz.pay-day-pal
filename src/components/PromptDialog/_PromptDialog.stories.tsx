@@ -5,9 +5,7 @@ import { PromptDialog } from "./_PromptDialog";
 const meta = {
   title: "Components/PromptDialog",
   component: PromptDialog,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     message: { control: "text" },

@@ -5,9 +5,7 @@ import { PageHeadline } from ".";
 const meta = {
   title: "Components/PageHeadline",
   component: PageHeadline,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof PageHeadline>;
 

@@ -5,9 +5,7 @@ import { HouseholdMemberEditorRow } from "./_HouseholdMemberEditorRow";
 const meta = {
   title: "Components/HouseholdMemberEditorRow",
   component: HouseholdMemberEditorRow,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof HouseholdMemberEditorRow>;
 

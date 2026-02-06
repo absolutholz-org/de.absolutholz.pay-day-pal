@@ -6,9 +6,7 @@ import { HouseholdMemberListEditor } from "./_HouseholdMemberListEditor";
 const meta = {
   title: "Components/HouseholdMemberListEditor",
   component: HouseholdMemberListEditor,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof HouseholdMemberListEditor>;
 

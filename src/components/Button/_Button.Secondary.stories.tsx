@@ -5,9 +5,7 @@ import { Button } from "./_Button";
 const meta = {
   title: "Components/Button/Outlined",
   component: Button,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     size: {

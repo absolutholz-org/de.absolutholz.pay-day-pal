@@ -6,9 +6,7 @@ import { ConfettiBurst } from "./_ConfettiBurst";
 const meta = {
   title: "Components/ConfettiBurst",
   component: ConfettiBurst,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
 } satisfies Meta<typeof ConfettiBurst>;
 

@@ -6,9 +6,7 @@ import { HouseholdMemberPill } from "./_HouseholdMemberPill";
 const meta = {
   title: "Components/HouseholdMemberPill",
   component: HouseholdMemberPill,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     emoji: { control: "text" },
