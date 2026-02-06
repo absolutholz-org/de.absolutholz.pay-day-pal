@@ -5,9 +5,7 @@ import { Dialog } from "./_Dialog";
 const meta = {
   title: "Components/Dialog",
   component: Dialog,
-  parameters: {
-    layout: "centered",
-  },
+
   tags: ["autodocs"],
   argTypes: {
     children: { control: "text" },
