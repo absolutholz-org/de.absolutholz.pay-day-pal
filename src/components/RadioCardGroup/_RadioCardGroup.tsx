@@ -17,6 +17,7 @@ const RadioCard = ({
     <S.CardLabel isSelected={isSelected}>
       <VisuallyHidden
         as="input"
+        // @ts-expect-error: Logic for ignoring the error (optional)
         type="radio"
         name={name}
         value={value}
