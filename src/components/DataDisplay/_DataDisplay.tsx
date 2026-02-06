@@ -13,20 +13,19 @@ export function DataDisplay({
   return (
     <S.DataDisplay>
       <S.DataDisplay_Label>{label}:</S.DataDisplay_Label>
-      <S.DataDisplay_Data>
-        {data}
-        {onEdit && (
+      <S.DataDisplay_Data>{data}</S.DataDisplay_Data>
+      {onEdit && (
+        <span>
           <Button
             variant="text"
-            color="secondary"
             onClick={onEdit}
             title={editLabel}
             aria-label={editLabel}
-            startIcon={<Pencil size={14} aria-hidden="true" />}
+            startIcon={<Pencil size={16} aria-hidden="true" />}
             size="small"
           />
-        )}
-      </S.DataDisplay_Data>
+        </span>
+      )}
     </S.DataDisplay>
   );
 }

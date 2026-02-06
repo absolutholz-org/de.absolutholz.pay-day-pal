@@ -18,6 +18,7 @@ import { PageSection } from "../components/PageSection";
 import { DataDisplay } from "../components/DataDisplay";
 import { PromptDialog } from "../components/PromptDialog";
 import { LanguageSelector } from "../components/LanguageSelector";
+import { FrostedGlassSection } from "../components/FrostedGlassSection";
 
 export default function SettingsScreen({}) {
   const {
@@ -57,30 +58,38 @@ export default function SettingsScreen({}) {
       />
       <PageContainer>
         <PageSection headline={t.system}>
-          <ColorSchemeToggle />
-          <LanguageSelector />
+          <FrostedGlassSection headline={t.appearance}>
+            <ColorSchemeToggle />
+          </FrostedGlassSection>
+
+          <FrostedGlassSection headline={t.appLanguage}>
+            <LanguageSelector />
+          </FrostedGlassSection>
         </PageSection>
 
         <PageSection headline={t.household}>
-          <DataDisplay
-            label={t.householdName}
-            data={household.name}
-            onEdit={() => {
-              setIsEditNameDialogOpen(true);
-            }}
-            editLabel={t.editHouseholdName}
-          />
-          <DataDisplay
-            label={t.householdLanguage}
-            data={
-              SUPPORTED_LANGUAGES.find((l) => l.value === household.language)
-                ?.label || household.language
-            }
-            onEdit={() => setIsEditLanguageDialogOpen(true)}
-            editLabel={t.editHouseholdLanguage}
-          />
-          <FormGroup>
-            <Label>{t.members}</Label>
+          <FrostedGlassSection headline="Properties">
+            <DataDisplay
+              label={t.householdName}
+              data={household.name}
+              onEdit={() => {
+                setIsEditNameDialogOpen(true);
+              }}
+              editLabel={t.editHouseholdName}
+            />
+
+            <DataDisplay
+              label={t.householdLanguage}
+              data={
+                SUPPORTED_LANGUAGES.find((l) => l.value === household.language)
+                  ?.label || household.language
+              }
+              onEdit={() => setIsEditLanguageDialogOpen(true)}
+              editLabel={t.editHouseholdLanguage}
+            />
+          </FrostedGlassSection>
+
+          <FrostedGlassSection headline={t.members}>
             <HouseholdMemberListEditor
               members={household.members}
               onAddMember={addMember}
@@ -92,17 +101,17 @@ export default function SettingsScreen({}) {
                 addMember: t.addMember,
               }}
             />
-          </FormGroup>
-          <Button
-            variant="text"
-            color="danger"
-            onClick={() => {
-              setShowLeaveConfirm(true);
-            }}
-            startIcon={<ArrowLeft size={20} aria-hidden="true" />}
-          >
-            {t.leaveHousehold}
-          </Button>
+            <Button
+              variant="text"
+              color="danger"
+              onClick={() => {
+                setShowLeaveConfirm(true);
+              }}
+              startIcon={<ArrowLeft size={20} aria-hidden="true" />}
+            >
+              {t.leaveHousehold}
+            </Button>
+          </FrostedGlassSection>
         </PageSection>
 
         <PageSection headline={t.periodManagement}>

@@ -37,27 +37,22 @@ const RadioCard = ({
 };
 
 export const RadioCardGroup = ({
-  label,
   options,
   selectedValue,
   onChange,
   name,
 }: RadioCardGroupProps) => {
   return (
-    <S.Section role="radiogroup" aria-labelledby={`${name}-label`}>
-      <S.LabelTitle id={`${name}-label`}>{label}</S.LabelTitle>
-
-      <S.Grid>
-        {options.map((option) => (
-          <RadioCard
-            key={option.value}
-            name={name}
-            {...option}
-            isSelected={selectedValue === option.value}
-            onChange={onChange}
-          />
-        ))}
-      </S.Grid>
-    </S.Section>
+    <S.Grid>
+      {options.map((option) => (
+        <RadioCard
+          key={option.value}
+          name={name}
+          {...option}
+          isSelected={selectedValue === option.value}
+          onChange={onChange}
+        />
+      ))}
+    </S.Grid>
   );
 };

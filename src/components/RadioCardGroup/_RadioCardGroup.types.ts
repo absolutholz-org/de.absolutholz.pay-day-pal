@@ -13,7 +13,6 @@ export interface RadioCardProps extends RadioOption {
 }
 
 export interface RadioCardGroupProps {
-  label: string;
   options: RadioOption[];
   selectedValue: string;
   onChange: (value: string) => void;

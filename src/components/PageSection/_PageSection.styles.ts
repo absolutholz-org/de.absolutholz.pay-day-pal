@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const PageSection = styled.section`
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 `;
 

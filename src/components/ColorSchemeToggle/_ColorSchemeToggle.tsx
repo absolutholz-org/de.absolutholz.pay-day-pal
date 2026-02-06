@@ -45,7 +45,6 @@ export function ColorSchemeToggle() {
 
   return (
     <RadioCardGroup
-      label={t.appearance}
       options={SCHEMES}
       name="appScheme"
       selectedValue={scheme}
