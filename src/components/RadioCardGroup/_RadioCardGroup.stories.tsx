@@ -61,7 +61,6 @@ const mockOptions = [
 
 export const Default: Story = {
   args: {
-    label: "Select a Card",
     name: "card-group",
     options: mockOptions,
     selectedValue: "1",
