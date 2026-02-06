@@ -8,8 +8,8 @@ import type {
 export const SUPPORTED_LANGUAGES: LanguageExpanded[] = [
   { value: "en", label: "English", emoji: "🇺🇸" },
   { value: "de", label: "Deutsch", emoji: "🇩🇪" },
-  { value: "fr", label: "Français", emoji: "🇧🇷" },
-  { value: "pt", label: "Português", emoji: "🇫🇷" },
+  { value: "pt", label: "Português", emoji: "🇧🇷" },
+  { value: "fr", label: "Français", emoji: "🇫🇷" },
 ];
 
 export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
