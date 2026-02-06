@@ -3,11 +3,63 @@ import { css } from "@emotion/react";
 
 import { colorSchemeCss } from "./_colorSchemeCss";
 
+const lightTokens = `
+  /* BASE COLORS */
+  --bg-main:       oklch(98.5% 0.002 265);  /* Slate 50 */
+  --text-main:     oklch(20.5% 0.042 265);  /* Slate 900 */
+  --text-sub:      oklch(55.0% 0.025 265);  /* Slate 500 */
+  
+  --card-bg:       oklch(100% 0 0);         /* White */
+  --card-border:   oklch(92.0% 0.006 265);  /* Slate 200 */
+  
+  --accent:        oklch(62.7% 0.265 300);  /* Purple 500 */
+  
+  /* Helper for Section */
+  --section-bg:    oklch(100% 0 0);
+  --section-border: oklch(98.5% 0.002 265);
+`;
+
+const darkTokens = `
+  /* BASE COLORS (Dark Scheme) */ 
+  --bg-main:       oklch(20.5% 0.042 265);  /* Slate 900 */
+  --text-main:     oklch(98.0% 0 0);        /* White */
+  --text-sub:      oklch(70.0% 0.030 265);  /* Slate 400 */
+  
+  --card-bg:       oklch(27.5% 0.045 265);  /* Slate 800 */
+  --card-border:   oklch(35.0% 0.050 265);  /* Slate 700 */
+  
+  /* We slightly adjust accent lightness for dark mode contrast if needed, 
+     but often the same color works if chosen well. */
+  --accent:        oklch(65.0% 0.250 300);
+  
+  /* Helper for Section */
+  --section-bg:    oklch(20.5% 0.042 265 / 0.5);
+  --section-border: oklch(27.5% 0.045 265);
+`;
+
 export const globalStyles = css`
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+
+  :root {
+    ${lightTokens}
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      ${darkTokens}
+    }
+  }
+
+  [data-color-scheme="light"] {
+    ${lightTokens}
+  }
+
+  [data-color-scheme="dark"] {
+    ${darkTokens}
   }
 
   :root {

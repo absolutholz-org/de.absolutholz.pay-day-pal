@@ -1,4 +1,10 @@
 export type Language = "en" | "de" | "fr" | "pt";
+export type LanguageExpanded = {
+  value: Language;
+  label: string;
+  emoji: string;
+};
+
 export type Currency = "USD" | "EUR";
 
 export const ACCENT_COLORS = [
@@ -36,7 +42,6 @@ export type ChoreCategory = {
   id: ChoreCategoryId;
   labels: Record<Language, string>;
   color: AccentColor;
-  icon: React.ElementType;
   emoji: string;
 };
 

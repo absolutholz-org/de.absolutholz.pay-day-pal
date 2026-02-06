@@ -1,18 +1,21 @@
-import { Bed, Sofa, Utensils, Trees, Bath, Shirt, Home } from "lucide-react";
-import { Chore, ChoreCategory, ChoreCategoryId } from "./types";
+import type {
+  Chore,
+  ChoreCategory,
+  ChoreCategoryId,
+  LanguageExpanded,
+} from "./types";
 
-export const SUPPORTED_LANGUAGES = [
-  { value: "en", label: "English" },
-  { value: "de", label: "Deutsch" },
-  { value: "fr", label: "Français" },
-  { value: "pt", label: "Português" },
+export const SUPPORTED_LANGUAGES: LanguageExpanded[] = [
+  { value: "en", label: "English", emoji: "🇺🇸" },
+  { value: "de", label: "Deutsch", emoji: "🇩🇪" },
+  { value: "fr", label: "Français", emoji: "🇧🇷" },
+  { value: "pt", label: "Português", emoji: "🇫🇷" },
 ];
 
 export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   bedroom: {
     id: "bedroom",
     color: "yellow",
-    icon: Bed,
     emoji: "🛏️",
     labels: {
       en: "Bedroom",
@@ -24,7 +27,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   "living-room": {
     id: "living-room",
     color: "purple",
-    icon: Sofa,
     emoji: "🛋️",
     labels: {
       en: "Living Room",
@@ -36,7 +38,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   kitchen: {
     id: "kitchen",
     color: "green",
-    icon: Utensils,
     emoji: "🍽️",
     labels: {
       en: "Kitchen",
@@ -48,7 +49,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   bathroom: {
     id: "bathroom",
     color: "orange",
-    icon: Bath,
     emoji: "🛁",
     labels: {
       en: "Bathroom",
@@ -60,7 +60,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   outside: {
     id: "outside",
     color: "green",
-    icon: Trees,
     emoji: "🌳",
     labels: {
       en: "Outside",
@@ -72,7 +71,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   laundry: {
     id: "laundry",
     color: "blue",
-    icon: Shirt,
     emoji: "👕",
     labels: {
       en: "Laundry",
@@ -84,7 +82,6 @@ export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
   household: {
     id: "household",
     color: "pink",
-    icon: Home,
     emoji: "🏠",
     labels: {
       en: "Household",

@@ -11,13 +11,13 @@ import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import { SUPPORTED_LANGUAGES } from "../constants";
-import { Select } from "../components/Select";
 import { Language } from "../types";
 import { FormGroup } from "../globalStyles";
 import { Button } from "../components/Button";
 import { PageSection } from "../components/PageSection";
 import { DataDisplay } from "../components/DataDisplay";
 import { PromptDialog } from "../components/PromptDialog";
+import { LanguageSelector } from "../components/LanguageSelector";
 
 export default function SettingsScreen({}) {
   const {
@@ -30,7 +30,7 @@ export default function SettingsScreen({}) {
     leaveHousehold,
     finishPeriod,
   } = useData();
-  const { t, language, setLanguage } = useLocalization();
+  const { t } = useLocalization();
 
   if (!household) return null;
 
@@ -57,18 +57,8 @@ export default function SettingsScreen({}) {
       />
       <PageContainer>
         <PageSection headline={t.system}>
-          <FormGroup>
-            <Label>{t.appearance}</Label>
-            <ColorSchemeToggle />
-          </FormGroup>
-          <FormGroup>
-            <Label>{t.appLanguage}</Label>
-            <Select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as Language)}
-              options={SUPPORTED_LANGUAGES}
-            />
-          </FormGroup>
+          <ColorSchemeToggle />
+          <LanguageSelector />
         </PageSection>
 
         <PageSection headline={t.household}>

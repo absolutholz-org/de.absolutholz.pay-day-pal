@@ -65,6 +65,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    layout: "padded", // Options: 'centered', 'fullscreen', 'padded'
   },
 };
 
