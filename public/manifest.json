@@ -1,6 +1,6 @@
 {
     "name": "Payday Pal",
-    "short_name": "PaydayPal",
+    "short_name": "Payday Pal",
     "id": "de.absolutholz.paydaypal",
     "start_url": "/",
     "display": "standalone",

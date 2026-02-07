@@ -29,6 +29,7 @@ import {
 import { formatDateKey } from "../../utils";
 import { DataContext } from "./_context";
 import { Activity } from "./_types";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -44,6 +45,8 @@ const db = initializeFirestore(app, {
   localCache: persistentLocalCache(),
 });
 
+const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
+
 const toDate = (t: any) => (t?.toDate ? t.toDate() : t);
 
 export function DataProvider({ children }: { children: ReactNode }) {
@@ -53,12 +56,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const selectHousehold = (household: Household) => {
     setCurrentHousehold(household);
-    localStorage.setItem("paydayPal_selectedHouseholdId", household.id);
+    localStorage.setItem(LOCAL_STORAGE_KEY, household.id);
   };
 
   const leaveHousehold = () => {
     setCurrentHousehold(null);
-    localStorage.removeItem("paydayPal_selectedHouseholdId");
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
   const updateHouseholdName = async (name: string) => {

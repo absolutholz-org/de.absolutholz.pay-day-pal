@@ -25,6 +25,7 @@ import { BalanceDisplay } from "../components/BalanceDisplay";
 import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
 import { Button } from "../components/Button";
 import { BackToTop } from "../components/BackToTop";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
 
 interface HomeScreenProps {
   household: Household;
@@ -89,7 +90,9 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
   }, [household.id, db]);
 
   const [activeChild, setActiveChild] = useState<string>(() => {
-    const saved = localStorage.getItem(`paydayPal_activeChild_${household.id}`);
+    const saved = localStorage.getItem(
+      `${LOCAL_STORAGE_KEY_PREFIX}activeChild_${household.id}`,
+    );
     const savedMember = household.members.find((c) => c.id === saved);
     if (savedMember && !savedMember.disabled) {
       return savedMember.id;
@@ -132,7 +135,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 
   useEffect(() => {
     localStorage.setItem(
-      `paydayPal_activeChild_${householdData.id}`,
+      `${LOCAL_STORAGE_KEY_PREFIX}activeChild_${householdData.id}`,
       activeChild,
     );
   }, [activeChild, householdData.id]);

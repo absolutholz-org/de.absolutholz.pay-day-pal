@@ -9,6 +9,9 @@ import {
 import { TRANSLATIONS, TranslationKey } from "../constants/translations";
 import type { Language } from "../types";
 import { useData } from "./DataContext";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
+
+const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}language`;
 
 interface LocalizationContextType {
   t: Record<TranslationKey, string>;
@@ -24,7 +27,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   const { currentHousehold } = useData();
 
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem("paydayPal_language");
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
       return saved as Language;
     }
@@ -32,7 +35,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
-    const saved = localStorage.getItem("paydayPal_language");
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (!saved && currentHousehold?.language) {
       setLanguageState(currentHousehold.language);
     }
@@ -40,7 +43,7 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
 
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);
-    localStorage.setItem("paydayPal_language", newLanguage);
+    localStorage.setItem(LOCAL_STORAGE_KEY, newLanguage);
   };
 
   const value = useMemo(() => {

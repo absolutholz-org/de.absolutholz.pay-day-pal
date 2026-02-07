@@ -6,6 +6,8 @@ import type {
   LanguageExpanded,
 } from "./types";
 
+export const LOCAL_STORAGE_KEY_PREFIX = "paydayPal_";
+
 export const SUPPORTED_LANGUAGES: LanguageExpanded[] = [
   { value: "en", label: "English", emoji: "🇺🇸" },
   { value: "de", label: "Deutsch", emoji: "🇩🇪" },

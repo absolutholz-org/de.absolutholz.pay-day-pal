@@ -27,6 +27,7 @@ import {
 } from "../../types";
 import { formatDateKey } from "../../utils";
 import { Activity, DataContext } from "./context";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -36,6 +37,8 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
+const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
 
 const app = initializeApp(firebaseConfig);
 const db = initializeFirestore(app, {
@@ -51,12 +54,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
   const selectHousehold = (household: Household) => {
     setCurrentHousehold(household);
-    localStorage.setItem("payDayPal_selectedHouseholdId", household.id);
+    localStorage.setItem(LOCAL_STORAGE_KEY, household.id);
   };
 
   const leaveHousehold = () => {
     setCurrentHousehold(null);
-    localStorage.removeItem("payDayPal_selectedHouseholdId");
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
   };
 
   const updateHouseholdName = async (name: string) => {

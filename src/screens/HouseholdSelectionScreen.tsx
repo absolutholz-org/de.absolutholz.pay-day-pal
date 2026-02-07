@@ -6,7 +6,11 @@ import { Input } from "../components/Input";
 import { Label } from "../components/Label";
 import { Select } from "../components/Select";
 import { PageHeader } from "../components/PageHeader";
-import { DEFAULT_CHORES, SUPPORTED_LANGUAGES } from "../constants";
+import {
+  DEFAULT_CHORES,
+  LOCAL_STORAGE_KEY_PREFIX,
+  SUPPORTED_LANGUAGES,
+} from "../constants";
 import {
   Card,
   CardMeta,
@@ -18,6 +22,8 @@ import {
 } from "../globalStyles";
 import { AccentColor, Household, Language } from "../types";
 import { Button } from "../components/Button";
+
+const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
 
 export default function HouseholdSelectionScreen({
   onSelectHousehold,
@@ -53,7 +59,7 @@ export default function HouseholdSelectionScreen({
           setHouseholds(loadedHouseholds);
 
           // Auto-select if saved in local storage
-          const savedId = localStorage.getItem("paydayPal_selectedHouseholdId");
+          const savedId = localStorage.getItem(LOCAL_STORAGE_KEY);
           if (savedId) {
             const found = loadedHouseholds.find((h) => h.id === savedId);
             if (found) {
