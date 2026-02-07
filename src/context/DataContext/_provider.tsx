@@ -20,13 +20,15 @@ import {
   AccentColor,
   ActivityRecord,
   ChoreData,
+  Currency,
   Household,
   HouseholdMember,
   Language,
   Period,
 } from "../../types";
 import { formatDateKey } from "../../utils";
-import { Activity, DataContext } from "./_context";
+import { DataContext } from "./_context";
+import { Activity } from "./_types";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -77,6 +79,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
         language,
       });
       setCurrentHousehold({ ...currentHousehold, language });
+    }
+  };
+
+  const updateHouseholdCurrency = async (currency: Currency) => {
+    if (!currentHousehold) return;
+    if (currency !== currentHousehold.currency) {
+      await updateDoc(doc(db, "households", currentHousehold.id), {
+        currency,
+      });
+      setCurrentHousehold({ ...currentHousehold, currency });
     }
   };
 
@@ -176,11 +188,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
       .filter((p) => p.endDate);
   };
 
-  const recordActivity = async (
+  const addActivityRecord = async (
     memberId: string,
     choreId: string,
     dateKey: string,
-    direction: "increment" | "decrement",
   ) => {
     if (!currentHousehold) return;
     const chore = currentHousehold.chores.find((c) => c.id === choreId);
@@ -194,44 +205,58 @@ export function DataProvider({ children }: { children: ReactNode }) {
       memberId,
     );
 
-    if (direction === "increment") {
-      await addDoc(
-        collection(db, "households", currentHousehold.id, "activity_records"),
-        {
-          memberId,
-          choreId,
-          date: dateKey,
-          createdAt: new Date(),
-          value: chore.value,
-          choreLabel:
-            chore.labels[currentHousehold.language] || chore.labels["en"],
-        },
-      );
-      await updateDoc(activityRef, {
-        [`${dateKey}_${choreId}`]: increment(1),
-      });
-    } else {
-      const recordsRef = collection(
-        db,
-        "households",
-        currentHousehold.id,
-        "activity_records",
-      );
-      const q = query(
-        recordsRef,
-        where("memberId", "==", memberId),
-        where("choreId", "==", choreId),
-        where("date", "==", dateKey),
-        limit(1),
-      );
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) {
-        await deleteDoc(snapshot.docs[0].ref);
-      }
-      await updateDoc(activityRef, {
-        [`${dateKey}_${choreId}`]: increment(-1),
-      });
+    await addDoc(
+      collection(db, "households", currentHousehold.id, "activity_records"),
+      {
+        memberId,
+        choreId,
+        date: dateKey,
+        createdAt: new Date(),
+        value: chore.value,
+        choreLabel:
+          chore.labels[currentHousehold.language] || chore.labels["en"],
+      },
+    );
+    await updateDoc(activityRef, {
+      [`${dateKey}_${choreId}`]: increment(1),
+    });
+  };
+
+  const removeActivityRecord = async (
+    memberId: string,
+    choreId: string,
+    dateKey: string,
+  ) => {
+    if (!currentHousehold) return;
+
+    const activityRef = doc(
+      db,
+      "households",
+      currentHousehold.id,
+      "activity",
+      memberId,
+    );
+
+    const recordsRef = collection(
+      db,
+      "households",
+      currentHousehold.id,
+      "activity_records",
+    );
+    const q = query(
+      recordsRef,
+      where("memberId", "==", memberId),
+      where("choreId", "==", choreId),
+      where("date", "==", dateKey),
+      limit(1),
+    );
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      await deleteDoc(snapshot.docs[0].ref);
     }
+    await updateDoc(activityRef, {
+      [`${dateKey}_${choreId}`]: increment(-1),
+    });
   };
 
   const getRecentActivities = async (limitCount = 50) => {
@@ -388,13 +413,15 @@ export function DataProvider({ children }: { children: ReactNode }) {
         leaveHousehold,
         updateHouseholdName,
         updateHouseholdLanguage,
+        updateHouseholdCurrency,
         addMember,
         toggleMemberStatus,
         updateMember,
         finishPeriod,
         getPastPeriods,
         getPeriodActivities,
-        recordActivity,
+        addActivityRecord,
+        removeActivityRecord,
         getRecentActivities,
       }}
     >

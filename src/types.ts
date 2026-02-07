@@ -6,6 +6,11 @@ export type LanguageExpanded = {
 };
 
 export type Currency = "USD" | "EUR";
+export type CurrencyExpanded = {
+  value: Currency;
+  label: string;
+  emoji: string;
+};
 
 export const ACCENT_COLORS = [
   "blue",

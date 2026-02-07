@@ -2,6 +2,7 @@ import type {
   Chore,
   ChoreCategory,
   ChoreCategoryId,
+  CurrencyExpanded,
   LanguageExpanded,
 } from "./types";
 
@@ -10,6 +11,11 @@ export const SUPPORTED_LANGUAGES: LanguageExpanded[] = [
   { value: "de", label: "Deutsch", emoji: "🇩🇪" },
   { value: "pt", label: "Português", emoji: "🇧🇷" },
   { value: "fr", label: "Français", emoji: "🇫🇷" },
+];
+
+export const SUPPORTED_CURRENCIES: CurrencyExpanded[] = [
+  { value: "EUR", label: "Euro", emoji: "💶" },
+  { value: "USD", label: "US Dollar", emoji: "💵" },
 ];
 
 export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {

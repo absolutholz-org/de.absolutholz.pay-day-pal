@@ -46,14 +46,9 @@ export const DialogContainer = styled.div`
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-  /* Dark Mode Theme Base */
-  background: linear-gradient(
-    to bottom right,
-    #1f2937,
-    #111827
-  ); /* dark:from-gray-800 dark:to-gray-900 */
-  border: 1px solid rgba(55, 65, 81, 0.5); /* dark:border-gray-700/50 */
-  color: #f3f4f6;
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  color: var(--text-sub);
 `;
 
 export const Header = styled.div`
@@ -90,7 +85,7 @@ export const CloseButton = styled.button`
   border: none;
   color: #9ca3af;
   cursor: pointer;
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -105,18 +100,18 @@ export const CloseButton = styled.button`
 `;
 
 export const Content = styled.div`
-  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1rem;
+  padding: 1.5rem;
 `;
 
 export const Footer = styled.div`
-  padding: 0 24px 24px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
   align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding: 0 1.5rem 1.5rem;
 `;
 
 // --- Reusable Buttons ---

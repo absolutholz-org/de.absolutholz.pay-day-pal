@@ -1,3 +1,2 @@
-export * from "./_context";
-export * from "./_hooks";
-export * from "./_provider";
+export { DataProvider } from "./_provider";
+export { useData } from "./_hooks";

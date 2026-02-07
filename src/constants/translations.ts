@@ -30,6 +30,8 @@ export type TranslationKey =
   | "appLanguage"
   | "householdLanguage"
   | "editHouseholdLanguage"
+  | "householdCurrency"
+  | "editHouseholdCurrency"
   | "cancel"
   | "startNewPeriodDescription"
   | "system"
@@ -76,6 +78,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     appLanguage: "App Language",
     householdLanguage: "Language",
     editHouseholdLanguage: "Edit language",
+    householdCurrency: "Currency",
+    editHouseholdCurrency: "Edit currency",
     cancel: "Cancel",
     startNewPeriodDescription: "Start a new period to track chores.",
     system: "System",
@@ -122,6 +126,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     appLanguage: "App-Sprache",
     householdLanguage: "Sprache",
     editHouseholdLanguage: "Sprache bearbeiten",
+    householdCurrency: "Währung",
+    editHouseholdCurrency: "Währung bearbeiten",
     cancel: "Abbrechen",
     startNewPeriodDescription:
       "Starte einen neuen Zeitraum, um Aufgaben zu erfassen.",
@@ -169,6 +175,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     appLanguage: "Langue de l'application",
     householdLanguage: "Langue",
     editHouseholdLanguage: "Modifier la langue",
+    householdCurrency: "Devise",
+    editHouseholdCurrency: "Modifier la devise",
     cancel: "Annuler",
     startNewPeriodDescription:
       "Commencez une nouvelle période pour suivre les corvées.",
@@ -216,6 +224,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
     appLanguage: "Idioma do App",
     householdLanguage: "Idioma",
     editHouseholdLanguage: "Editar idioma",
+    householdCurrency: "Moeda",
+    editHouseholdCurrency: "Editar moeda",
     cancel: "Cancelar",
     startNewPeriodDescription:
       "Inicie um novo período para acompanhar as tarefas.",

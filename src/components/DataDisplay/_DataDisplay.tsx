@@ -6,6 +6,7 @@ import { Button } from "../Button";
 
 export function DataDisplay({
   label,
+  icon,
   data,
   onEdit,
   editLabel,
@@ -13,6 +14,7 @@ export function DataDisplay({
   return (
     <S.DataDisplay>
       <S.DataDisplay_Label>{label}:</S.DataDisplay_Label>
+      {icon && <S.DataDisplay_Icon>{icon}</S.DataDisplay_Icon>}
       <S.DataDisplay_Data>{data}</S.DataDisplay_Data>
       {onEdit && (
         <span>

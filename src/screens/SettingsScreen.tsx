@@ -9,8 +9,8 @@ import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import { SUPPORTED_LANGUAGES } from "../constants";
-import { Language } from "../types";
+import { SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from "../constants";
+import type { Currency, Language } from "../types";
 import { Button } from "../components/Button";
 import { PageSection } from "../components/PageSection";
 import { DataDisplay } from "../components/DataDisplay";
@@ -23,6 +23,7 @@ export default function SettingsScreen({}) {
     currentHousehold: household,
     updateHouseholdName,
     updateHouseholdLanguage,
+    updateHouseholdCurrency,
     addMember,
     updateMember,
     toggleMemberStatus,
@@ -38,7 +39,16 @@ export default function SettingsScreen({}) {
   const [isEditNameDialogOpen, setIsEditNameDialogOpen] = useState(false);
   const [isEditLanguageDialogOpen, setIsEditLanguageDialogOpen] =
     useState(false);
+  const [isEditCurrencyDialogOpen, setIsEditCurrencyDialogOpen] =
+    useState(false);
   const [startNewPeriod, setStartNewPeriod] = useState(true);
+
+  const householdLanguage = SUPPORTED_LANGUAGES.find(
+    (l) => l.value === household.language,
+  );
+  const householdCurrency = SUPPORTED_CURRENCIES.find(
+    (c) => c.value === household.currency,
+  );
 
   return (
     <>
@@ -78,12 +88,18 @@ export default function SettingsScreen({}) {
 
             <DataDisplay
               label={t.householdLanguage}
-              data={
-                SUPPORTED_LANGUAGES.find((l) => l.value === household.language)
-                  ?.label || household.language
-              }
+              icon={householdLanguage?.emoji}
+              data={householdLanguage?.label || household.language}
               onEdit={() => setIsEditLanguageDialogOpen(true)}
               editLabel={t.editHouseholdLanguage}
+            />
+
+            <DataDisplay
+              label={t.householdCurrency}
+              icon={householdCurrency?.emoji}
+              data={householdCurrency?.label || household.currency}
+              onEdit={() => setIsEditCurrencyDialogOpen(true)}
+              editLabel={t.editHouseholdCurrency}
             />
           </FrostedGlassSection>
 
@@ -196,6 +212,21 @@ export default function SettingsScreen({}) {
             setIsEditLanguageDialogOpen(false);
           }}
           onCancel={() => setIsEditLanguageDialogOpen(false)}
+          confirmLabel={t.confirm}
+          cancelLabel={t.cancel}
+        />
+
+        <PromptDialog
+          isOpen={isEditCurrencyDialogOpen}
+          title={t.editHouseholdCurrency}
+          message={t.householdCurrency}
+          defaultValue={household.currency}
+          options={SUPPORTED_CURRENCIES}
+          onConfirm={(value) => {
+            updateHouseholdCurrency(value as Currency);
+            setIsEditCurrencyDialogOpen(false);
+          }}
+          onCancel={() => setIsEditCurrencyDialogOpen(false)}
           confirmLabel={t.confirm}
           cancelLabel={t.cancel}
         />

@@ -16,6 +16,11 @@ export const DataDisplay_Label = styled.span`
   font-weight: 500;
 `;
 
+export const DataDisplay_Icon = styled.span`
+  color: var(--on-surface-2);
+  font-size: 1.25rem;
+`;
+
 export const DataDisplay_Data = styled.span`
   color: var(--on-surface-2);
   font-size: 1rem;
