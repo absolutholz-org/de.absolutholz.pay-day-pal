@@ -17,6 +17,14 @@ const lightTokens = `
   /* Helper for Section */
   --section-bg:    oklch(100% 0 0);
   --section-border: oklch(98.5% 0.002 265);
+
+  /* Dialog Specifics */
+  --dialog-bg:        oklch(100% 0 0);
+  /* Tinted header for Light Mode (Subtle Purple) */
+  --dialog-header-bg: oklch(98% 0.01 300); 
+  --dialog-overlay:   oklch(20.5% 0.042 265 / 0.4);
+  --title-gradient:   linear-gradient(135deg, oklch(62.7% 0.265 300) 0%, oklch(65% 0.25 340) 100%);
+  --close-btn-hover:  oklch(96% 0.01 265); 
 `;
 
 const darkTokens = `
@@ -35,6 +43,14 @@ const darkTokens = `
   /* Helper for Section */
   --section-bg:    oklch(20.5% 0.042 265 / 0.5);
   --section-border: oklch(27.5% 0.045 265);
+
+  /* Dialog Specifics */
+  --dialog-bg:        oklch(25% 0.045 265);
+  /* Tinted header for Dark Mode (Dark Purple/Slate mix) */
+  --dialog-header-bg: oklch(30% 0.06 300); 
+  --dialog-overlay:   oklch(10% 0.042 265 / 0.7);
+  --title-gradient:   linear-gradient(135deg, oklch(70% 0.265 300) 0%, oklch(75% 0.2 340) 100%);
+  --close-btn-hover:  oklch(35% 0.05 265);
 `;
 
 export const globalStyles = css`

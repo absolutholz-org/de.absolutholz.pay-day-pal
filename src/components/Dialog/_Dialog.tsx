@@ -39,16 +39,16 @@ export const Dialog = ({
       onClick={handleBackdropClick}
     >
       <S.DialogContainer onClick={(e) => e.stopPropagation()}>
-        <S.Header>
-          <S.Title>{title}</S.Title>
+        <S.DialogHeader>
+          <S.DialogTitle>{title}</S.DialogTitle>
           <S.CloseButton onClick={onClose} aria-label="Close modal">
             <X />
           </S.CloseButton>
-        </S.Header>
+        </S.DialogHeader>
 
-        <S.Content>{children}</S.Content>
+        <S.DialogContent>{children}</S.DialogContent>
 
-        {footer && <S.Footer>{footer}</S.Footer>}
+        {footer && <S.DialogFooter>{footer}</S.DialogFooter>}
       </S.DialogContainer>
     </S.DialogBase>
   );
