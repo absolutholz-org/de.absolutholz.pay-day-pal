@@ -49,3 +49,16 @@ A mobile-first web application designed to help households track chores and calc
     ```bash
     pnpm dev
     ```
+
+## Commit Messages & Versioning
+
+This project uses [semantic-release](https://github.com/semantic-release/semantic-release) to automatically release new versions based on commit messages. We follow the [Angular Commit Message Conventions](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
+
+To ensure the version is updated correctly, please format your commit messages as follows:
+
+- **Patch Release** (`v1.0.0` -> `v1.0.1`):
+  - `fix: ...` (e.g., `fix: correct typo in settings`)
+- **Minor Release** (`v1.0.0` -> `v1.1.0`):
+  - `feat: ...` (e.g., `feat: add new chore type`)
+- **Major Release** (`v1.0.0` -> `v2.0.0`):
+  - `feat!: ...`, `fix!: ...`, or include `BREAKING CHANGE:` in the footer.

@@ -16,14 +16,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: "Label",
-    data: "Data value",
+    children: "Data value",
   },
 };
 
 export const WithIcon: Story = {
   args: {
     label: "Currency",
-    data: "Euro",
+    children: "Euro",
     icon: "💶",
   },
 };
@@ -31,7 +31,7 @@ export const WithIcon: Story = {
 export const WithEditAction: Story = {
   args: {
     label: "Household Name",
-    data: "My Household",
+    children: "My Household",
     editLabel: "Edit Name",
     onEdit: () => {},
   },

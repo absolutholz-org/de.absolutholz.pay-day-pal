@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export interface DataDisplayProps {
   label: string;
   icon?: ReactNode;
-  data: string;
+  children: ReactNode;
   onEdit?: () => void;
   editLabel?: string;
 }

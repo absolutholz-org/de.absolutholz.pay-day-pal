@@ -2,6 +2,8 @@ import { Language } from "../types";
 
 export type TranslationKey =
   | "settings"
+  | "about"
+  | "appVersion"
   | "appearance"
   | "household"
   | "householdName"
@@ -49,6 +51,8 @@ export type TranslationKey =
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   en: {
     settings: "Settings",
+    about: "About",
+    appVersion: "App Version",
     appearance: "Appearance",
     household: "Household",
     householdName: "Name",
@@ -96,6 +100,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   },
   de: {
     settings: "Einstellungen",
+    about: "Über",
+    appVersion: "App-Version",
     appearance: "Erscheinungsbild",
     household: "Haushalt",
     householdName: "Name",
@@ -145,6 +151,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   },
   fr: {
     settings: "Paramètres",
+    about: "À propos",
+    appVersion: "Version de l'application",
     appearance: "Apparence",
     household: "Ménage",
     householdName: "Nom",
@@ -194,6 +202,8 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
   },
   pt: {
     settings: "Configurações",
+    about: "Sobre",
+    appVersion: "Versão do App",
     appearance: "Aparência",
     household: "Família",
     householdName: "Nome",

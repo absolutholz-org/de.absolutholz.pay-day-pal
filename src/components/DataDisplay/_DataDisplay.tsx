@@ -7,7 +7,7 @@ import { Button } from "../Button";
 export function DataDisplay({
   label,
   icon,
-  data,
+  children,
   onEdit,
   editLabel,
 }: DataDisplayProps & { editLabel?: string }) {
@@ -15,7 +15,7 @@ export function DataDisplay({
     <S.DataDisplay>
       <S.DataDisplay_Label>{label}:</S.DataDisplay_Label>
       {icon && <S.DataDisplay_Icon>{icon}</S.DataDisplay_Icon>}
-      <S.DataDisplay_Data>{data}</S.DataDisplay_Data>
+      <S.DataDisplay_Data>{children}</S.DataDisplay_Data>
       {onEdit && (
         <span>
           <Button

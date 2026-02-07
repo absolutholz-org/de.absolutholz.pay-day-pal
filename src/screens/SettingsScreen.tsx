@@ -32,6 +32,8 @@ export default function SettingsScreen({}) {
   } = useData();
   const { t } = useLocalization();
 
+  const version = import.meta.env.PACKAGE_VERSION;
+
   if (!household) return null;
 
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
@@ -79,28 +81,31 @@ export default function SettingsScreen({}) {
           <FrostedGlassSection headline="Properties">
             <DataDisplay
               label={t.householdName}
-              data={household.name}
               onEdit={() => {
                 setIsEditNameDialogOpen(true);
               }}
               editLabel={t.editHouseholdName}
-            />
+            >
+              {household.name}
+            </DataDisplay>
 
             <DataDisplay
               label={t.householdLanguage}
               icon={householdLanguage?.emoji}
-              data={householdLanguage?.label || household.language}
               onEdit={() => setIsEditLanguageDialogOpen(true)}
               editLabel={t.editHouseholdLanguage}
-            />
+            >
+              {householdLanguage?.label || household.language}
+            </DataDisplay>
 
             <DataDisplay
               label={t.householdCurrency}
               icon={householdCurrency?.emoji}
-              data={householdCurrency?.label || household.currency}
               onEdit={() => setIsEditCurrencyDialogOpen(true)}
               editLabel={t.editHouseholdCurrency}
-            />
+            >
+              {householdCurrency?.label || household.currency}
+            </DataDisplay>
           </FrostedGlassSection>
 
           <FrostedGlassSection headline={t.members}>
@@ -145,6 +150,12 @@ export default function SettingsScreen({}) {
           >
             {t.endPeriod}
           </Button>
+        </PageSection>
+
+        <PageSection headline={t.about}>
+          <FrostedGlassSection>
+            <DataDisplay label={t.appVersion}>{version}</DataDisplay>
+          </FrostedGlassSection>
         </PageSection>
 
         <ConfirmDialog
