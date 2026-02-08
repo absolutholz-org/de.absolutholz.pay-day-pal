@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from "../../constants";
+import { SUPPORTED_LANGUAGES } from "../../constants";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Language } from "../../types";
 import { Dialog } from "../Dialog";
