@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.4.0...v1.5.0) (2026-02-08)
+
+
+### Features
+
+* remove and simplify the household members on settings screen ([9d900f6](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/9d900f63c98cd5e6bee1a9a9211c230c0beab532))
+
 # [1.4.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.3.0...v1.4.0) (2026-02-08)
 
 
