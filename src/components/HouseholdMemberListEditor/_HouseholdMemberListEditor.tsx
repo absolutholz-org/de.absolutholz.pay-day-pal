@@ -1,11 +1,6 @@
-import { Plus } from "lucide-react";
-import { useState } from "react";
-
-import { ACCENT_COLORS, AccentColor, HouseholdMember } from "../../types";
+import { AccentColor, HouseholdMember } from "../../types";
 import { HouseholdMemberEditorRow } from "../HouseholdMemberEditorRow";
-import { Input } from "../Input";
-import { Select } from "../Select";
-import { Button } from "../Button";
+import * as S from "./_HouseholdMemberListEditor.styles";
 
 export interface HouseholdMemberListEditorProps {
   members: HouseholdMember[];
@@ -21,39 +16,42 @@ export interface HouseholdMemberListEditorProps {
 
 export function HouseholdMemberListEditor({
   members,
-  onAddMember,
-  onUpdateMember,
-  onToggleMemberStatus,
-  labels = {},
+  // onAddMember,
+  // onUpdateMember,
+  // onToggleMemberStatus,
+  // labels = {},
 }: HouseholdMemberListEditorProps) {
-  const [newMemberName, setNewMemberName] = useState("");
-  const [newMemberEmoji, setNewMemberEmoji] = useState("👤");
-  const [newMemberColor, setNewMemberColor] = useState<AccentColor>("blue");
-  const [isAdding, setIsAdding] = useState(false);
+  // const [newMemberName, setNewMemberName] = useState("");
+  // const [newMemberEmoji, setNewMemberEmoji] = useState("👤");
+  // const [newMemberColor, setNewMemberColor] = useState<AccentColor>("blue");
+  // const [isAdding, setIsAdding] = useState(false);
 
-  const handleAdd = () => {
-    if (!newMemberName.trim()) return;
-    onAddMember(newMemberName, newMemberEmoji, newMemberColor);
-    setNewMemberName("");
-    setNewMemberEmoji("👤");
-    setNewMemberColor("blue");
-    setIsAdding(false);
-  };
+  // const handleAdd = () => {
+  //   if (!newMemberName.trim()) return;
+  //   onAddMember(newMemberName, newMemberEmoji, newMemberColor);
+  //   setNewMemberName("");
+  //   setNewMemberEmoji("👤");
+  //   setNewMemberColor("blue");
+  //   setIsAdding(false);
+  // };
 
-  const colorOptions = ACCENT_COLORS.map((c) => ({ value: c, label: c }));
+  // const colorOptions = ACCENT_COLORS.map((c) => ({ value: c, label: c }));
 
   return (
     <div>
-      {members.map((member) => (
-        <HouseholdMemberEditorRow
-          key={member.id}
-          member={member}
-          onUpdate={onUpdateMember}
-          onToggleStatus={onToggleMemberStatus}
-          disableConfirmLabel={labels.disableConfirm}
-        />
-      ))}
-      {isAdding ? (
+      <S.HouseholdMemberListEditor_List>
+        {members.map((member) => (
+          <HouseholdMemberEditorRow
+            key={member.id}
+            member={member}
+            // onUpdate={onUpdateMember}
+            // onToggleStatus={onToggleMemberStatus}
+            // disableConfirmLabel={labels.disableConfirm}
+          />
+        ))}
+      </S.HouseholdMemberListEditor_List>
+
+      {/* {isAdding ? (
         <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
           <div style={{ width: "60px" }}>
             <Input
@@ -92,7 +90,7 @@ export function HouseholdMemberListEditor({
         >
           {labels.addMember || "Add Member"}
         </Button>
-      )}
+      )} */}
     </div>
   );
 }

@@ -21,9 +21,9 @@ export const Default: Story = {
       color: "red",
       disabled: false,
     },
-    onUpdate: (id, data) => console.log("Update", id, data),
-    onToggleStatus: (id) => console.log("Toggle Status", id),
-    disableConfirmLabel: "Disable {name}?",
+    // onUpdate: (id, data) => console.log("Update", id, data),
+    // onToggleStatus: (id) => console.log("Toggle Status", id),
+    // disableConfirmLabel: "Disable {name}?",
   },
 };
 
@@ -36,7 +36,7 @@ export const Disabled: Story = {
       color: "blue",
       disabled: true,
     },
-    onUpdate: (id, data) => console.log("Update", id, data),
-    onToggleStatus: (id) => console.log("Toggle Status", id),
+    // onUpdate: (id, data) => console.log("Update", id, data),
+    // onToggleStatus: (id) => console.log("Toggle Status", id),
   },
 };
