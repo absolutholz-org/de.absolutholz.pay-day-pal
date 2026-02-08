@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { VisuallyHidden } from "../VisuallyHidden";
 import * as S from "./_RadioCardGroup.styles";
 import type {
@@ -14,34 +15,42 @@ const RadioCard = ({
   name,
 }: RadioCardProps) => {
   return (
-    <S.CardLabel isSelected={isSelected}>
-      <VisuallyHidden
-        as="input"
-        // @ts-expect-error: Logic for ignoring the error (optional)
-        type="radio"
-        name={name}
-        value={value}
-        checked={isSelected}
-        onChange={() => onChange(value)}
-      />
+    <>
+      <S.CardLabel isSelected={isSelected} htmlFor={`${name}-${value}`}>
+        <VisuallyHidden
+          id={`${name}-${value}`}
+          as="input"
+          // @ts-expect-error: Logic for ignoring the error (optional)
+          type="radio"
+          name={name}
+          value={value}
+          checked={isSelected}
+          onChange={() => onChange(value)}
+        />
+        <S.CheckBadge>✓</S.CheckBadge>
 
-      {isSelected && <S.CheckBadge>✓</S.CheckBadge>}
+        <S.IconWrapper isSelected={isSelected} className="icon-animator">
+          {icon}
+        </S.IconWrapper>
 
-      <S.IconWrapper isSelected={isSelected} className="icon-animator">
-        {icon}
-      </S.IconWrapper>
-
-      <S.CardText>{label}</S.CardText>
-    </S.CardLabel>
+        <S.CardText>{label}</S.CardText>
+      </S.CardLabel>
+    </>
   );
 };
 
 export const RadioCardGroup = ({
   options,
-  selectedValue,
+  initialValue,
   onChange,
   name,
 }: RadioCardGroupProps) => {
+  const [selectedValue, setSelectedValue] = useState(initialValue);
+
+  useEffect(() => {
+    onChange(selectedValue);
+  }, [selectedValue, onChange]);
+
   return (
     <S.Grid>
       {options.map((option) => (
@@ -50,7 +59,7 @@ export const RadioCardGroup = ({
           name={name}
           {...option}
           isSelected={selectedValue === option.value}
-          onChange={onChange}
+          onChange={setSelectedValue}
         />
       ))}
     </S.Grid>

@@ -17,6 +17,7 @@ import { DataDisplay } from "../components/DataDisplay";
 import { PromptDialog } from "../components/PromptDialog";
 import { LanguageSelector } from "../components/LanguageSelector";
 import { FrostedGlassSection } from "../components/FrostedGlassSection";
+import { CurrencySelectionDialog } from "../components/CurrencySelectionDialog";
 
 export default function SettingsScreen({}) {
   const {
@@ -227,19 +228,14 @@ export default function SettingsScreen({}) {
           cancelLabel={t.cancel}
         />
 
-        <PromptDialog
+        <CurrencySelectionDialog
           isOpen={isEditCurrencyDialogOpen}
-          title={t.editHouseholdCurrency}
-          message={t.householdCurrency}
-          defaultValue={household.currency}
-          options={SUPPORTED_CURRENCIES}
+          onClose={() => setIsEditCurrencyDialogOpen(false)}
           onConfirm={(value) => {
-            updateHouseholdCurrency(value as Currency);
+            updateHouseholdCurrency(value);
             setIsEditCurrencyDialogOpen(false);
           }}
-          onCancel={() => setIsEditCurrencyDialogOpen(false)}
-          confirmLabel={t.confirm}
-          cancelLabel={t.cancel}
+          currentCurrency={household.currency}
         />
       </PageContainer>
     </>

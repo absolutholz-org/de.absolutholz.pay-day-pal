@@ -14,7 +14,7 @@ export const LanguageSelector = () => {
         icon: emoji,
       }))}
       name="appLanguage"
-      selectedValue={language}
+      initialValue={language}
       onChange={(value) => setLanguage(value as Language)}
     />
   );

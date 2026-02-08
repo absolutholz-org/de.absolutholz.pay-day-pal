@@ -47,7 +47,7 @@ export function ColorSchemeToggle() {
     <RadioCardGroup
       options={SCHEMES}
       name="appScheme"
-      selectedValue={scheme}
+      initialValue={scheme}
       onChange={(value) => setScheme(value as ColorScheme)}
     />
   );

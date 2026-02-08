@@ -18,7 +18,7 @@ export const CurrencySelector = ({
         icon: emoji,
       }))}
       name="currency"
-      selectedValue={value}
+      initialValue={value}
       onChange={onChange}
     />
   );

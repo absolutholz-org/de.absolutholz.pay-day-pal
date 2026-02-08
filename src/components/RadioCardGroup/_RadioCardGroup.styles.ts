@@ -46,48 +46,45 @@ export const CardLabel = styled.label<{ isSelected?: boolean }>`
     transform: scale(1.1);
   }
 
-  /* SELECTED STATE */
-  /* Here is the magic: We use the single --accent variable to derive everything. */
-  ${({ isSelected = false }) =>
-    isSelected &&
-    `
-    /* Background: Accent color with 10% opacity. Works on dark & light! */
-    background-color: oklch(from var(--accent) l c h / 0.1);
-    
-    /* Border: The pure accent color */
-    border-color: var(--accent);
-    
-    /* Text: In light mode, we might want darker. In dark mode, lighter.
-       But usually, the accent color itself is legible if chosen well (mid-tone).
-       Or we can use the main text color. Let's use the Accent for pop. */
-    color: var(--accent);
-    
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  `}
-
   /* Focus Ring: Accent with 30% opacity */
   &:focus-within {
     box-shadow: 0 0 0 4px oklch(from var(--accent) l c h / 0.3);
   }
+
+  /* SELECTED STATE */
+  /* Here is the magic: We use the single --accent variable to derive everything. */
+  &:has(:checked) {
+    /* Background: Accent color with 10% opacity. Works on dark & light! */
+    background-color: oklch(from var(--accent) l c h / 0.1);
+    border-color: var(--accent);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* Text: In light mode, we might want darker. In dark mode, lighter.
+       But usually, the accent color itself is legible if chosen well (mid-tone).
+       Or we can use the main text color. Let's use the Accent for pop. */
+    color: var(--accent);
+  }
 `;
 
 export const CheckBadge = styled.div`
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  /* Use the Accent variable directly */
-  background-color: var(--accent);
-  color: #fff; /* Always white text on the filled badge */
-  border-radius: 9999px;
-  width: 1.25rem;
-  height: 1.25rem;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: bold;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   animation: ${zoomIn} 0.2s ease-out;
+  background-color: var(--accent);
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  color: #fff; /* Always white text on the filled badge */
+  display: flex;
+  font-size: 0.75rem;
+  font-weight: 700;
+  height: 1.25rem;
+  justify-content: center;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  width: 1.25rem;
+
+  input:not(:checked) + & {
+    display: none;
+  }
 `;
 
 export const IconWrapper = styled.div<{ isSelected?: boolean }>`

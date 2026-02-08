@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { RadioCardGroup } from ".";
 
 const meta = {
-  title: "Components/RadioCardGroup",
+  title: "Primitives/RadioCardGroup",
   component: RadioCardGroup,
   tags: ["autodocs"],
   args: {
@@ -63,6 +63,6 @@ export const Default: Story = {
   args: {
     name: "card-group",
     options: mockOptions,
-    selectedValue: "1",
+    initialValue: "1",
   },
 };

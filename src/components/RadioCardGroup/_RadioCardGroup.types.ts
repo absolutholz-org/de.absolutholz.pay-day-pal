@@ -14,7 +14,7 @@ export interface RadioCardProps extends RadioOption {
 
 export interface RadioCardGroupProps {
   options: RadioOption[];
-  selectedValue: string;
+  initialValue: string;
   onChange: (value: string) => void;
   name: string;
 }
