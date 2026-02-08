@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PromptDialog } from "./_PromptDialog";
 
 const meta = {
-  title: "Components/PromptDialog",
+  title: "Primitives/Dialog/Variants/PromptDialog",
   component: PromptDialog,
 
   tags: ["autodocs"],

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ConfirmDialog } from "./_ConfirmDialog";
 
 const meta = {
-  title: "Components/ConfirmDialog",
+  title: "Primitives/Dialog/Variants/ConfirmDialog",
   component: ConfirmDialog,
 
   tags: ["autodocs"],
