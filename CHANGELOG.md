@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.2.0...v1.3.0) (2026-02-08)
+
+
+### Features
+
+* create language selection dialog for settings screen ([41ca444](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/41ca44400e962cae1ac09629d32650707c71ddd8))
+
 # [1.2.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.1.0...v1.2.0) (2026-02-08)
 
 
