@@ -18,6 +18,7 @@ import { PromptDialog } from "../components/PromptDialog";
 import { LanguageSelector } from "../components/LanguageSelector";
 import { FrostedGlassSection } from "../components/FrostedGlassSection";
 import { CurrencySelectionDialog } from "../components/CurrencySelectionDialog";
+import { LanguageSelectionDialog } from "../components/LanguageSelectionDialog";
 
 export default function SettingsScreen({}) {
   const {
@@ -213,19 +214,14 @@ export default function SettingsScreen({}) {
           cancelLabel={t.cancel}
         />
 
-        <PromptDialog
+        <LanguageSelectionDialog
           isOpen={isEditLanguageDialogOpen}
-          title={t.editHouseholdLanguage}
-          message={t.householdLanguage}
-          defaultValue={household.language}
-          options={SUPPORTED_LANGUAGES}
+          onClose={() => setIsEditLanguageDialogOpen(false)}
           onConfirm={(value) => {
             updateHouseholdLanguage(value as Language);
             setIsEditLanguageDialogOpen(false);
           }}
-          onCancel={() => setIsEditLanguageDialogOpen(false)}
-          confirmLabel={t.confirm}
-          cancelLabel={t.cancel}
+          currentLanguage={household.language}
         />
 
         <CurrencySelectionDialog
