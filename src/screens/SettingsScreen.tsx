@@ -10,7 +10,7 @@ import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import { SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from "../constants";
-import type { Currency, Language } from "../types";
+import type { Language } from "../types";
 import { Button } from "../components/Button";
 import { PageSection } from "../components/PageSection";
 import { DataDisplay } from "../components/DataDisplay";
