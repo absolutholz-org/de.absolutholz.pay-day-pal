@@ -12,68 +12,80 @@ import { formatDate } from "../utils";
 import { Button } from "../components/Button";
 
 export default function PeriodSelectionScreen() {
-  const { getPastPeriods } = useData();
-  const { t } = useLocalization();
-  const [periods, setPeriods] = useState<Period[]>([]);
-  const [loading, setLoading] = useState(true);
+	const { getPastPeriods } = useData();
+	const { t } = useLocalization();
+	const [periods, setPeriods] = useState<Period[]>([]);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getPastPeriods().then((data) => {
-      setPeriods(data);
-      setLoading(false);
-    });
-  }, [getPastPeriods]);
+	useEffect(() => {
+		getPastPeriods().then((data) => {
+			setPeriods(data);
+			setLoading(false);
+		});
+	}, [getPastPeriods]);
 
-  return (
-    <>
-      <PageHeader
-        title="History"
-        slotLead={
-          <Button
-            as={Link}
-            to="/settings"
-            variant="text"
-            label={t.backToSettings}
-            startIcon={<ArrowLeft size={24} aria-hidden="true" />}
-          />
-        }
-      />
-      <PageContainer>
-        <Subtitle>Select a Period</Subtitle>
-        {loading ? (
-          <Subtitle>Loading...</Subtitle>
-        ) : periods.length === 0 ? (
-          <Subtitle>No past periods found.</Subtitle>
-        ) : (
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
-            {periods.map((period) => (
-              <Link
-                key={period.id}
-                to={`/history/${period.id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Card style={{ cursor: "pointer" }}>
-                  <CardTitle>
-                    {formatDate(new Date(period.startDate))} -{" "}
-                    {period.endDate
-                      ? formatDate(new Date(period.endDate))
-                      : "Now"}
-                  </CardTitle>
-                  <CardMeta>
-                    <Calendar size={16} />
-                    Ended:{" "}
-                    {period.endDate
-                      ? formatDate(new Date(period.endDate))
-                      : "Active"}
-                  </CardMeta>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        )}
-      </PageContainer>
-    </>
-  );
+	return (
+		<>
+			<PageHeader
+				title="History"
+				slotLead={
+					<Button
+						as={Link}
+						to="/settings"
+						variant="text"
+						label={t.backToSettings}
+						startIcon={<ArrowLeft size={24} aria-hidden="true" />}
+					/>
+				}
+			/>
+			<PageContainer>
+				<Subtitle>Select a Period</Subtitle>
+				{loading ? (
+					<Subtitle>Loading...</Subtitle>
+				) : periods.length === 0 ? (
+					<Subtitle>No past periods found.</Subtitle>
+				) : (
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							gap: "1rem",
+						}}
+					>
+						{periods.map((period) => (
+							<Link
+								key={period.id}
+								to={`/history/${period.id}`}
+								style={{
+									textDecoration: "none",
+									color: "inherit",
+								}}
+							>
+								<Card style={{ cursor: "pointer" }}>
+									<CardTitle>
+										{formatDate(new Date(period.startDate))}{" "}
+										-{" "}
+										{period.endDate
+											? formatDate(
+													new Date(period.endDate),
+												)
+											: "Now"}
+									</CardTitle>
+									<CardMeta>
+										<Calendar size={16} />
+										Ended:{" "}
+										{period.endDate
+											? formatDate(
+													new Date(period.endDate),
+												)
+											: "Active"}
+									</CardMeta>
+								</Card>
+							</Link>
+						))}
+					</div>
+				)}
+			</PageContainer>
+		</>
+	);
 }

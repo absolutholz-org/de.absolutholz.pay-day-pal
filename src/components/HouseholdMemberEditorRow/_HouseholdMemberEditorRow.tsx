@@ -2,26 +2,26 @@ import * as S from "./_HouseholdMemberEditorRow.styles";
 import { HouseholdMemberEditorRowProps } from "./_HouseholdMemberEditorRow.types";
 
 export function HouseholdMemberEditorRow({
-  member,
-  // onUpdate,
-  // onToggleStatus,
-  // disableConfirmLabel,
+	member,
+	// onUpdate,
+	// onToggleStatus,
+	// disableConfirmLabel,
 }: HouseholdMemberEditorRowProps) {
-  // const colorOptions = ACCENT_COLORS.map((c) => ({ value: c, label: c }));
+	// const colorOptions = ACCENT_COLORS.map((c) => ({ value: c, label: c }));
 
-  return (
-    <>
-      <S.HouseholdMemberEditorRow
-        style={{ "--member-color": `var(--accent-${member.color})` }}
-      >
-        <S.HouseholdMemberEditorRow_Icon>
-          {member.emoji}
-        </S.HouseholdMemberEditorRow_Icon>
-        {member.name}
-        <S.HouseholdMemberEditorRow_Actions></S.HouseholdMemberEditorRow_Actions>
-      </S.HouseholdMemberEditorRow>
+	return (
+		<>
+			<S.HouseholdMemberEditorRow
+				style={{ "--member-color": `var(--accent-${member.color})` }}
+			>
+				<S.HouseholdMemberEditorRow_Icon>
+					{member.emoji}
+				</S.HouseholdMemberEditorRow_Icon>
+				{member.name}
+				<S.HouseholdMemberEditorRow_Actions></S.HouseholdMemberEditorRow_Actions>
+			</S.HouseholdMemberEditorRow>
 
-      {/* <S.Row disabled={member.disabled}>
+			{/* <S.Row disabled={member.disabled}>
         <S.EmojiContainer>
           <Input
             value={member.emoji}
@@ -83,6 +83,6 @@ export function HouseholdMemberEditorRow({
           </Button>
         )}
       </S.Row> */}
-    </>
-  );
+		</>
+	);
 }

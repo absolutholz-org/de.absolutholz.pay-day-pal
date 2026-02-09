@@ -2,5 +2,5 @@
 import { ElementType, LabelHTMLAttributes } from "react";
 
 export interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  as?: ElementType;
+	as?: ElementType;
 }

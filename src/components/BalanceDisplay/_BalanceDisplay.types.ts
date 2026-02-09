@@ -1,3 +1,3 @@
 export interface BalanceDisplayProps {
-  total: number;
+	total: number;
 }

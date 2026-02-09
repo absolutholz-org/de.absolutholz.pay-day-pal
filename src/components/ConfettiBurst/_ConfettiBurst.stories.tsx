@@ -4,54 +4,60 @@ import { useEffect, useState } from "react";
 import { ConfettiBurst } from "./_ConfettiBurst";
 
 const meta = {
-  title: "Components/ConfettiBurst",
-  component: ConfettiBurst,
+	title: "Components/ConfettiBurst",
+	component: ConfettiBurst,
 
-  tags: ["autodocs"],
+	tags: ["autodocs"],
 } satisfies Meta<typeof ConfettiBurst>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    trigger: false,
-  },
+	args: {
+		trigger: false,
+	},
 };
 
 export const Interactive: Story = {
-  args: {
-    trigger: false,
-  },
-  render: () => {
-    const [trigger, setTrigger] = useState(false);
+	args: {
+		trigger: false,
+	},
+	render: () => {
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const [trigger, setTrigger] = useState(false);
 
-    useEffect(() => {
-      if (trigger) {
-        const timeout = setTimeout(() => setTrigger(false), 2000);
-        return () => clearTimeout(timeout);
-      }
-    }, [trigger]);
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useEffect(() => {
+			if (trigger) {
+				const timeout = setTimeout(() => setTrigger(false), 2000);
+				return () => clearTimeout(timeout);
+			}
+		}, [trigger]);
 
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "2rem",
-        }}
-      >
-        <button
-          onClick={() => setTrigger(true)}
-          style={{ padding: "10px 20px", fontSize: "16px", cursor: "pointer" }}
-        >
-          Trigger Burst
-        </button>
-        <div style={{ position: "relative" }}>
-          <ConfettiBurst trigger={trigger} />
-        </div>
-      </div>
-    );
-  },
+		return (
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					gap: "2rem",
+				}}
+			>
+				<button
+					onClick={() => setTrigger(true)}
+					style={{
+						padding: "10px 20px",
+						fontSize: "16px",
+						cursor: "pointer",
+					}}
+				>
+					Trigger Burst
+				</button>
+				<div style={{ position: "relative" }}>
+					<ConfettiBurst trigger={trigger} />
+				</div>
+			</div>
+		);
+	},
 };

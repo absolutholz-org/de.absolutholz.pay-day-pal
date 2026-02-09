@@ -17,25 +17,25 @@ const confettiBurstAnimation = keyframes`
 `;
 
 export const ConfettiBurst = styled.div`
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 9999;
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: visible;
+	z-index: 9999;
 `;
 
 export const ConfettiBurst_ParticleContainer = styled.div`
-  animation: ${confettiBurstAnimation} var(--duration) ease-out forwards;
-  bottom: 2rem;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
+	animation: ${confettiBurstAnimation} var(--duration) ease-out forwards;
+	bottom: 2rem;
+	left: 50%;
+	position: absolute;
+	transform: translateX(-50%);
 `;
 
 export const ConfettiBurst_Particle = styled.div`
-  color: var(--particle-color);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  font-size: var(--particle-size);
-  font-weight: bold;
-  text-shadow: 0 0 10px currentColor;
+	color: var(--particle-color);
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+	font-size: var(--particle-size);
+	font-weight: bold;
+	text-shadow: 0 0 10px currentColor;
 `;

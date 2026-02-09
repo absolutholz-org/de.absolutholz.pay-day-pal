@@ -3,5 +3,5 @@ import * as S from "./_Label.styles";
 import type { LabelProps } from "./_Label.types";
 
 export function Label(props: LabelProps) {
-  return <S.Label {...props} />;
+	return <S.Label {...props} />;
 }

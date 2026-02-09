@@ -10,67 +10,67 @@ import { Period } from "../types";
 import { formatDate } from "../utils";
 
 export default function HistoryDetailScreen() {
-  const { periodId } = useParams<{ periodId: string }>();
-  const { currentHousehold, getPeriodActivities } = useData();
-  const [period, setPeriod] = useState<Period | null>(null);
-  const [loading, setLoading] = useState(true);
+	const { periodId } = useParams<{ periodId: string }>();
+	const { currentHousehold, getPeriodActivities } = useData();
+	const [period, setPeriod] = useState<Period | null>(null);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!periodId) return;
+	useEffect(() => {
+		if (!periodId) return;
 
-    getPeriodActivities(periodId)
-      .then(({ period }) => {
-        setPeriod(period);
-        //   setAllActivities(activities);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching details:", error);
-        setLoading(false);
-      });
-  }, [getPeriodActivities, periodId]);
+		getPeriodActivities(periodId)
+			.then(({ period }) => {
+				setPeriod(period);
+				//   setAllActivities(activities);
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error fetching details:", error);
+				setLoading(false);
+			});
+	}, [getPeriodActivities, periodId]);
 
-  if (loading)
-    return (
-      <PageContainer>
-        <Subtitle>Loading...</Subtitle>
-      </PageContainer>
-    );
-  if (!period || !currentHousehold)
-    return (
-      <PageContainer>
-        <Subtitle>Period not found.</Subtitle>
-      </PageContainer>
-    );
+	if (loading)
+		return (
+			<PageContainer>
+				<Subtitle>Loading...</Subtitle>
+			</PageContainer>
+		);
+	if (!period || !currentHousehold)
+		return (
+			<PageContainer>
+				<Subtitle>Period not found.</Subtitle>
+			</PageContainer>
+		);
 
-  //   const activities = useMemo(() => {
-  //     let result = allActivities;
-  //     if (filterMember !== "all") {
-  //       result = result.filter((a) => a.memberId === filterMember);
-  //     }
-  //     return result.sort((a, b) => {
-  //       const diff = a.date.localeCompare(b.date);
-  //       return sortOrder === "asc" ? diff : -diff;
-  //     });
-  //   }, [allActivities, filterMember, sortOrder]);
+	//   const activities = useMemo(() => {
+	//     let result = allActivities;
+	//     if (filterMember !== "all") {
+	//       result = result.filter((a) => a.memberId === filterMember);
+	//     }
+	//     return result.sort((a, b) => {
+	//       const diff = a.date.localeCompare(b.date);
+	//       return sortOrder === "asc" ? diff : -diff;
+	//     });
+	//   }, [allActivities, filterMember, sortOrder]);
 
-  return (
-    <>
-      <PageHeader
-        title="History Details"
-        slotLead={
-          <Link to="/history">
-            <ArrowLeft size={24} />
-          </Link>
-        }
-      />
-      <PageContainer>
-        <Subtitle style={{ marginBottom: "1rem" }}>
-          {formatDate(period.startDate)} -{" "}
-          {period.endDate ? formatDate(period.endDate) : "Now"}
-        </Subtitle>
+	return (
+		<>
+			<PageHeader
+				title="History Details"
+				slotLead={
+					<Link to="/history">
+						<ArrowLeft size={24} />
+					</Link>
+				}
+			/>
+			<PageContainer>
+				<Subtitle style={{ marginBottom: "1rem" }}>
+					{formatDate(period.startDate)} -{" "}
+					{period.endDate ? formatDate(period.endDate) : "Now"}
+				</Subtitle>
 
-        {/* <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+				{/* <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
         <select
           value={filterMember}
           onChange={(e) => setFilterMember(e.target.value)}
@@ -141,7 +141,7 @@ export default function HistoryDetailScreen() {
           <Subtitle>No activity recorded for this period.</Subtitle>
         )}
       </div> */}
-      </PageContainer>
-    </>
-  );
+			</PageContainer>
+		</>
+	);
 }

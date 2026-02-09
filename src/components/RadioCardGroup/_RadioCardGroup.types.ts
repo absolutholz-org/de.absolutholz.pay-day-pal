@@ -1,20 +1,20 @@
 import type { ReactNode } from "react";
 
 interface RadioOption {
-  label: string;
-  value: string;
-  icon: ReactNode;
+	label: string;
+	value: string;
+	icon: ReactNode;
 }
 
 export interface RadioCardProps extends RadioOption {
-  name: string;
-  isSelected: boolean;
-  onChange: (value: string) => void;
+	name: string;
+	isSelected: boolean;
+	onChange: (value: string) => void;
 }
 
 export interface RadioCardGroupProps {
-  options: RadioOption[];
-  initialValue: string;
-  onChange: (value: string) => void;
-  name: string;
+	options: RadioOption[];
+	initialValue: string;
+	onChange: (value: string) => void;
+	name: string;
 }

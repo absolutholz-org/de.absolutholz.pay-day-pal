@@ -11,39 +11,44 @@ import { DataProvider, useData } from "./context/DataContext";
 import { LocalizationProvider } from "./context/LocalizationContext";
 
 function AppContent() {
-  const { currentHousehold, selectHousehold, db } = useData();
+	const { currentHousehold, selectHousehold, db } = useData();
 
-  useEffect(() => {
-    setColorSchemeFromLocalStorage();
-  }, []);
+	useEffect(() => {
+		setColorSchemeFromLocalStorage();
+	}, []);
 
-  if (!currentHousehold) {
-    return (
-      <HouseholdSelectionScreen onSelectHousehold={selectHousehold} db={db} />
-    );
-  }
+	if (!currentHousehold) {
+		return (
+			<HouseholdSelectionScreen
+				onSelectHousehold={selectHousehold}
+				db={db}
+			/>
+		);
+	}
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<HomeScreen household={currentHousehold} db={db} />}
-        />
-        <Route path="/settings" element={<SettingsScreen />} />
-        <Route path="/history" element={<PeriodSelectionScreen />} />
-        <Route path="/history/:periodId" element={<HistoryScreen />} />
-      </Routes>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route
+					path="/"
+					element={
+						<HomeScreen household={currentHousehold} db={db} />
+					}
+				/>
+				<Route path="/settings" element={<SettingsScreen />} />
+				<Route path="/history" element={<PeriodSelectionScreen />} />
+				<Route path="/history/:periodId" element={<HistoryScreen />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default function App() {
-  return (
-    <DataProvider>
-      <LocalizationProvider>
-        <AppContent />
-      </LocalizationProvider>
-    </DataProvider>
-  );
+	return (
+		<DataProvider>
+			<LocalizationProvider>
+				<AppContent />
+			</LocalizationProvider>
+		</DataProvider>
+	);
 }
