@@ -1,4 +1,4 @@
-import { Chore, ChoreCategory, ChoreCategoryId } from "../types";
+import { type Chore, type ChoreCategory, type ChoreCategoryId } from "../types";
 
 export const CHORE_CATEGORIES: Record<ChoreCategoryId, ChoreCategory> = {
 	bedroom: {

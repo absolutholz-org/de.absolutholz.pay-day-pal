@@ -5,7 +5,7 @@ import { Dialog } from "../Dialog";
 import { Input } from "../Input";
 import { Select } from "../Select";
 import { VisuallyHidden } from "../VisuallyHidden";
-import { PromptDialogProps } from "./_PromptDialog.types";
+import { type PromptDialogProps } from "./_PromptDialog.types";
 
 export function PromptDialog({
 	isOpen,

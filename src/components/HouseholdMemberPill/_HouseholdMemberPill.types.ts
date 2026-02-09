@@ -1,4 +1,4 @@
-import { AccentColor } from "../../types";
+import { type AccentColor } from "../../types";
 
 declare module "react" {
 	interface CSSProperties {

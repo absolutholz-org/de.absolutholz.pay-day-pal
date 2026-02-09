@@ -1,4 +1,4 @@
-import { HouseholdMember } from "../../types";
+import { type HouseholdMember } from "../../types";
 
 export interface HouseholdMemberEditorRowProps {
 	member: HouseholdMember;

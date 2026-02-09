@@ -6,10 +6,10 @@ import { Button } from "../components/Button";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
-import { Activity } from "../context/DataContext/_types";
+import { type Activity } from "../context/DataContext/_types";
 import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
-import { Period } from "../types";
+import { type Period } from "../types";
 import { formatDate } from "../utils";
 
 type GroupBy = "none" | "date" | "member" | "activity";

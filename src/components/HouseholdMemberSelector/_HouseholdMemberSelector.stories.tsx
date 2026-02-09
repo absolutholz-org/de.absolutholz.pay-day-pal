@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ACCENT_COLORS, HouseholdMember } from "../../types";
+import { ACCENT_COLORS, type HouseholdMember } from "../../types";
 import { HouseholdMemberSelector } from "./_HouseholdMemberSelector";
 
 const meta = {

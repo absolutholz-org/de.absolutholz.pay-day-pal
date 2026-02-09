@@ -16,22 +16,22 @@ import {
 	updateDoc,
 	where,
 } from "firebase/firestore";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 import {
-	AccentColor,
-	ActivityRecord,
-	ChoreData,
-	Currency,
-	Household,
-	HouseholdMember,
-	Language,
-	Period,
+	type AccentColor,
+	type ActivityRecord,
+	type ChoreData,
+	type Currency,
+	type Household,
+	type HouseholdMember,
+	type Language,
+	type Period,
 } from "../../types";
 import { formatDateKey } from "../../utils";
 import { DataContext } from "./_context";
-import { Activity } from "./_types";
+import { type Activity } from "./_types";
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

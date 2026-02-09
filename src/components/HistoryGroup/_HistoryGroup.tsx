@@ -1,7 +1,7 @@
 import { useCurrency } from "../../hooks/useCurrency";
 import { HistoryItem } from "../HistoryItem";
 import * as S from "./_HistoryGroup.styles";
-import { HistoryGroupProps } from "./_HistoryGroup.types";
+import { type HistoryGroupProps } from "./_HistoryGroup.types";
 
 export function HistoryGroup({
 	title,

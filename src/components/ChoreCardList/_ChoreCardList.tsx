@@ -1,4 +1,4 @@
-import { Chore, ChoreData } from "../../types";
+import { type Chore, type ChoreData } from "../../types";
 import { ChoreCard } from "../ChoreCard";
 import * as S from "./_ChoreCardList.styles";
 

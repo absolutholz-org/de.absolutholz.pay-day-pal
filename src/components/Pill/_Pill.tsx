@@ -1,5 +1,5 @@
 import * as S from "./_Pill.styles";
-import { PillProps } from "./_Pill.types";
+import { type PillProps } from "./_Pill.types";
 
 export const Pill: React.FC<PillProps> = ({
 	children,

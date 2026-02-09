@@ -1,6 +1,6 @@
 import { HouseholdMemberPill } from "../HouseholdMemberPill";
 import * as S from "./_HouseholdMemberSelector.styles";
-import { HouseholdMemberSelectorProps } from "./_HouseholdMemberSelector.types";
+import { type HouseholdMemberSelectorProps } from "./_HouseholdMemberSelector.types";
 
 export function HouseholdMemberSelector({
 	members,

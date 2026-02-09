@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { SUPPORTED_LANGUAGES } from "../../constants";
 import { useLocalization } from "../../context/LocalizationContext";
-import { Language } from "../../types";
+import { type Language } from "../../types";
 import { Button } from "../Button";
 import { Dialog } from "../Dialog";
 import { RadioCardGroup } from "../RadioCardGroup";

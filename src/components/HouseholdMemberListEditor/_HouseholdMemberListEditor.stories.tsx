@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { HouseholdMember } from "../../types";
+import { type HouseholdMember } from "../../types";
 import { HouseholdMemberListEditor } from "./_HouseholdMemberListEditor";
 
 const meta = {

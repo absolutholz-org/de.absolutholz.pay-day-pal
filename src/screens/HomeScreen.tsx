@@ -1,7 +1,7 @@
 import {
 	collection,
 	doc,
-	Firestore,
+	type Firestore,
 	limit,
 	onSnapshot,
 	query,
@@ -25,7 +25,7 @@ import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import { LoadingIndicator, Subtitle } from "../globalStyles";
-import { ChoreData, Household, Period } from "../types";
+import { type ChoreData, type Household, type Period } from "../types";
 import { formatDateKey } from "../utils";
 
 interface HomeScreenProps {

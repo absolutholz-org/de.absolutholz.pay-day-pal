@@ -1,5 +1,5 @@
 import * as S from "./_PageSection.styles";
-import { PageSectionProps } from "./_PageSection.types";
+import { type PageSectionProps } from "./_PageSection.types";
 
 export function PageSection({ children, headline }: PageSectionProps) {
 	return (

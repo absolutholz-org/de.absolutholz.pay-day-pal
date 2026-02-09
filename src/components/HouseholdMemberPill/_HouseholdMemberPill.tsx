@@ -1,5 +1,5 @@
 import * as S from "./_HouseholdMemberPill.styles";
-import { HouseholdMemberPillProps } from "./_HouseholdMemberPill.types";
+import { type HouseholdMemberPillProps } from "./_HouseholdMemberPill.types";
 
 export function HouseholdMemberPill({
 	name,

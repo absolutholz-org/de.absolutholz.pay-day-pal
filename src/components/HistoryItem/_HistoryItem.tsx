@@ -1,6 +1,6 @@
 import { useCurrency } from "../../hooks/useCurrency";
 import * as S from "./_HistoryItem.styles";
-import { HistoryItemProps } from "./_HistoryItem.types";
+import { type HistoryItemProps } from "./_HistoryItem.types";
 
 export function HistoryItem({
 	title,

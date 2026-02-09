@@ -1,4 +1,4 @@
-import { Chore, Language } from "../../types";
+import { type Chore, type Language } from "../../types";
 
 export interface ChoreCardListProps {
 	chores: Chore[];

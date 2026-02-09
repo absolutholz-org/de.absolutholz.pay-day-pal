@@ -1,5 +1,5 @@
-import { TranslationKey } from "../../constants/translations";
-import { Language } from "../../types";
+import { type TranslationKey } from "../../constants/translations";
+import { type Language } from "../../types";
 
 export interface LocalizationContextType {
 	t: Record<TranslationKey, string>;

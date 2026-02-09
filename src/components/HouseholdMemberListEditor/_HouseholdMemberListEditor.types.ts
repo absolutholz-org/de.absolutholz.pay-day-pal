@@ -1,4 +1,4 @@
-import { AccentColor, HouseholdMember } from "../../types";
+import { type AccentColor, type HouseholdMember } from "../../types";
 
 export interface HouseholdMemberListEditorProps {
 	members: HouseholdMember[];

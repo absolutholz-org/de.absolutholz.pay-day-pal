@@ -1,4 +1,4 @@
-import { css, SerializedStyles } from "@emotion/react";
+import { css, type SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { colorSchemeCss } from "../../_colorSchemeCss";

@@ -1,7 +1,7 @@
 import { ArrowUp } from "lucide-react";
 
 import * as S from "./_BackToTop.styles";
-import { BackToTopProps } from "./_BackToTop.types";
+import { type BackToTopProps } from "./_BackToTop.types";
 
 export const BackToTop = ({ label }: BackToTopProps) => {
 	return (

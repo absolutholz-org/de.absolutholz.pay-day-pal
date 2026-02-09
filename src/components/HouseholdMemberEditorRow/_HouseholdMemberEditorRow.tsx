@@ -1,5 +1,5 @@
 import * as S from "./_HouseholdMemberEditorRow.styles";
-import { HouseholdMemberEditorRowProps } from "./_HouseholdMemberEditorRow.types";
+import { type HouseholdMemberEditorRowProps } from "./_HouseholdMemberEditorRow.types";
 
 export function HouseholdMemberEditorRow({
 	member,

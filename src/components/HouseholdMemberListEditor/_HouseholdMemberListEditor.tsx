@@ -1,4 +1,4 @@
-import { AccentColor, HouseholdMember } from "../../types";
+import { type AccentColor, type HouseholdMember } from "../../types";
 import { HouseholdMemberEditorRow } from "../HouseholdMemberEditorRow";
 import * as S from "./_HouseholdMemberListEditor.styles";
 

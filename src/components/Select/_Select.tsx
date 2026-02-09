@@ -1,4 +1,4 @@
-import { forwardRef, SelectHTMLAttributes } from "react";
+import { forwardRef, type SelectHTMLAttributes } from "react";
 
 import * as S from "./_Select.styles";
 

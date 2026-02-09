@@ -1,6 +1,6 @@
 import { PageContainer } from "../PageContainer";
 import * as S from "./_PageHeader.styles";
-import { PageHeaderProps } from "./_PageHeader.types";
+import { type PageHeaderProps } from "./_PageHeader.types";
 
 export function PageHeader({
 	title,

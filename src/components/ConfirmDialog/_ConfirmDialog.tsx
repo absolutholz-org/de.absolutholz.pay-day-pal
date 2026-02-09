@@ -1,6 +1,6 @@
 import { Button } from "../Button";
 import { Dialog } from "../Dialog";
-import { ConfirmDialogProps } from "./_ConfirmDialog.types";
+import { type ConfirmDialogProps } from "./_ConfirmDialog.types";
 
 export function ConfirmDialog({
 	isOpen,

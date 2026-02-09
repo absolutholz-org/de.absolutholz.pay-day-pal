@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import * as S from "./_ConfettiBurst.styles";
-import { ConfettiBurstProps, Particle } from "./_ConfettiBurst.types";
+import { type ConfettiBurstProps, type Particle } from "./_ConfettiBurst.types";
 
 export function ConfettiBurst({ trigger }: ConfettiBurstProps) {
 	const [particles, setParticles] = useState<Particle[]>([]);

@@ -2,7 +2,7 @@ import { Pencil } from "lucide-react";
 
 import { Button } from "../Button";
 import * as S from "./_DataDisplay.styles";
-import { DataDisplayProps } from "./_DataDisplay.types";
+import { type DataDisplayProps } from "./_DataDisplay.types";
 
 export function DataDisplay({
 	label,

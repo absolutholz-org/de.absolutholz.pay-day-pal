@@ -1,4 +1,4 @@
-import { ChoreCategoryId } from "../../types";
+import { type ChoreCategoryId } from "../../types";
 
 declare module "react" {
 	interface CSSProperties {

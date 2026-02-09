@@ -1,6 +1,6 @@
-import { css, keyframes, SerializedStyles } from "@emotion/react";
+import { css, keyframes, type SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { type ButtonHTMLAttributes, type ReactNode } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "contained" | "outlined" | "text";

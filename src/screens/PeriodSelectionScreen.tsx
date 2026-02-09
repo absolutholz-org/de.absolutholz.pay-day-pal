@@ -8,7 +8,7 @@ import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
-import { Period } from "../types";
+import { type Period } from "../types";
 import { formatDate } from "../utils";
 
 export default function PeriodSelectionScreen() {

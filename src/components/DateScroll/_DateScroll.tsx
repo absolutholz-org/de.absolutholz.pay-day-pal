@@ -1,7 +1,7 @@
 import { formatDateKey } from "../../utils";
 import { DateCard } from "../DateCard";
 import * as S from "./_DateScroll.styles";
-import { DateScrollProps } from "./_DateScroll.types";
+import { type DateScrollProps } from "./_DateScroll.types";
 
 export function DateScroll({
 	dates,

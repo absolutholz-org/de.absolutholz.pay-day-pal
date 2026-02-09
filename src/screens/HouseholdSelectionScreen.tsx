@@ -1,4 +1,9 @@
-import { addDoc, collection, Firestore, onSnapshot } from "firebase/firestore";
+import {
+	addDoc,
+	collection,
+	type Firestore,
+	onSnapshot,
+} from "firebase/firestore";
 import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -22,7 +27,7 @@ import {
 	LoadingIndicator,
 	Subtitle,
 } from "../globalStyles";
-import { AccentColor, Household, Language } from "../types";
+import { type AccentColor, type Household, type Language } from "../types";
 
 const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
 

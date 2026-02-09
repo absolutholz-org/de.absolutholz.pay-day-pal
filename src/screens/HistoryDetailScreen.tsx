@@ -6,7 +6,7 @@ import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { Subtitle } from "../globalStyles";
-import { Period } from "../types";
+import { type Period } from "../types";
 import { formatDate } from "../utils";
 
 export default function HistoryDetailScreen() {
