@@ -2,15 +2,15 @@ import { ArrowLeft, ArrowUpDown, Euro } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { Button } from "../components/Button";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
+import { Activity } from "../context/DataContext/_types";
 import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
 import { Period } from "../types";
 import { formatDate } from "../utils";
-import { Button } from "../components/Button";
-import { Activity } from "../context/DataContext/_types";
 
 type GroupBy = "none" | "date" | "member" | "activity";
 

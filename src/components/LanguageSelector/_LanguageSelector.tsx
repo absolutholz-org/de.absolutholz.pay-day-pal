@@ -1,7 +1,7 @@
-import { Language } from "../../types";
 import { SUPPORTED_LANGUAGES } from "../../constants";
-import { RadioCardGroup } from "../RadioCardGroup";
 import { useLocalization } from "../../context/LocalizationContext";
+import { Language } from "../../types";
+import { RadioCardGroup } from "../RadioCardGroup";
 
 export const LanguageSelector = () => {
 	const { language, setLanguage } = useLocalization();

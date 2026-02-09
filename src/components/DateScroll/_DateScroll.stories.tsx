@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { DateScroll } from ".";
+
 import { formatDateKey } from "../../utils";
+import { DateScroll } from ".";
 
 const today = new Date();
 const dates = Array.from({ length: 14 }, (_, i) => {

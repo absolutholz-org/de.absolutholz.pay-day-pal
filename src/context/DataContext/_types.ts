@@ -1,4 +1,5 @@
 import type { Firestore } from "firebase/firestore";
+
 import type {
 	AccentColor,
 	Currency,

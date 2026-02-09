@@ -1,5 +1,5 @@
-import * as S from "./_Button.styles";
 import type { ButtonProps } from "./_Button.styles";
+import * as S from "./_Button.styles";
 
 export const Button = ({
 	children,

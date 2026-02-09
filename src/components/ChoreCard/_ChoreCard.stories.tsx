@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ChoreCard } from ".";
 import { DataProvider } from "../../context/DataContext";
+import { ChoreCard } from ".";
 
 const meta = {
 	title: "Components/ChoreCard",

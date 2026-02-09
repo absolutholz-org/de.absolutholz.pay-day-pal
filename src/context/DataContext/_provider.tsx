@@ -17,6 +17,8 @@ import {
 	where,
 } from "firebase/firestore";
 import { ReactNode, useState } from "react";
+
+import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 import {
 	AccentColor,
 	ActivityRecord,
@@ -30,7 +32,6 @@ import {
 import { formatDateKey } from "../../utils";
 import { DataContext } from "./_context";
 import { Activity } from "./_types";
-import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

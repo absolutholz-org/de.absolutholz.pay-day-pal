@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import { setColorSchemeFromLocalStorage } from "./components/ColorSchemeToggle";
+import { DataProvider, useData } from "./context/DataContext";
+import { LocalizationProvider } from "./context/LocalizationContext";
 import HistoryScreen from "./screens/HistoryScreen";
 import HomeScreen from "./screens/HomeScreen";
 import HouseholdSelectionScreen from "./screens/HouseholdSelectionScreen";
 import PeriodSelectionScreen from "./screens/PeriodSelectionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import { setColorSchemeFromLocalStorage } from "./components/ColorSchemeToggle";
-import { DataProvider, useData } from "./context/DataContext";
-import { LocalizationProvider } from "./context/LocalizationContext";
 
 function AppContent() {
 	const { currentHousehold, selectHousehold, db } = useData();

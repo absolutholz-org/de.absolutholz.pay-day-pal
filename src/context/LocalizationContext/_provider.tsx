@@ -1,9 +1,9 @@
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 
 import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
+import { TRANSLATIONS } from "../../constants/translations";
 import type { Language } from "../../types";
 import { useData } from "../DataContext/_hooks";
-import { TRANSLATIONS } from "../../constants/translations";
 import { LocalizationContext } from "./_context";
 
 const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}language`;

@@ -2,6 +2,7 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { Button } from "../components/Button";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
@@ -9,7 +10,6 @@ import { useLocalization } from "../context/LocalizationContext";
 import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
 import { Period } from "../types";
 import { formatDate } from "../utils";
-import { Button } from "../components/Button";
 
 export default function PeriodSelectionScreen() {
 	const { getPastPeriods } = useData();

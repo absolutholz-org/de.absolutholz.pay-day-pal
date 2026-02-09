@@ -1,24 +1,24 @@
 import { ArrowLeft, Euro, History } from "lucide-react";
 import { useState } from "react";
-
 import { Link } from "react-router-dom";
+
+import { Button } from "../components/Button";
 import { ColorSchemeToggle } from "../components/ColorSchemeToggle";
 import { ConfirmDialog } from "../components/ConfirmDialog";
+import { CurrencySelectionDialog } from "../components/CurrencySelectionDialog";
+import { DataDisplay } from "../components/DataDisplay";
+import { FrostedGlassSection } from "../components/FrostedGlassSection";
 import { HouseholdMemberListEditor } from "../components/HouseholdMemberListEditor";
+import { LanguageSelectionDialog } from "../components/LanguageSelectionDialog";
+import { LanguageSelector } from "../components/LanguageSelector";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
+import { PageSection } from "../components/PageSection";
+import { PromptDialog } from "../components/PromptDialog";
+import { SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from "../constants";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import { SUPPORTED_CURRENCIES, SUPPORTED_LANGUAGES } from "../constants";
 import type { Language } from "../types";
-import { Button } from "../components/Button";
-import { PageSection } from "../components/PageSection";
-import { DataDisplay } from "../components/DataDisplay";
-import { PromptDialog } from "../components/PromptDialog";
-import { LanguageSelector } from "../components/LanguageSelector";
-import { FrostedGlassSection } from "../components/FrostedGlassSection";
-import { CurrencySelectionDialog } from "../components/CurrencySelectionDialog";
-import { LanguageSelectionDialog } from "../components/LanguageSelectionDialog";
 
 export default function SettingsScreen() {
 	const {

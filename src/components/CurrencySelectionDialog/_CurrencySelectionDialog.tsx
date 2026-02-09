@@ -3,9 +3,9 @@ import { useState } from "react";
 import { SUPPORTED_CURRENCIES } from "../../constants";
 import { useLocalization } from "../../context/LocalizationContext";
 import { Currency } from "../../types";
+import { Button } from "../Button";
 import { Dialog } from "../Dialog";
 import { RadioCardGroup } from "../RadioCardGroup";
-import { Button } from "../Button";
 import type { CurrencySelectionDialogProps } from "./_CurrencySelectionDialog.types";
 
 export function CurrencySelectionDialog({

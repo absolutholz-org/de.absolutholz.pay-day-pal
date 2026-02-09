@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "../Button";
 import { Dialog } from "../Dialog";
 import { Input } from "../Input";
 import { Select } from "../Select";
-import { PromptDialogProps } from "./_PromptDialog.types";
 import { VisuallyHidden } from "../VisuallyHidden";
+import { PromptDialogProps } from "./_PromptDialog.types";
 
 export function PromptDialog({
 	isOpen,

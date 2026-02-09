@@ -1,11 +1,13 @@
 import { addDoc, collection, Firestore, onSnapshot } from "firebase/firestore";
 import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { PageContainer } from "../components/PageContainer";
+
+import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
-import { Select } from "../components/Select";
+import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
+import { Select } from "../components/Select";
 import {
 	DEFAULT_CHORES,
 	LOCAL_STORAGE_KEY_PREFIX,
@@ -21,7 +23,6 @@ import {
 	Subtitle,
 } from "../globalStyles";
 import { AccentColor, Household, Language } from "../types";
-import { Button } from "../components/Button";
 
 const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
 

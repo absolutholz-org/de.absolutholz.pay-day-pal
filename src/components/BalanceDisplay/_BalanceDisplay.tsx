@@ -1,6 +1,5 @@
 import { useLocalization } from "../../context/LocalizationContext";
 import { useCurrency } from "../../hooks/useCurrency";
-
 import * as S from "./_BalanceDisplay.styles";
 import { BalanceDisplayProps } from "./_BalanceDisplay.types";
 

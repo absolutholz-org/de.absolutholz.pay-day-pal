@@ -1,5 +1,5 @@
-import { MouseEvent, useEffect, useRef } from "react";
 import { X } from "lucide-react";
+import { MouseEvent, useEffect, useRef } from "react";
 
 import * as S from "./_Dialog.styles";
 import type { DialogProps } from "./_Dialog.types";

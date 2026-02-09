@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 
 import { CHORE_CATEGORIES } from "../../constants/constants";
 import { useData } from "../../context/DataContext";
-import { useCurrency } from "../../hooks/useCurrency";
 import { useLocalization } from "../../context/LocalizationContext";
-import * as S from "./_ChoreCard.styles";
+import { useCurrency } from "../../hooks/useCurrency";
 import { ConfettiBurst } from "../ConfettiBurst";
+import * as S from "./_ChoreCard.styles";
 
 export interface ChoreCardProps {
 	id: string;

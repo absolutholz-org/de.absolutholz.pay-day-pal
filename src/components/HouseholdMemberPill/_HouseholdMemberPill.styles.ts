@@ -1,6 +1,7 @@
-import styled from "@emotion/styled";
-import { HouseholdMemberPillSize } from "./_HouseholdMemberPill.types";
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+
+import { HouseholdMemberPillSize } from "./_HouseholdMemberPill.types";
 
 export const Pill = styled.button<{
 	isActive: boolean;

@@ -6,27 +6,27 @@ import {
 	onSnapshot,
 	query,
 	setDoc,
-	where,
 	Timestamp,
+	where,
 } from "firebase/firestore";
 import { Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { BackToTop } from "../components/BackToTop";
+import { BalanceDisplay } from "../components/BalanceDisplay";
+import { Button } from "../components/Button";
+import { ChoreCardList } from "../components/ChoreCardList";
 import { DateScroll } from "../components/DateScroll";
+import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
 import { LoadingIndicator, Subtitle } from "../globalStyles";
 import { ChoreData, Household, Period } from "../types";
 import { formatDateKey } from "../utils";
-import { ChoreCardList } from "../components/ChoreCardList";
-import { BalanceDisplay } from "../components/BalanceDisplay";
-import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
-import { Button } from "../components/Button";
-import { BackToTop } from "../components/BackToTop";
-import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
 
 interface HomeScreenProps {
 	household: Household;

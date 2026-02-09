@@ -1,12 +1,12 @@
 import { Global } from "@emotion/react";
 import { DocsContainer } from "@storybook/addon-docs/blocks";
 import type { Preview } from "@storybook/react-vite";
-import { themes } from "storybook/theming";
 import { useEffect } from "react";
+import { themes } from "storybook/theming";
 
-import { globalStyles } from "../src/globalStyles";
 import { DataProvider } from "../src/context/DataContext";
 import { LocalizationProvider } from "../src/context/LocalizationContext";
+import { globalStyles } from "../src/globalStyles";
 
 const preview: Preview = {
 	globalTypes: {

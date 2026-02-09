@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ColorSchemeToggle } from ".";
 import { DataProvider } from "../../context/DataContext";
+import { ColorSchemeToggle } from ".";
 
 const meta = {
 	title: "Components/ColorSchemeToggle",

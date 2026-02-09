@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
 
 // Animation for the modal appearing
 export const fadeIn = keyframes`

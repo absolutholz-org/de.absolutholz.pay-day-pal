@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { useLocalization } from "../../context/LocalizationContext";
+import { RadioCardGroup } from "../RadioCardGroup";
 import {
 	DATA_COLOR_SCHEME_ATTR,
 	DEFAULT_COLOR_SCHEME,
 	SCHEME_STORAGE_KEY,
 } from "./_ColorSchemeToggle.constants";
-import { RadioCardGroup } from "../RadioCardGroup";
 import type { ColorScheme } from "./_ColorSchemeToggle.types";
 
 export function ColorSchemeToggle() {
