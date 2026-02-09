@@ -5,11 +5,11 @@ import * as S from "./_Dialog.styles";
 import type { DialogProps } from "./_Dialog.types";
 
 export const Dialog = ({
+	children,
+	footer,
 	isOpen,
 	onClose,
 	title,
-	children,
-	footer,
 }: DialogProps) => {
 	const dialogRef = useRef<HTMLDialogElement>(null);
 

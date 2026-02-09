@@ -5,9 +5,11 @@ import { DataProvider } from "../../context/DataContext";
 import { ChoreCardList } from ".";
 
 const meta = {
-	title: "Components/ChoreCardList",
+	args: {
+		currentActivityDate: "2023-10-25",
+		currentMemberId: "child-1",
+	},
 	component: ChoreCardList,
-	tags: ["autodocs"],
 	decorators: [
 		(Story) => (
 			<DataProvider>
@@ -15,10 +17,8 @@ const meta = {
 			</DataProvider>
 		),
 	],
-	args: {
-		currentMemberId: "child-1",
-		currentActivityDate: "2023-10-25",
-	},
+	tags: ["autodocs"],
+	title: "Components/ChoreCardList",
 } satisfies Meta<typeof ChoreCardList>;
 
 export default meta;
@@ -28,8 +28,8 @@ export const Default: Story = {
 	args: {
 		chores: DEFAULT_CHORES,
 		counts: {
-			"make-bed": 1,
 			"laundry-fold": 2,
+			"make-bed": 1,
 		},
 		language: "en",
 	},

@@ -4,10 +4,10 @@ import * as S from "./_HistoryGroup.styles";
 import { type HistoryGroupProps } from "./_HistoryGroup.types";
 
 export function HistoryGroup({
-	title,
-	subTitle,
 	amountEarned,
 	items,
+	subTitle,
+	title,
 }: HistoryGroupProps) {
 	const formattedValue = useCurrency(amountEarned, "en-DE", "EUR");
 
@@ -25,7 +25,7 @@ export function HistoryGroup({
 				</S.HistoryGroup_TotalAmount>
 			</S.HistoryGroup_Summary>
 			<S.HistoryGroup_List role="list">
-				{items.map(({ id, name, emoji }) => (
+				{items.map(({ emoji, id, name }) => (
 					<S.HistoryGroup_ListItem key={id}>
 						<HistoryItem
 							title={name}

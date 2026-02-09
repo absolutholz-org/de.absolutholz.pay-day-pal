@@ -3,8 +3,8 @@ import * as S from "./_HouseholdMemberSelector.styles";
 import { type HouseholdMemberSelectorProps } from "./_HouseholdMemberSelector.types";
 
 export function HouseholdMemberSelector({
-	members,
 	activeMemberId,
+	members,
 	onSelectMember,
 }: HouseholdMemberSelectorProps) {
 	return (

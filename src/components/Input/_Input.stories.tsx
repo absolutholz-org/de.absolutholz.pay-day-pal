@@ -3,10 +3,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Input } from ".";
 
 const meta = {
-	title: "Primitives/Input",
 	component: Input,
-
 	tags: ["autodocs"],
+
+	title: "Primitives/Input",
 } satisfies Meta<typeof Input>;
 
 export default meta;
@@ -20,7 +20,7 @@ export const Default: Story = {
 
 export const WithValue: Story = {
 	args: {
-		value: "Some value",
 		readOnly: true,
+		value: "Some value",
 	},
 };

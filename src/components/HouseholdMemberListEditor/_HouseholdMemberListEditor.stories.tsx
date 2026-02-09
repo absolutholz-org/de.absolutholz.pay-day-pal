@@ -4,32 +4,32 @@ import { type HouseholdMember } from "../../types";
 import { HouseholdMemberListEditor } from "./_HouseholdMemberListEditor";
 
 const meta = {
-	title: "Components/HouseholdMemberListEditor",
 	component: HouseholdMemberListEditor,
-
 	tags: ["autodocs"],
+
+	title: "Components/HouseholdMemberListEditor",
 } satisfies Meta<typeof HouseholdMemberListEditor>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockMembers: HouseholdMember[] = [
-	{ id: "1", name: "Alice", disabled: false, emoji: "👩", color: "red" },
-	{ id: "2", name: "Bob", disabled: false, emoji: "👨", color: "blue" },
-	{ id: "3", name: "Charlie", disabled: true, emoji: "👦", color: "green" },
+	{ color: "red", disabled: false, emoji: "👩", id: "1", name: "Alice" },
+	{ color: "blue", disabled: false, emoji: "👨", id: "2", name: "Bob" },
+	{ color: "green", disabled: true, emoji: "👦", id: "3", name: "Charlie" },
 ];
 
 export const Default: Story = {
 	args: {
+		labels: {
+			addMember: "Add Member",
+			disableConfirm: "Disable {name}?",
+			newMemberNamePlaceholder: "New Member Name",
+		},
 		members: mockMembers,
 		onAddMember: (name, emoji, color) =>
 			console.log("Add", name, emoji, color),
-		onUpdateMember: (id, data) => console.log("Update", id, data),
 		onToggleMemberStatus: (id) => console.log("Toggle", id),
-		labels: {
-			newMemberNamePlaceholder: "New Member Name",
-			disableConfirm: "Disable {name}?",
-			addMember: "Add Member",
-		},
+		onUpdateMember: (id, data) => console.log("Update", id, data),
 	},
 };

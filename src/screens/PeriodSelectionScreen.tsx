@@ -57,8 +57,8 @@ export default function PeriodSelectionScreen() {
 								key={period.id}
 								to={`/history/${period.id}`}
 								style={{
-									textDecoration: "none",
 									color: "inherit",
+									textDecoration: "none",
 								}}
 							>
 								<Card style={{ cursor: "pointer" }}>

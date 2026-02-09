@@ -4,6 +4,7 @@ import storybook from "eslint-plugin-storybook";
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
+import perfectionist from "eslint-plugin-perfectionist";
 import reactRefresh from "eslint-plugin-react-refresh";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import tseslint from "typescript-eslint";
@@ -21,6 +22,7 @@ export default tseslint.config(
 		plugins: {
 			"react-hooks": reactHooks,
 			"react-refresh": reactRefresh,
+			perfectionist,
 			"simple-import-sort": simpleImportSort,
 		},
 		rules: {
@@ -33,6 +35,12 @@ export default tseslint.config(
 				{
 					prefer: "type-imports",
 					fixStyle: "inline-type-imports",
+				},
+			],
+			"perfectionist/sort-objects": [
+				"error",
+				{
+					type: "alphabetical",
 				},
 			],
 		},

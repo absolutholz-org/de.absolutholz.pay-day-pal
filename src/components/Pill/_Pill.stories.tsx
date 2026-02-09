@@ -3,9 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Pill } from ".";
 
 const meta: Meta<typeof Pill> = {
-	title: "Primitives/Pill",
-	component: Pill,
-	tags: ["autodocs"],
 	argTypes: {
 		active: { control: "boolean" },
 		onClick: { action: "clicked" },
@@ -14,6 +11,9 @@ const meta: Meta<typeof Pill> = {
 			options: ["small", "medium", "large"],
 		},
 	},
+	component: Pill,
+	tags: ["autodocs"],
+	title: "Primitives/Pill",
 };
 
 export default meta;

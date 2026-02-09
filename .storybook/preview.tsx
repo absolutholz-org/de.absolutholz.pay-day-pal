@@ -9,18 +9,6 @@ import { LocalizationProvider } from "../src/context/LocalizationContext";
 import { globalStyles } from "../src/globalStyles";
 
 const preview: Preview = {
-	globalTypes: {
-		scheme: {
-			name: "Scheme",
-			description: "Select light or dark theme",
-			defaultValue: "light",
-			toolbar: {
-				icon: "mirror",
-				items: ["light", "dark"],
-				dynamicTitle: true,
-			},
-		},
-	},
 	decorators: [
 		(Story, context) => {
 			const { scheme } = context.globals;
@@ -42,7 +30,25 @@ const preview: Preview = {
 			);
 		},
 	],
+	globalTypes: {
+		scheme: {
+			defaultValue: "light",
+			description: "Select light or dark theme",
+			name: "Scheme",
+			toolbar: {
+				dynamicTitle: true,
+				icon: "mirror",
+				items: ["light", "dark"],
+			},
+		},
+	},
 	parameters: {
+		controls: {
+			matchers: {
+				color: /(background|color)$/i,
+				date: /Date$/i,
+			},
+		},
 		docs: {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			container: ({ children, context }: any) => {
@@ -65,12 +71,6 @@ const preview: Preview = {
 						{children}
 					</DocsContainer>
 				);
-			},
-		},
-		controls: {
-			matchers: {
-				color: /(background|color)$/i,
-				date: /Date$/i,
 			},
 		},
 		layout: "padded", // Options: 'centered', 'fullscreen', 'padded'

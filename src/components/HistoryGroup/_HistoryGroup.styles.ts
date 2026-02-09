@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const HistoryGroup = styled.details`
-	background-color: rgba(255, 255, 255, 0.9);
 	backdrop-filter: blur(8px);
+	background-color: rgba(255, 255, 255, 0.9);
 	border-radius: 24px;
 	box-shadow:
 		0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -17,10 +17,10 @@ export const HistoryGroup_Summary = styled.summary`
 	display: flex;
 	gap: 0.75rem;
 	justify-content: space-between;
-	padding: 1rem;
 
 	/* Hiding the default browser triangle marker */
 	list-style: none;
+	padding: 1rem;
 	&::-webkit-details-marker {
 		display: none;
 	}
@@ -48,8 +48,8 @@ export const HistoryGroup_HeaderMain = styled.div`
 `;
 
 export const HistoryGroup_Title = styled.div`
-	font-weight: 700;
 	font-size: 1.125rem;
+	font-weight: 700;
 	line-height: 1.75rem;
 `;
 

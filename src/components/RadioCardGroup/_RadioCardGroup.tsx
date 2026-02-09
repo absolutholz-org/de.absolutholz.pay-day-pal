@@ -8,12 +8,12 @@ import type {
 } from "./_RadioCardGroup.types";
 
 const RadioCard = ({
-	label,
-	value,
 	icon,
 	isSelected,
-	onChange,
+	label,
 	name,
+	onChange,
+	value,
 }: RadioCardProps) => {
 	return (
 		<>
@@ -44,10 +44,10 @@ const RadioCard = ({
 };
 
 export const RadioCardGroup = ({
-	options,
 	initialValue,
-	onChange,
 	name,
+	onChange,
+	options,
 }: RadioCardGroupProps) => {
 	const [selectedValue, setSelectedValue] = useState(initialValue);
 

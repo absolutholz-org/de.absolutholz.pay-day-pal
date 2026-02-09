@@ -2,8 +2,8 @@ import * as S from "./_FrostedGlassSection.styles";
 import type { FrostedGlassSectionProps } from "./_FrostedGlassSection.types";
 
 export function FrostedGlassSection({
-	headline,
 	children,
+	headline,
 }: FrostedGlassSectionProps) {
 	return (
 		<S.FrostedGlassSection>

@@ -4,10 +4,10 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Label } from ".";
 
 const meta = {
-	title: "Components/Label",
 	component: Label,
-
 	tags: ["autodocs"],
+
+	title: "Components/Label",
 } satisfies Meta<typeof Label>;
 
 export default meta;

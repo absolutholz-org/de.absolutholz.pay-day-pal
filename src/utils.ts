@@ -7,9 +7,9 @@ export const formatDateKey = (date: Date) => {
 
 export const formatDate = (date: Date) => {
 	return date.toLocaleDateString(undefined, {
+		day: "numeric",
+		month: "short",
 		weekday: "short",
 		year: "numeric",
-		month: "short",
-		day: "numeric",
 	});
 };

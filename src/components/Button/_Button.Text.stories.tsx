@@ -3,24 +3,24 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./_Button";
 
 const meta = {
-	title: "Primitives/Button/Variants/Text",
-	component: Button,
-
-	tags: ["autodocs"],
+	args: {
+		color: "primary",
+		variant: "text",
+	},
 	argTypes: {
+		children: { control: "text" },
+		disabled: { control: "boolean" },
+		fullWidth: { control: "boolean" },
+		isLoading: { control: "boolean" },
 		size: {
 			control: "select",
 			options: ["small", "medium", "large"],
 		},
-		isLoading: { control: "boolean" },
-		disabled: { control: "boolean" },
-		fullWidth: { control: "boolean" },
-		children: { control: "text" },
 	},
-	args: {
-		variant: "text",
-		color: "primary",
-	},
+
+	component: Button,
+	tags: ["autodocs"],
+	title: "Primitives/Button/Variants/Text",
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -69,7 +69,7 @@ export const WithIcon: Story = {
 
 export const IconOnly: Story = {
 	args: {
-		children: <span>🚀</span>,
 		"aria-label": "Icon Only",
+		children: <span>🚀</span>,
 	},
 };

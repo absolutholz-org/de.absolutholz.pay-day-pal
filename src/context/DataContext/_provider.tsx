@@ -35,11 +35,11 @@ import { type Activity } from "./_types";
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+	appId: import.meta.env.VITE_FIREBASE_APP_ID,
 	authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+	messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
 	projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
 	storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-	messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-	appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -108,10 +108,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
 		if (trimmedName) {
 			const newId = trimmedName.toLowerCase().replace(/\s+/g, "-");
 			const newMember: HouseholdMember = {
+				color,
+				emoji,
 				id: newId,
 				name: trimmedName,
-				emoji,
-				color,
 			};
 			const newMembers = [...currentHousehold.members, newMember];
 			await updateDoc(doc(db, "households", currentHousehold.id), {
@@ -167,9 +167,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
 
 		if (startNew) {
 			await addDoc(periodsRef, {
-				startDate: now,
-				endDate: null,
 				createdAt: now,
+				endDate: null,
+				startDate: now,
 			});
 		}
 	};
@@ -190,9 +190,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
 				return {
 					id: doc.id,
 					...data,
-					startDate: toDate(data.startDate),
-					endDate: toDate(data.endDate),
 					createdAt: toDate(data.createdAt),
+					endDate: toDate(data.endDate),
+					startDate: toDate(data.startDate),
 				} as Period;
 			})
 			.filter((p) => p.endDate);
@@ -223,14 +223,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
 				"activity_records",
 			),
 			{
-				memberId,
 				choreId,
-				date: dateKey,
-				createdAt: new Date(),
-				value: chore.value,
 				choreLabel:
 					chore.labels[currentHousehold.language] ||
 					chore.labels["en"],
+				createdAt: new Date(),
+				date: dateKey,
+				memberId,
+				value: chore.value,
 			},
 		);
 		await updateDoc(activityRef, {
@@ -298,11 +298,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 			);
 			if (member) {
 				activities.push({
-					id: doc.id,
+					choreLabel: data.choreLabel,
 					date: data.date,
+					id: doc.id,
 					memberId: data.memberId,
 					memberName: member.name,
-					choreLabel: data.choreLabel,
 					value: data.value,
 				});
 			}
@@ -325,9 +325,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
 		const period = {
 			id: periodDoc.id,
 			...pData,
-			startDate: toDate(pData?.startDate),
-			endDate: toDate(pData?.endDate),
 			createdAt: toDate(pData?.createdAt),
+			endDate: toDate(pData?.endDate),
+			startDate: toDate(pData?.startDate),
 		} as Period;
 
 		const start = new Date(period.startDate);
@@ -359,11 +359,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 				);
 				if (member) {
 					activities.push({
-						id: doc.id,
+						choreLabel: data.choreLabel,
 						date: data.date,
+						id: doc.id,
 						memberId: data.memberId,
 						memberName: member.name,
-						choreLabel: data.choreLabel,
 						value: data.value,
 					});
 				}
@@ -410,11 +410,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
 						if (count > 0 && chore.value > 0) {
 							for (let i = 0; i < count; i++) {
 								activities.push({
-									id: `${member.id}_${key}_${i}`,
+									choreLabel: chore.labels["en"],
 									date: dateKey,
+									id: `${member.id}_${key}_${i}`,
 									memberId: member.id,
 									memberName: member.name,
-									choreLabel: chore.labels["en"],
 									value: chore.value,
 								});
 							}
@@ -424,28 +424,28 @@ export function DataProvider({ children }: { children: ReactNode }) {
 			});
 		}
 
-		return { period, activities };
+		return { activities, period };
 	};
 
 	return (
 		<DataContext.Provider
 			value={{
-				db,
-				currentHousehold,
-				selectHousehold,
-				leaveHousehold,
-				updateHouseholdName,
-				updateHouseholdLanguage,
-				updateHouseholdCurrency,
+				addActivityRecord,
 				addMember,
-				toggleMemberStatus,
-				updateMember,
+				currentHousehold,
+				db,
 				finishPeriod,
 				getPastPeriods,
 				getPeriodActivities,
-				addActivityRecord,
-				removeActivityRecord,
 				getRecentActivities,
+				leaveHousehold,
+				removeActivityRecord,
+				selectHousehold,
+				toggleMemberStatus,
+				updateHouseholdCurrency,
+				updateHouseholdLanguage,
+				updateHouseholdName,
+				updateMember,
 			}}
 		>
 			{children}

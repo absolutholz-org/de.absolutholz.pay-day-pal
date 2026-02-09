@@ -4,18 +4,18 @@ import { ArrowLeft, Settings } from "lucide-react";
 import { PageHeader } from "./_PageHeader";
 
 const meta = {
-	title: "Components/PageHeader",
+	argTypes: {
+		slotLead: { control: false },
+		slotMain: { control: false },
+		slotTrail: { control: false },
+		title: { control: "text" },
+	},
 	component: PageHeader,
 	parameters: {
 		layout: "fullscreen",
 	},
 	tags: ["autodocs"],
-	argTypes: {
-		title: { control: "text" },
-		slotLead: { control: false },
-		slotMain: { control: false },
-		slotTrail: { control: false },
-	},
+	title: "Components/PageHeader",
 } satisfies Meta<typeof PageHeader>;
 
 export default meta;
@@ -29,32 +29,32 @@ export const Default: Story = {
 
 export const WithSubtitle: Story = {
 	args: {
-		title: "Household Name",
 		slotMain: (
 			<div style={{ color: "#7f8c8d" }}>Track chores and earn!</div>
 		),
+		title: "Household Name",
 	},
 };
 
 export const WithNavigation: Story = {
 	args: {
-		title: "Settings",
 		slotLead: <ArrowLeft size={24} />,
+		title: "Settings",
 	},
 };
 
 export const WithActions: Story = {
 	args: {
-		title: "Dashboard",
 		slotTrail: <Settings size={24} />,
+		title: "Dashboard",
 	},
 };
 
 export const Full: Story = {
 	args: {
-		title: "Full Header",
 		slotLead: <ArrowLeft size={24} />,
 		slotMain: <div style={{ color: "#7f8c8d" }}>With all slots filled</div>,
 		slotTrail: <Settings size={24} />,
+		title: "Full Header",
 	},
 };

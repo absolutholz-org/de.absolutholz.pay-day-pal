@@ -11,16 +11,16 @@ const dates = Array.from({ length: 14 }, (_, i) => {
 });
 
 const meta = {
-	title: "Components/DateScroll",
+	args: {
+		getDailyTotal: (date) => (date.getDate() % 2 === 0 ? 15.5 : 0),
+		onDateSelect: (date) => console.log("Selected date:", date),
+	},
 	component: DateScroll,
-	tags: ["autodocs"],
 	parameters: {
 		layout: "fullscreen",
 	},
-	args: {
-		onDateSelect: (date) => console.log("Selected date:", date),
-		getDailyTotal: (date) => (date.getDate() % 2 === 0 ? 15.5 : 0),
-	},
+	tags: ["autodocs"],
+	title: "Components/DateScroll",
 } satisfies Meta<typeof DateScroll>;
 
 export default meta;

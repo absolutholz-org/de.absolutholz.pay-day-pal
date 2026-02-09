@@ -3,22 +3,22 @@ import { type PillProps } from "./_Pill.types";
 
 export const Pill: React.FC<PillProps> = ({
 	children,
-	slotLead,
-	slotTrail,
-	size = "medium",
 	// active,
 	color = "firebrick",
 	onClick,
+	size = "medium",
+	slotLead,
+	slotTrail,
 }) => {
 	const PillVariant = {
-		small: S.Pill_Small,
-		medium: S.Pill_Medium,
 		large: S.Pill_Large,
+		medium: S.Pill_Medium,
+		small: S.Pill_Small,
 	}[size];
 
 	return (
 		<PillVariant
-			style={{ "--pill-accent": color, "--on-pill-accent": "white" }}
+			style={{ "--on-pill-accent": "white", "--pill-accent": color }}
 			onClick={onClick}
 		>
 			{slotLead && <S.Pill_SlotLead>{slotLead}</S.Pill_SlotLead>}

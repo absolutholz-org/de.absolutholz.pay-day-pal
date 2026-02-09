@@ -8,16 +8,16 @@ import { VisuallyHidden } from "../VisuallyHidden";
 import { type PromptDialogProps } from "./_PromptDialog.types";
 
 export function PromptDialog({
-	isOpen,
-	title,
-	message,
-	defaultValue = "",
-	onConfirm,
-	onCancel,
-	confirmLabel = "OK",
 	cancelLabel = "Cancel",
+	confirmLabel = "OK",
+	defaultValue = "",
 	inputPlaceholder,
+	isOpen,
+	message,
+	onCancel,
+	onConfirm,
 	options,
+	title,
 }: PromptDialogProps) {
 	const [value, setValue] = useState(defaultValue);
 

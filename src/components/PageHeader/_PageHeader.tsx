@@ -3,10 +3,10 @@ import * as S from "./_PageHeader.styles";
 import { type PageHeaderProps } from "./_PageHeader.types";
 
 export function PageHeader({
-	title,
 	slotLead,
 	slotMain,
 	slotTrail,
+	title,
 }: PageHeaderProps) {
 	return (
 		<S.PageHeader>

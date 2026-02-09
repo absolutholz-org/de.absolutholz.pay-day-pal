@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
 export const Row = styled.div<{ disabled?: boolean }>`
-	display: flex;
 	align-items: center;
+	display: flex;
 	gap: 0.5rem;
 	margin-bottom: 0.5rem;
 	opacity: ${(props) => (props.disabled ? 0.6 : 1)};
@@ -28,8 +28,8 @@ export const HouseholdMemberEditorRow = styled.div`
 		oklch(from var(--member-color) l c h / 0.25),
 		transparent 50%
 	);
-	border-radius: 0.75rem;
 	border: 2px solid var(--card-border);
+	border-radius: 0.75rem;
 	color: var(--text-sub);
 	display: flex;
 	gap: 1rem;

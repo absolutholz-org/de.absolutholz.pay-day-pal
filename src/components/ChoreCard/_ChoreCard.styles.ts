@@ -40,11 +40,11 @@ const darkTheme = css`
 
 export const ChoreCard = styled.div`
 	${colorSchemeCss({
-		lightCssVars: css`
-			${lightTheme}
-		`,
 		darkCssVars: css`
 			${darkTheme}
+		`,
+		lightCssVars: css`
+			${lightTheme}
 		`,
 	})}
 
@@ -129,16 +129,16 @@ export const ChoreCard_Bottom = styled.div`
 `;
 
 export const ChoreCard_Title = styled.h3`
+	text-align: center;
 	align-items: center;
 	/* color: oklch(0.278 0.033 256.848); */
-	display: flex;
 	font-size: 1.125rem;
 	font-weight: 600;
 	justify-content: center;
 	line-height: 1.25;
 	margin-block: 0 1rem;
 	min-height: 2.5rem;
-	text-align: center;
+	display: flex;
 `;
 
 export const ChoreCard_Stepper = styled.div`

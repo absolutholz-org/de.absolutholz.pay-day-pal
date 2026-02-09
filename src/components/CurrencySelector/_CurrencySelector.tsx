@@ -7,15 +7,15 @@ export interface CurrencySelectorProps {
 }
 
 export const CurrencySelector = ({
-	value,
 	onChange,
+	value,
 }: CurrencySelectorProps) => {
 	return (
 		<RadioCardGroup
-			options={SUPPORTED_CURRENCIES.map(({ value, label, emoji }) => ({
-				value,
-				label,
+			options={SUPPORTED_CURRENCIES.map(({ emoji, label, value }) => ({
 				icon: emoji,
+				label,
+				value,
 			}))}
 			name="currency"
 			initialValue={value}

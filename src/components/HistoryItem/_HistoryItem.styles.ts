@@ -32,11 +32,11 @@ export const ItemName = styled.div`
 `;
 
 export const MetaRow = styled.div`
-	display: flex;
 	align-items: center;
-	gap: 8px;
-	font-size: 0.875rem;
 	color: var(--on-surface-3);
+	display: flex;
+	font-size: 0.875rem;
+	gap: 8px;
 	margin-top: 2px;
 `;
 
@@ -55,6 +55,6 @@ export const MetaRow = styled.div`
 // `;
 
 export const ItemPrice = styled.div`
-	font-weight: 700;
 	color: var(--accent-green); /* Green-600 */
+	font-weight: 700;
 `;

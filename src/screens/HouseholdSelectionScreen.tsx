@@ -32,8 +32,8 @@ import { type AccentColor, type Household, type Language } from "../types";
 const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
 
 export default function HouseholdSelectionScreen({
-	onSelectHousehold,
 	db,
+	onSelectHousehold,
 }: {
 	onSelectHousehold: (household: Household) => void;
 	db: Firestore;
@@ -97,21 +97,21 @@ export default function HouseholdSelectionScreen({
 		const validMembers = newMembers
 			.filter((m) => m.trim())
 			.map((name) => ({
+				color: "red" as AccentColor,
+				emoji: "👤",
 				id: name.toLowerCase().replace(/\s+/g, "-"),
 				name,
-				emoji: "👤",
-				color: "red" as AccentColor,
 			}));
 
 		if (validMembers.length === 0)
 			return alert("Please add at least one member");
 
 		const newHousehold: Omit<Household, "id"> = {
-			name: newHouseholdName,
-			members: validMembers,
 			chores: DEFAULT_CHORES,
 			currency: "EUR",
 			language: newHouseholdLanguage,
+			members: validMembers,
+			name: newHouseholdName,
 		};
 
 		try {
@@ -123,9 +123,9 @@ export default function HouseholdSelectionScreen({
 
 			// Create initial period
 			await addDoc(collection(db, "households", docRef.id, "periods"), {
-				startDate: new Date(),
-				endDate: null,
 				createdAt: new Date(),
+				endDate: null,
+				startDate: new Date(),
 			});
 
 			onSelectHousehold(created);
@@ -216,8 +216,8 @@ export default function HouseholdSelectionScreen({
 											)
 										}
 										style={{
-											position: "static",
 											color: "#e74c3c",
+											position: "static",
 										}}
 									>
 										<Trash2 size={20} />
@@ -280,7 +280,7 @@ export default function HouseholdSelectionScreen({
 				</div>
 
 				{households.length > 0 && (
-					<div style={{ maxWidth: "600px", margin: "0 auto" }}>
+					<div style={{ margin: "0 auto", maxWidth: "600px" }}>
 						{households.map((h) => (
 							<Card
 								key={h.id}

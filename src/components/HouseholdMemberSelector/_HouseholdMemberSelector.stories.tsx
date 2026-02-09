@@ -4,59 +4,59 @@ import { ACCENT_COLORS, type HouseholdMember } from "../../types";
 import { HouseholdMemberSelector } from "./_HouseholdMemberSelector";
 
 const meta = {
-	title: "Components/HouseholdMemberSelector",
-	component: HouseholdMemberSelector,
-
-	tags: ["autodocs"],
-	argTypes: {
-		activeMemberId: { control: "text" },
-	},
 	args: {
 		onSelectMember: () => {},
 	},
+	argTypes: {
+		activeMemberId: { control: "text" },
+	},
+
+	component: HouseholdMemberSelector,
+	tags: ["autodocs"],
+	title: "Components/HouseholdMemberSelector",
 } satisfies Meta<typeof HouseholdMemberSelector>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 const mockMembers: HouseholdMember[] = [
-	{ id: "1", name: "Alice", disabled: false, emoji: "👩", color: "red" },
-	{ id: "2", name: "Bob", disabled: false, emoji: "👨", color: "blue" },
-	{ id: "3", name: "Charlie", disabled: false, emoji: "👦", color: "green" },
+	{ color: "red", disabled: false, emoji: "👩", id: "1", name: "Alice" },
+	{ color: "blue", disabled: false, emoji: "👨", id: "2", name: "Bob" },
+	{ color: "green", disabled: false, emoji: "👦", id: "3", name: "Charlie" },
 ];
 
 export const Default: Story = {
 	args: {
-		members: mockMembers,
 		activeMemberId: "1",
+		members: mockMembers,
 	},
 };
 
 export const WithDisabledMembers: Story = {
 	args: {
+		activeMemberId: "1",
 		members: [
 			...mockMembers,
 			{
-				id: "4",
-				name: "Dave (Disabled)",
+				color: "blue",
 				disabled: true,
 				emoji: "👴",
-				color: "blue",
+				id: "4",
+				name: "Dave (Disabled)",
 			},
 		],
-		activeMemberId: "1",
 	},
 };
 
 export const ManyMembers: Story = {
 	args: {
+		activeMemberId: "0",
 		members: Array.from({ length: 10 }, (_, i) => ({
-			id: `${i}`,
-			name: `Member ${i + 1}`,
+			color: ACCENT_COLORS[i % ACCENT_COLORS.length],
 			disabled: false,
 			emoji: "👤",
-			color: ACCENT_COLORS[i % ACCENT_COLORS.length],
+			id: `${i}`,
+			name: `Member ${i + 1}`,
 		})),
-		activeMemberId: "0",
 	},
 };

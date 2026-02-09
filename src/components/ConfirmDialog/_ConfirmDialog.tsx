@@ -3,15 +3,15 @@ import { Dialog } from "../Dialog";
 import { type ConfirmDialogProps } from "./_ConfirmDialog.types";
 
 export function ConfirmDialog({
-	isOpen,
-	title,
-	message,
-	confirmLabel = "Confirm",
 	cancelLabel = "Cancel",
-	onConfirm,
-	onCancel,
-	variant = "primary",
 	children,
+	confirmLabel = "Confirm",
+	isOpen,
+	message,
+	onCancel,
+	onConfirm,
+	title,
+	variant = "primary",
 }: ConfirmDialogProps) {
 	return (
 		<Dialog

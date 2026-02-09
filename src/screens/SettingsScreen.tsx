@@ -22,15 +22,15 @@ import type { Language } from "../types";
 
 export default function SettingsScreen() {
 	const {
-		currentHousehold: household,
-		updateHouseholdName,
-		updateHouseholdLanguage,
-		updateHouseholdCurrency,
 		addMember,
-		updateMember,
-		toggleMemberStatus,
-		leaveHousehold,
+		currentHousehold: household,
 		finishPeriod,
+		leaveHousehold,
+		toggleMemberStatus,
+		updateHouseholdCurrency,
+		updateHouseholdLanguage,
+		updateHouseholdName,
+		updateMember,
 	} = useData();
 	const { t } = useLocalization();
 
@@ -117,9 +117,9 @@ export default function SettingsScreen() {
 							onUpdateMember={updateMember}
 							onToggleMemberStatus={toggleMemberStatus}
 							labels={{
-								newMemberNamePlaceholder: t.newMemberName,
-								disableConfirm: `${t.disable} {name}?`,
 								addMember: t.addMember,
+								disableConfirm: `${t.disable} {name}?`,
+								newMemberNamePlaceholder: t.newMemberName,
 							}}
 						/>
 						<Button
@@ -193,8 +193,8 @@ export default function SettingsScreen() {
 					<div style={{ marginTop: "1rem" }}>
 						<label
 							style={{
-								display: "flex",
 								alignItems: "center",
+								display: "flex",
 								gap: "0.5rem",
 							}}
 						>

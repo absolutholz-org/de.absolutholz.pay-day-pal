@@ -9,10 +9,10 @@ import { RadioCardGroup } from "../RadioCardGroup";
 import type { CurrencySelectionDialogProps } from "./_CurrencySelectionDialog.types";
 
 export function CurrencySelectionDialog({
+	currentCurrency,
 	isOpen,
 	onClose,
 	onConfirm,
-	currentCurrency,
 }: CurrencySelectionDialogProps) {
 	const { t } = useLocalization();
 	const [currency, setCurrency] = useState<Currency>(currentCurrency);
@@ -35,10 +35,10 @@ export function CurrencySelectionDialog({
 		>
 			<RadioCardGroup
 				options={SUPPORTED_CURRENCIES.map(
-					({ value, label, emoji }) => ({
-						value,
-						label,
+					({ emoji, label, value }) => ({
 						icon: emoji,
+						label,
+						value,
 					}),
 				)}
 				name="currency"

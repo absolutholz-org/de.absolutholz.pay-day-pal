@@ -31,39 +31,39 @@ const COLORS: Record<
 	ButtonColor,
 	{ gradient: string; solid: string; shadow: string }
 > = {
+	danger: {
+		gradient: "linear-gradient(to right, #ef4444, #f43f5e)", // red-500 to rose-500
+		shadow: "rgba(239, 68, 68, 0.4)",
+		solid: "#ef4444",
+	},
 	primary: {
 		gradient: "linear-gradient(to right, #a855f7, #ec4899)", // purple-500 to pink-500
-		solid: "#a855f7",
 		shadow: "rgba(168, 85, 247, 0.4)",
+		solid: "#a855f7",
 	},
 	secondary: {
 		gradient: "linear-gradient(to right, #3b82f6, #06b6d4)", // blue-500 to cyan-500
-		solid: "#3b82f6",
 		shadow: "rgba(59, 130, 246, 0.4)",
+		solid: "#3b82f6",
 	},
 	success: {
 		gradient: "linear-gradient(to right, #22c55e, #10b981)", // green-500 to emerald-500
-		solid: "#22c55e",
 		shadow: "rgba(34, 197, 94, 0.4)",
-	},
-	danger: {
-		gradient: "linear-gradient(to right, #ef4444, #f43f5e)", // red-500 to rose-500
-		solid: "#ef4444",
-		shadow: "rgba(239, 68, 68, 0.4)",
+		solid: "#22c55e",
 	},
 	warning: {
 		gradient: "linear-gradient(to right, #eab308, #f97316)", // yellow-500 to orange-500
-		solid: "#eab308",
 		shadow: "rgba(234, 179, 8, 0.4)",
+		solid: "#eab308",
 	},
 };
 
 const SIZES: Record<ButtonSize, SerializedStyles> = {
-	small: css`
-		border-radius: 12px;
-		font-size: 0.875rem; /* text-sm */
-		height: 2.5625rem;
-		padding: 0.5rem 1rem;
+	large: css`
+		border-radius: 16px;
+		font-size: 1.125rem; /* text-lg */
+		height: 3.4375rem;
+		padding: 0.75rem 1.5rem;
 	`,
 	medium: css`
 		border-radius: 12px;
@@ -71,19 +71,19 @@ const SIZES: Record<ButtonSize, SerializedStyles> = {
 		height: 3rem;
 		padding: 0.675rem 1.25rem;
 	`,
-	large: css`
-		border-radius: 16px;
-		font-size: 1.125rem; /* text-lg */
-		height: 3.4375rem;
-		padding: 0.75rem 1.5rem;
+	small: css`
+		border-radius: 12px;
+		font-size: 0.875rem; /* text-sm */
+		height: 2.5625rem;
+		padding: 0.5rem 1rem;
 	`,
 };
 
 // --- Helper Functions for Dynamic Styles ---
 
 const getVariantStyles = ({
-	variant,
 	colorScheme,
+	variant,
 }: {
 	variant: ButtonVariant;
 	colorScheme: ButtonColor;
@@ -94,8 +94,8 @@ const getVariantStyles = ({
 		return css`
 			background: transparent;
 			border: 2px solid ${theme.solid};
-			color: ${theme.solid};
 			box-shadow: none;
+			color: ${theme.solid};
 
 			&:hover:not(:disabled) {
 				background: ${theme.solid}1a; /* 10% opacity hex */
@@ -108,8 +108,8 @@ const getVariantStyles = ({
 		return css`
 			background: transparent;
 			border: 2px solid transparent;
-			color: ${theme.solid};
 			box-shadow: none;
+			color: ${theme.solid};
 
 			&:hover:not(:disabled) {
 				background: ${theme.solid}1a; /* 10% opacity hex */
@@ -121,17 +121,17 @@ const getVariantStyles = ({
 	return css`
 		background: ${theme.gradient};
 		border: none;
-		color: white;
 		box-shadow:
 			0 10px 15px -3px ${theme.shadow},
 			0 4px 6px -2px rgba(0, 0, 0, 0.05);
+		color: white;
 
 		&:hover:not(:disabled) {
-			/* Brighten filter to simulate the '600' hover state in gradients */
-			filter: brightness(1.1);
 			box-shadow:
 				0 20px 25px -5px ${theme.shadow},
 				0 10px 10px -5px rgba(0, 0, 0, 0.04);
+			/* Brighten filter to simulate the '600' hover state in gradients */
+			filter: brightness(1.1);
 		}
 	`;
 };
@@ -157,8 +157,8 @@ export const Button = styled.button<ButtonProps>`
 	/* Dynamic Variant & Color */
   ${(props) =>
 		getVariantStyles({
-			variant: props.variant as ButtonVariant,
 			colorScheme: props.color as ButtonColor,
+			variant: props.variant as ButtonVariant,
 		})}
 
   /* Active Press Animation */
@@ -173,18 +173,18 @@ export const Button = styled.button<ButtonProps>`
 
 	/* Disabled State */
 	&:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-		transform: none;
 		box-shadow: none;
+		cursor: not-allowed;
+		opacity: 0.5;
+		transform: none;
 	}
 `;
 
 export const Spinner = styled.div`
-	border: 2px solid currentColor;
-	border-top-color: transparent;
-	border-radius: 50%;
-	width: 1em;
-	height: 1em;
 	animation: ${spin} 0.6s linear infinite;
+	border: 2px solid currentColor;
+	border-radius: 50%;
+	border-top-color: transparent;
+	height: 1em;
+	width: 1em;
 `;

@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
 
 export const DateScroll_Container = styled.div`
-	width: 100%; /* Force it to fit within the browser/parent */
-	overflow-x: auto; /* Enable horizontal scrolling */
 	-webkit-overflow-scrolling: touch;
-	scroll-snap-type: x mandatory;
+	-ms-overflow-style: none; /* IE/Edge */
+	overflow-x: auto; /* Enable horizontal scrolling */
 	scroll-padding-left: 0.25rem;
+	scroll-snap-type: x mandatory;
 
 	/* Optional: Hide scrollbar for a cleaner mobile/app feel */
 	scrollbar-width: none; /* Firefox */
-	-ms-overflow-style: none; /* IE/Edge */
+	width: 100%; /* Force it to fit within the browser/parent */
 `;
 
 export const DateScroll = styled.ol`

@@ -33,7 +33,7 @@ interface HomeScreenProps {
 	db: Firestore;
 }
 
-export default function HomeScreen({ household, db }: HomeScreenProps) {
+export default function HomeScreen({ db, household }: HomeScreenProps) {
 	const { finishPeriod } = useData();
 	const [householdData, setHouseholdData] = useState<Household>(household);
 	const [choreData, setChoreData] = useState<ChoreData>({});
@@ -77,9 +77,9 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 					const period = {
 						id: snapshot.docs[0].id,
 						...docData,
-						startDate: toDate(docData.startDate),
-						endDate: toDate(docData.endDate),
 						createdAt: toDate(docData.createdAt),
+						endDate: toDate(docData.endDate),
+						startDate: toDate(docData.startDate),
 					} as Period;
 
 					setActivePeriod(period);
@@ -194,7 +194,7 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 		return total;
 	};
 
-	const { t, language } = useLocalization();
+	const { language, t } = useLocalization();
 
 	return (
 		<>
@@ -221,14 +221,14 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 				{!activePeriod ? (
 					<div
 						style={{
-							display: "flex",
-							flexDirection: "column",
 							alignItems: "center",
+							color: "#7f8c8d",
+							display: "flex",
+							flex: 1,
+							flexDirection: "column",
+							gap: "1rem",
 							justifyContent: "center",
 							padding: "2rem",
-							color: "#7f8c8d",
-							gap: "1rem",
-							flex: 1,
 						}}
 					>
 						<p style={{ fontSize: "1.2rem" }}>{t.noActivePeriod}</p>
@@ -237,14 +237,14 @@ export default function HomeScreen({ household, db }: HomeScreenProps) {
 						<button
 							onClick={() => finishPeriod(true)}
 							style={{
-								padding: "10px 20px",
 								backgroundColor: "#3498db",
-								color: "white",
 								border: "none",
 								borderRadius: "5px",
-								fontSize: "16px",
-								cursor: "pointer",
 								boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+								color: "white",
+								cursor: "pointer",
+								fontSize: "16px",
+								padding: "10px 20px",
 							}}
 						>
 							{t.startNewPeriodButton}

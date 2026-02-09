@@ -19,13 +19,13 @@ export interface ChoreCardProps {
 }
 
 export function ChoreCard({
-	id,
-	label,
 	category,
 	count,
-	value,
-	currentMemberId,
 	currentActivityDate,
+	currentMemberId,
+	id,
+	label,
+	value,
 }: ChoreCardProps) {
 	const { addActivityRecord, removeActivityRecord } = useData();
 	const { t } = useLocalization();

@@ -17,10 +17,10 @@ const confettiBurstAnimation = keyframes`
 `;
 
 export const ConfettiBurst = styled.div`
-	position: absolute;
 	inset: 0;
-	pointer-events: none;
 	overflow: visible;
+	pointer-events: none;
+	position: absolute;
 	z-index: 9999;
 `;
 

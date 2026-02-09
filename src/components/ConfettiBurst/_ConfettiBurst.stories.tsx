@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { ConfettiBurst } from "./_ConfettiBurst";
 
 const meta = {
-	title: "Components/ConfettiBurst",
 	component: ConfettiBurst,
-
 	tags: ["autodocs"],
+
+	title: "Components/ConfettiBurst",
 } satisfies Meta<typeof ConfettiBurst>;
 
 export default meta;
@@ -38,18 +38,18 @@ export const Interactive: Story = {
 		return (
 			<div
 				style={{
+					alignItems: "center",
 					display: "flex",
 					flexDirection: "column",
-					alignItems: "center",
 					gap: "2rem",
 				}}
 			>
 				<button
 					onClick={() => setTrigger(true)}
 					style={{
-						padding: "10px 20px",
-						fontSize: "16px",
 						cursor: "pointer",
+						fontSize: "16px",
+						padding: "10px 20px",
 					}}
 				>
 					Trigger Burst

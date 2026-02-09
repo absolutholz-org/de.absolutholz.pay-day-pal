@@ -16,7 +16,7 @@ type GroupBy = "none" | "date" | "member" | "activity";
 
 export default function HistoryScreen() {
 	const { periodId } = useParams<{ periodId: string }>();
-	const { getPeriodActivities, currentHousehold } = useData();
+	const { currentHousehold, getPeriodActivities } = useData();
 	const { t } = useLocalization();
 	const [activities, setActivities] = useState<Activity[]>([]);
 	const [period, setPeriod] = useState<Period | null>(null);
@@ -27,7 +27,7 @@ export default function HistoryScreen() {
 
 	useEffect(() => {
 		if (periodId) {
-			getPeriodActivities(periodId).then(({ period, activities }) => {
+			getPeriodActivities(periodId).then(({ activities, period }) => {
 				setPeriod(period);
 				setActivities(activities);
 				setLoading(false);
@@ -71,8 +71,8 @@ export default function HistoryScreen() {
 		});
 
 		return Array.from(groups.entries()).map(([key, items]) => ({
-			key,
 			items,
+			key,
 			totalValue: items.reduce((sum, item) => sum + item.value, 0),
 		}));
 	}, [displayActivities, groupBy]);
@@ -81,17 +81,17 @@ export default function HistoryScreen() {
 		<Card key={activity.id} style={{ cursor: "default" }}>
 			<div
 				style={{
+					alignItems: "center",
 					display: "flex",
 					justifyContent: "space-between",
-					alignItems: "center",
 				}}
 			>
 				<CardTitle>{activity.choreLabel}</CardTitle>
 				<span
 					style={{
+						alignItems: "center",
 						color: "#2ecc71",
 						display: "flex",
-						alignItems: "center",
 						gap: "0.25rem",
 					}}
 				>
@@ -129,12 +129,12 @@ export default function HistoryScreen() {
 							)
 						}
 						style={{
+							alignItems: "center",
 							background: "none",
 							border: "none",
 							color: "white",
 							cursor: "pointer",
 							display: "flex",
-							alignItems: "center",
 						}}
 					>
 						<ArrowUpDown size={24} />
@@ -144,19 +144,19 @@ export default function HistoryScreen() {
 			<PageContainer>
 				<div
 					style={{
+						alignItems: "center",
 						display: "flex",
 						gap: "0.5rem",
 						marginBottom: "0.5rem",
 						overflowX: "auto",
 						paddingBottom: "0.5rem",
-						alignItems: "center",
 					}}
 				>
 					<span
 						style={{
+							color: "#7f8c8d",
 							fontSize: "0.8rem",
 							fontWeight: "bold",
-							color: "#7f8c8d",
 							marginRight: "0.25rem",
 						}}
 					>
@@ -165,19 +165,19 @@ export default function HistoryScreen() {
 					<button
 						onClick={() => setFilterMemberId("all")}
 						style={{
-							padding: "0.5rem 1rem",
-							borderRadius: "20px",
-							border: "none",
 							background:
 								filterMemberId === "all"
 									? "#3498db"
 									: "#ecf0f1",
+							border: "none",
+							borderRadius: "20px",
 							color:
 								filterMemberId === "all" ? "white" : "#2c3e50",
 							cursor: "pointer",
-							whiteSpace: "nowrap",
-							fontWeight: "600",
 							fontSize: "0.9rem",
+							fontWeight: "600",
+							padding: "0.5rem 1rem",
+							whiteSpace: "nowrap",
 						}}
 					>
 						All
@@ -187,21 +187,21 @@ export default function HistoryScreen() {
 							key={member.id}
 							onClick={() => setFilterMemberId(member.id)}
 							style={{
-								padding: "0.5rem 1rem",
-								borderRadius: "20px",
-								border: "none",
 								background:
 									filterMemberId === member.id
 										? "#3498db"
 										: "#ecf0f1",
+								border: "none",
+								borderRadius: "20px",
 								color:
 									filterMemberId === member.id
 										? "white"
 										: "#2c3e50",
 								cursor: "pointer",
-								whiteSpace: "nowrap",
-								fontWeight: "600",
 								fontSize: "0.9rem",
+								fontWeight: "600",
+								padding: "0.5rem 1rem",
+								whiteSpace: "nowrap",
 							}}
 						>
 							{member.name}
@@ -210,19 +210,19 @@ export default function HistoryScreen() {
 				</div>
 				<div
 					style={{
+						alignItems: "center",
 						display: "flex",
 						gap: "0.5rem",
 						marginBottom: "1rem",
 						overflowX: "auto",
 						paddingBottom: "0.5rem",
-						alignItems: "center",
 					}}
 				>
 					<span
 						style={{
+							color: "#7f8c8d",
 							fontSize: "0.8rem",
 							fontWeight: "bold",
-							color: "#7f8c8d",
 							marginRight: "0.25rem",
 						}}
 					>
@@ -234,17 +234,17 @@ export default function HistoryScreen() {
 								key={g}
 								onClick={() => setGroupBy(g)}
 								style={{
-									padding: "0.5rem 1rem",
-									borderRadius: "20px",
-									border: "none",
 									background:
 										groupBy === g ? "#3498db" : "#ecf0f1",
+									border: "none",
+									borderRadius: "20px",
 									color: groupBy === g ? "white" : "#2c3e50",
 									cursor: "pointer",
-									whiteSpace: "nowrap",
-									textTransform: "capitalize",
-									fontWeight: "600",
 									fontSize: "0.9rem",
+									fontWeight: "600",
+									padding: "0.5rem 1rem",
+									textTransform: "capitalize",
+									whiteSpace: "nowrap",
 								}}
 							>
 								{g === "none" ? "None" : g}
@@ -269,22 +269,22 @@ export default function HistoryScreen() {
 							<div key={group.key}>
 								<h3
 									style={{
-										margin: "0 0 0.5rem 0",
-										color: "#7f8c8d",
-										fontSize: "1rem",
-										display: "flex",
-										justifyContent: "space-between",
 										alignItems: "center",
+										color: "#7f8c8d",
+										display: "flex",
+										fontSize: "1rem",
+										justifyContent: "space-between",
+										margin: "0 0 0.5rem 0",
 										padding: "0 0.25rem",
 									}}
 								>
 									<span>{group.key}</span>
 									<span
 										style={{
-											display: "flex",
 											alignItems: "center",
-											gap: "0.25rem",
 											color: "#27ae60",
+											display: "flex",
+											gap: "0.25rem",
 										}}
 									>
 										<Euro size={14} />{" "}

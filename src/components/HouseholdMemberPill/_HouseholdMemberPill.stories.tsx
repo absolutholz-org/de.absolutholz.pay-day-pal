@@ -4,14 +4,14 @@ import { ACCENT_COLORS } from "../../types";
 import { HouseholdMemberPill } from "./_HouseholdMemberPill";
 
 const meta = {
-	title: "Components/HouseholdMemberPill",
+	argTypes: {
+		color: { control: "select", options: ACCENT_COLORS },
+		emoji: { control: "text" },
+	},
 	component: HouseholdMemberPill,
 
 	tags: ["autodocs"],
-	argTypes: {
-		emoji: { control: "text" },
-		color: { control: "select", options: ACCENT_COLORS },
-	},
+	title: "Components/HouseholdMemberPill",
 } satisfies Meta<typeof HouseholdMemberPill>;
 
 export default meta;
@@ -19,28 +19,28 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		name: "Alice",
-		emoji: "👩",
 		color: "red",
+		emoji: "👩",
 		isActive: false,
+		name: "Alice",
 	},
 };
 
 export const Small: Story = {
 	args: {
-		name: "Alice",
-		emoji: "👩",
 		color: "red",
+		emoji: "👩",
 		isActive: false,
+		name: "Alice",
 		size: "small",
 	},
 };
 
 export const Active: Story = {
 	args: {
-		name: "Bob",
-		emoji: "👨",
 		color: "blue",
+		emoji: "👨",
 		isActive: true,
+		name: "Bob",
 	},
 };

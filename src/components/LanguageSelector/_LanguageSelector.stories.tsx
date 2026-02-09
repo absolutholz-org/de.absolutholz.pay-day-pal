@@ -4,15 +4,15 @@ import { SUPPORTED_LANGUAGES } from "../../constants";
 import { LanguageSelector } from ".";
 
 const meta = {
-	title: "Components/LanguageSelector",
-	component: LanguageSelector,
-	tags: ["autodocs"],
-	argTypes: {
-		onChange: { action: "onChange" },
-	},
 	args: {
 		onChange: () => {},
 	},
+	argTypes: {
+		onChange: { action: "onChange" },
+	},
+	component: LanguageSelector,
+	tags: ["autodocs"],
+	title: "Components/LanguageSelector",
 } satisfies Meta<typeof LanguageSelector>;
 
 export default meta;

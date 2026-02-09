@@ -4,13 +4,13 @@ import * as S from "./_DateCard.styles";
 import { type DateCardProps } from "./_DateCard.types";
 
 export function DateCard({
+	dailyTotal,
 	date,
 	isActive,
 	isToday,
-	dailyTotal,
 	onClick,
 }: DateCardProps) {
-	const { t, language } = useLocalization();
+	const { language, t } = useLocalization();
 	const Component = isActive ? S.DateCard_Active : S.DateCard;
 	const formattedValue = useCurrency(dailyTotal, "en-DE", "EUR");
 
@@ -27,8 +27,8 @@ export function DateCard({
 			</S.DateWeekday>
 			<S.DateDay>
 				{date.toLocaleDateString(language, {
-					month: "short",
 					day: "numeric",
+					month: "short",
 				})}
 			</S.DateDay>
 			<S.DateEarnings>{formattedValue}</S.DateEarnings>

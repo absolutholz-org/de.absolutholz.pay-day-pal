@@ -1,8 +1,8 @@
 import { css, type SerializedStyles } from "@emotion/react";
 
 export function colorSchemeCss({
-	lightCssVars,
 	darkCssVars,
+	lightCssVars,
 }: {
 	lightCssVars?: SerializedStyles;
 	darkCssVars?: SerializedStyles;

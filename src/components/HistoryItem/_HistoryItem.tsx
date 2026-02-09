@@ -3,10 +3,10 @@ import * as S from "./_HistoryItem.styles";
 import { type HistoryItemProps } from "./_HistoryItem.types";
 
 export function HistoryItem({
-	title,
-	emoji,
 	amountCompleted,
 	amountEarned,
+	emoji,
+	title,
 }: HistoryItemProps) {
 	const formattedValue = useCurrency(amountEarned, "en-DE", "EUR");
 

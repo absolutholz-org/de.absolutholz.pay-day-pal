@@ -3,15 +3,15 @@ import * as S from "./_Button.styles";
 
 export const Button = ({
 	children,
-	variant = "contained", // 'contained' | 'outlined' | 'text'
 	color = "primary", // 'primary' | 'secondary' | 'success' | 'danger' | 'warning'
+	disabled = false,
+	endIcon,
+	fullWidth = false,
+	isLoading = false,
+	label,
 	size = "medium", // 'small' | 'medium' | 'large'
 	startIcon,
-	endIcon,
-	isLoading = false,
-	disabled = false,
-	fullWidth = false,
-	label,
+	variant = "contained", // 'contained' | 'outlined' | 'text'
 	...props
 }: ButtonProps) => {
 	return (

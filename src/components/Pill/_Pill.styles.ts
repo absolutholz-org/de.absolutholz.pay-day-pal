@@ -26,8 +26,8 @@ const Pill_Base = styled.span`
 	display: inline-flex;
 	height: 2em;
 	justify-content: center;
-	padding-bottom: 0.125em;
 	min-width: 2em;
+	padding-bottom: 0.125em;
 `;
 
 export const Pill_Content = styled(Pill_Base)`

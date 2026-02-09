@@ -5,9 +5,9 @@ import { type DateScrollProps } from "./_DateScroll.types";
 
 export function DateScroll({
 	dates,
-	selectedDate,
-	onDateSelect,
 	getDailyTotal,
+	onDateSelect,
+	selectedDate,
 }: DateScrollProps) {
 	const todayKey = formatDateKey(new Date());
 

@@ -35,8 +35,8 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
 		const translations = TRANSLATIONS[language];
 		return {
 			language,
-			t: translations,
 			setLanguage,
+			t: translations,
 		};
 	}, [language]);
 

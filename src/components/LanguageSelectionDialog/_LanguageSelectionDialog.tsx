@@ -9,10 +9,10 @@ import { RadioCardGroup } from "../RadioCardGroup";
 import type { LanguageSelectionDialogProps } from "./_LanguageSelectionDialog.types";
 
 export function LanguageSelectionDialog({
+	currentLanguage,
 	isOpen,
 	onClose,
 	onConfirm,
-	currentLanguage,
 }: LanguageSelectionDialogProps) {
 	const { t } = useLocalization();
 	const [language, setLanguage] = useState<Language>(currentLanguage);
@@ -34,10 +34,10 @@ export function LanguageSelectionDialog({
 			}
 		>
 			<RadioCardGroup
-				options={SUPPORTED_LANGUAGES.map(({ value, label, emoji }) => ({
-					value,
-					label,
+				options={SUPPORTED_LANGUAGES.map(({ emoji, label, value }) => ({
 					icon: emoji,
+					label,
+					value,
 				}))}
 				name="language"
 				initialValue={currentLanguage}

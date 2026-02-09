@@ -4,9 +4,7 @@ import { DataProvider } from "../../context/DataContext";
 import { ColorSchemeToggle } from ".";
 
 const meta = {
-	title: "Components/ColorSchemeToggle",
 	component: ColorSchemeToggle,
-
 	decorators: [
 		(Story) => (
 			<DataProvider>
@@ -14,7 +12,9 @@ const meta = {
 			</DataProvider>
 		),
 	],
+
 	tags: ["autodocs"],
+	title: "Components/ColorSchemeToggle",
 } satisfies Meta<typeof ColorSchemeToggle>;
 
 export default meta;

@@ -3,12 +3,12 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { BackToTop } from ".";
 
 const meta = {
-	title: "Components/BackToTop",
 	component: BackToTop,
 	parameters: {
 		layout: "fullscreen",
 	},
 	tags: ["autodocs"],
+	title: "Components/BackToTop",
 } satisfies Meta<typeof BackToTop>;
 
 export default meta;

@@ -13,9 +13,9 @@ export interface ChoreCardListProps {
 export function ChoreCardList({
 	chores,
 	counts,
-	language = "en",
 	currentActivityDate,
 	currentMemberId,
+	language = "en",
 }: ChoreCardListProps) {
 	return (
 		<S.ChoreCardList role="list">

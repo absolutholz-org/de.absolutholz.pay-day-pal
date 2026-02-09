@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Dialog } from "./_Dialog";
 
 const meta = {
-	title: "Primitives/Dialog",
-	component: Dialog,
-
-	tags: ["autodocs"],
 	argTypes: {
 		children: { control: "text" },
 		footer: { control: "text" },
 	},
+	component: Dialog,
+
+	tags: ["autodocs"],
+	title: "Primitives/Dialog",
 } satisfies Meta<typeof Dialog>;
 
 export default meta;
@@ -18,18 +18,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		isOpen: true,
-		title: "Example Dialog",
 		children: "This is the content of the dialog.",
 		footer: "Dialog Footer",
+		isOpen: true,
 		onClose: () => console.log("Close dialog"),
+		title: "Example Dialog",
 	},
 };
 
 export const WithButtons: Story = {
 	args: {
-		isOpen: true,
-		title: "Dialog with Actions",
 		children: "Do you want to proceed?",
 		footer: (
 			<div
@@ -43,6 +41,8 @@ export const WithButtons: Story = {
 				<button onClick={() => console.log("Confirm")}>Confirm</button>
 			</div>
 		),
+		isOpen: true,
 		onClose: () => console.log("Close dialog"),
+		title: "Dialog with Actions",
 	},
 };

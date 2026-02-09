@@ -21,14 +21,14 @@ export function ConfettiBurst({ trigger }: ConfettiBurstProps) {
 			const shapes = ["●", "★", "■", "▲", "♦"];
 
 			const newParticles = Array.from({ length: 25 }, (_, i) => ({
-				id: Date.now() + i,
-				x: (Math.random() - 0.5) * 250,
-				y: -Math.random() * 200 - 80,
 				color: colors[Math.floor(Math.random() * colors.length)],
+				duration: Math.random() * 0.4 + 0.7,
+				id: Date.now() + i,
+				rotation: Math.random() * 720,
 				shape: shapes[Math.floor(Math.random() * shapes.length)],
 				size: Math.random() * 16 + 16,
-				rotation: Math.random() * 720,
-				duration: Math.random() * 0.4 + 0.7,
+				x: (Math.random() - 0.5) * 250,
+				y: -Math.random() * 200 - 80,
 			}));
 
 			setParticles(newParticles);
@@ -51,11 +51,11 @@ export function ConfettiBurst({ trigger }: ConfettiBurstProps) {
 					style={{
 						// @ts-expect-error - CSS variables
 						"--duration": `${particle.duration}s`,
-						"--tx": `${particle.x}px`,
-						"--ty": `${particle.y}px`,
-						"--rotation": `${particle.rotation}deg`,
 						"--particle-color": particle.color,
 						"--particle-size": `${particle.size}px`,
+						"--rotation": `${particle.rotation}deg`,
+						"--tx": `${particle.x}px`,
+						"--ty": `${particle.y}px`,
 					}}
 				>
 					<S.ConfettiBurst_Particle>

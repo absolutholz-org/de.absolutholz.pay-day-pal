@@ -18,19 +18,19 @@ export function ColorSchemeToggle() {
 
 	const SCHEMES = [
 		{
-			value: "system",
-			label: t.system,
 			icon: "💻",
+			label: t.system,
+			value: "system",
 		},
 		{
-			value: "light",
-			label: t.light,
 			icon: "☀️",
+			label: t.light,
+			value: "light",
 		},
 		{
-			value: "dark",
-			label: t.dark,
 			icon: "🌙",
+			label: t.dark,
+			value: "dark",
 		},
 	];
 

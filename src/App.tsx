@@ -11,7 +11,7 @@ import PeriodSelectionScreen from "./screens/PeriodSelectionScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
 function AppContent() {
-	const { currentHousehold, selectHousehold, db } = useData();
+	const { currentHousehold, db, selectHousehold } = useData();
 
 	useEffect(() => {
 		setColorSchemeFromLocalStorage();

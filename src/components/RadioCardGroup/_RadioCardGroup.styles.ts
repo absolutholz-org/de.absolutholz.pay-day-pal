@@ -14,9 +14,14 @@ export const Grid = styled.div`
 
 export const CardLabel = styled.label<{ isSelected?: boolean }>`
 	align-items: center;
+
+	/* BASE STATE */
+	background-color: var(--card-bg);
+	border-color: var(--card-border);
 	border-radius: 0.75rem;
 	border-style: solid;
 	border-width: 2px;
+	color: var(--text-sub);
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
@@ -26,11 +31,6 @@ export const CardLabel = styled.label<{ isSelected?: boolean }>`
 	position: relative;
 	transition: all 0.2s ease-in-out;
 	width: 100%;
-
-	/* BASE STATE */
-	background-color: var(--card-bg);
-	border-color: var(--card-border);
-	color: var(--text-sub);
 
 	/* HOVER STATE (Unselected) */
 	/* We use RCS to darken/lighten based on the card background dynamically, 
@@ -96,7 +96,7 @@ export const IconWrapper = styled.div<{ isSelected?: boolean }>`
 `;
 
 export const CardText = styled.span`
-	font-weight: 500;
 	font-size: 0.875rem;
+	font-weight: 500;
 	letter-spacing: 0.025em;
 `;

@@ -5,11 +5,11 @@ import * as S from "./_DataDisplay.styles";
 import { type DataDisplayProps } from "./_DataDisplay.types";
 
 export function DataDisplay({
-	label,
-	icon,
 	children,
-	onEdit,
 	editLabel,
+	icon,
+	label,
+	onEdit,
 }: DataDisplayProps & { editLabel?: string }) {
 	return (
 		<S.DataDisplay>

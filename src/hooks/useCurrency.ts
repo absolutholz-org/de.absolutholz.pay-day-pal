@@ -7,8 +7,8 @@ export function useCurrency(
 ) {
 	return useMemo(() => {
 		return new Intl.NumberFormat(locale, {
-			style: "currency",
 			currency: currency,
+			style: "currency",
 		}).format(amount);
 	}, [amount, locale, currency]);
 }
