@@ -4,14 +4,17 @@ import type { Preview } from "@storybook/react-vite";
 import { useEffect } from "react";
 import { themes } from "storybook/theming";
 
+import { SUPPORTED_LANGUAGES } from "../src/constants";
 import { DataProvider } from "../src/context/DataContext";
 import { LocalizationProvider } from "../src/context/LocalizationContext";
 import { globalStyles } from "../src/globalStyles";
+import type { Language } from "../src/types";
+import { LocalizationWrapper } from "./LocalizationWrapper";
 
 const preview: Preview = {
 	decorators: [
 		(Story, context) => {
-			const { scheme } = context.globals;
+			const { locale, scheme } = context.globals;
 
 			useEffect(() => {
 				document.documentElement.setAttribute(
@@ -23,14 +26,35 @@ const preview: Preview = {
 			return (
 				<DataProvider>
 					<LocalizationProvider>
-						<Global styles={globalStyles} />
-						<Story />
+						<LocalizationWrapper language={locale as Language}>
+							<div
+								style={{
+									color: "var(--text-color)",
+								}}
+							>
+								<Global styles={globalStyles} />
+								<Story />
+							</div>
+						</LocalizationWrapper>
 					</LocalizationProvider>
 				</DataProvider>
 			);
 		},
 	],
 	globalTypes: {
+		locale: {
+			defaultValue: "en",
+			description: "Internationalization locale",
+			name: "Locale",
+			toolbar: {
+				icon: "globe",
+				items: SUPPORTED_LANGUAGES.map(({ emoji, label, value }) => ({
+					right: emoji,
+					title: label,
+					value,
+				})),
+			},
+		},
 		scheme: {
 			defaultValue: "light",
 			description: "Select light or dark theme",
