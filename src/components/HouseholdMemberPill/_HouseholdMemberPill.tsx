@@ -11,6 +11,7 @@ export function HouseholdMemberPill({
 }: HouseholdMemberPillProps) {
 	return (
 		<S.Pill
+			as={onClick ? "button" : "span"}
 			isActive={isActive}
 			onClick={onClick}
 			style={{ "--member-color": `var(--accent-${color})` }}

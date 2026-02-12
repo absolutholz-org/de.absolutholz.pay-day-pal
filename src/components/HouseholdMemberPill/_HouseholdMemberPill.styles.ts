@@ -12,7 +12,7 @@ export const Pill = styled.button<{
 	border: 2px solid var(--member-color);
 	border-radius: var(--radius-pill);
 	color: var(--member-color);
-	display: flex;
+	display: inline-flex;
 	font-size: 1rem;
 	font-weight: 600;
 	gap: 0.5rem;
