@@ -17,14 +17,38 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		amountEarned: 15.5,
-		emoji: "📅",
 		items: [
-			{ color: "red", emoji: "🧹", id: "1", name: "Clean Room" },
-			{ color: "green", emoji: "🌱", id: "2", name: "Mow Lawn" },
-			{ color: "blue", emoji: "🍽️", id: "3", name: "Wash Dishes" },
+			{
+				icon: "🍽️",
+				meta: "Completed 2 times",
+				price: "€2.00",
+				title: "Do Dishes",
+			},
+			{
+				icon: "👕",
+				meta: "Completed 2 times",
+				price: "€1.50",
+				title: "Fold Laundry",
+			},
+			{
+				icon: "🗑️",
+				meta: "Completed 1 time",
+				price: "€0.50",
+				title: "Take Out Trash",
+			},
+			{
+				icon: "🛏️",
+				meta: "Completed 5 times",
+				price: "€2.50",
+				title: "Make Bed",
+			},
 		],
-		subTitle: "3 activities",
-		title: "Today",
+		member: {
+			color: "blue",
+			icon: "🚀",
+			name: "Nicky",
+			stats: "7 chore types",
+			total: "€11.25",
+		},
 	},
 };

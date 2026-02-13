@@ -1,9 +1,16 @@
-import type { HouseholdMember } from "../../types";
+import type { ActivityRecord, HouseholdMember } from "../../types";
 
-export interface HistoryGroupProps {
-	emoji?: string;
-	title: string;
-	subTitle: string;
-	amountEarned: number;
-	items: HouseholdMember[];
+declare module "react" {
+	interface CSSProperties {
+		"--member-color"?: string;
+	}
+}
+
+export interface HistoryGroup_ByMemberProps {
+	member: HouseholdMember;
+	items: ActivityRecord[];
+}
+
+export interface HistoryGroup_ByDayProps {
+	items: ActivityRecord[];
 }

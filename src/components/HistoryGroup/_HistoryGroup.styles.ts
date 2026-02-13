@@ -1,73 +1,81 @@
 import styled from "@emotion/styled";
 
-export const HistoryGroup = styled.details`
-	backdrop-filter: blur(8px);
-	background-color: rgba(255, 255, 255, 0.9);
-	border-radius: 24px;
-	box-shadow:
-		0 4px 6px -1px rgba(0, 0, 0, 0.1),
-		0 2px 4px -1px rgba(0, 0, 0, 0.06);
-	overflow: hidden;
-`;
-
-export const HistoryGroup_Summary = styled.summary`
+export const HistoryGroupHeader = styled.div`
 	align-items: center;
-	background: linear-gradient(to right, #a855f7, #ec4899);
 	color: white;
 	display: flex;
 	gap: 0.75rem;
-	justify-content: space-between;
-
-	/* Hiding the default browser triangle marker */
-	list-style: none;
+	padding: 1.25rem 1.5rem;
 	padding: 1rem;
-	&::-webkit-details-marker {
-		display: none;
-	}
-
-	/* Rotating a custom chevron when open */
-	&::after {
-		align-items: center;
-		content: "▼";
-		display: flex;
-		font-size: 0.75rem;
-		height: 2rem;
-		justify-content: center;
-		transition: transform 0.2s;
-		width: 2rem;
-	}
-
-	/* Rotate the chevron when the parent details is open */
-	details[open] &::after {
-		transform: rotate(180deg);
-	}
 `;
 
-export const HistoryGroup_HeaderMain = styled.div`
+export const HistoryGroupHeader_Day = styled(HistoryGroupHeader)`
+	background-image: linear-gradient(
+		to right,
+		oklch(0.558 0.288 302.321) 0%,
+		oklch(0.592 0.249 0.584) 100%
+	);
+`;
+
+export const HistoryGroupHeader_Member = styled(HistoryGroupHeader)`
+	background-color: var(--member-color);
+`;
+
+export const HistoryGroupHeader_Icon = styled.div`
+	font-size: 1.875rem;
+	line-height: 1.2;
+`;
+
+export const HistoryGroupHeader_Main = styled.div`
 	flex-grow: 1;
 `;
 
-export const HistoryGroup_Title = styled.div`
-	font-size: 1.125rem;
+export const HistoryGroupHeader_Amount = styled.div`
+	font-size: 1.5rem;
 	font-weight: 700;
-	line-height: 1.75rem;
+	letter-spacing: -0.02em;
 `;
 
-export const HistoryGroup_ActivityCount = styled.div`
+export const HistoryGroupHeader_Title = styled.div`
+	font-size: 1.125rem;
+	font-weight: 700;
+`;
+
+export const HistoryGroupHeader_Subtitle = styled.div`
 	font-size: 0.875rem;
 	opacity: 0.9;
 `;
 
-export const HistoryGroup_TotalAmount = styled.div`
-	font-size: 1.5rem;
-	font-weight: 700;
-`;
-
-export const HistoryGroup_List = styled.ul`
+export const HistoryCard = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
-	padding: 1rem;
+	border-radius: 1.25rem;
+	overflow: hidden;
+	border: 1px solid var(--card-border);
+	background-color: var(--card-bg);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 `;
 
-export const HistoryGroup_ListItem = styled.li``;
+export const HistoryHeader = styled.div``;
+
+export const HeaderLeft = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+`;
+
+export const HeaderIcon = styled.div`
+	font-size: 1.5rem;
+`;
+
+export const HeaderText = styled.div`
+	display: flex;
+	flex-direction: column;
+	line-height: 1.2;
+`;
+
+export const HeaderTotal = styled.span`
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+`;
