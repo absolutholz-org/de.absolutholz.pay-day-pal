@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.5.0...v1.6.0) (2026-02-13)
+
+
+### Features
+
+* update history screens and components ([77c906a](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/77c906a6f43c1cd83cf7919ac808ed1fd5172307))
+* update household member pill to be inline and static ([b3a2c8b](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/b3a2c8bcbccc8bb5544ff89c27f90f0ca53c7954))
+
 # [1.5.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.4.0...v1.5.0) (2026-02-08)
 
 
