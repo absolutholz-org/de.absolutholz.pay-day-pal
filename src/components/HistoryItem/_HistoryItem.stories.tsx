@@ -4,7 +4,7 @@ import { HistoryItem } from ".";
 
 const meta = {
 	argTypes: {
-		emoji: { control: "text" },
+		icon: { control: "text" },
 	},
 	component: HistoryItem,
 
@@ -17,20 +17,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		amountCompleted: 1,
 		amountEarned: 5.0,
-		emoji: "🧹",
+		date: new Date("2026-02-13"),
+		icon: "👕",
+		member: {
+			color: "green",
+			emoji: "🥑",
+			id: "vroni",
+			name: "Vroni",
+		},
 		title: "Clean Room",
-		// householdMember: "Alex",
-	},
-};
-
-export const HighValue: Story = {
-	args: {
-		amountCompleted: 1,
-		amountEarned: 20.0,
-		emoji: "🌱",
-		title: "Mow Lawn",
-		// householdMember: "Sam",
 	},
 };

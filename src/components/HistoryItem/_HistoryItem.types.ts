@@ -2,8 +2,8 @@ import { type HouseholdMember } from "../../types";
 
 export interface HistoryItemProps {
 	title: string;
-	emoji: string;
-	amountCompleted: number;
+	icon: string;
 	amountEarned: number;
-	householdMember?: HouseholdMember;
+	date?: Date;
+	member?: HouseholdMember;
 }

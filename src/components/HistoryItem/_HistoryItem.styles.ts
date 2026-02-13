@@ -1,60 +1,45 @@
 import styled from "@emotion/styled";
 
-export const ActivityItem = styled.div`
+export const HistoryItem = styled.div`
 	align-items: center;
-	background-color: var(--surface);
-	border-radius: 12px;
+	background-color: var(--card-bg);
+	border-radius: 0.875rem;
 	display: flex;
 	gap: 0.75rem;
-	justify-content: space-between;
 	padding: 0.75rem;
+	transition: background-color 0.2s;
 `;
 
-export const LeftSide = styled.div`
+export const HistoryItem_Icon = styled.div`
 	align-items: center;
 	display: flex;
-	gap: 0.75rem;
+	font-size: 2.25rem;
+	justify-content: center;
+	line-height: 1;
 `;
 
-export const IconWrapper = styled.div`
-	font-size: 1.875rem;
-	line-height: 2.25rem;
+export const HistoryItem_Content = styled.div`
+	flex-grow: 1;
 `;
 
-export const DetailsWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-`;
-
-export const ItemName = styled.div`
-	color: var(--on-surface);
+export const HistoryItem_Title = styled.div`
+	color: var(--text-main);
+	font-size: 1rem;
 	font-weight: 600;
 `;
 
-export const MetaRow = styled.div`
-	align-items: center;
-	color: var(--on-surface-3);
+export const HistoryItem_Children = styled.div`
+	color: var(--text-sub);
 	display: flex;
+	flex-wrap: wrap;
 	font-size: 0.875rem;
-	gap: 8px;
-	margin-top: 2px;
+	gap: 0.25rem 0.75rem;
+	line-height: 1.42;
+	margin-top: 0.25rem;
 `;
 
-// Dynamic styling based on the user
-// export const UserBadge = styled.span`
-//   display: inline-flex;
-//   align-items: center;
-//   gap: 4px;
-//   padding: 2px 8px;
-//   border-radius: 9999px;
-//   font-size: 0.75rem;
-//   font-weight: 500;
-//   color: white;
-//   background-color: ${(props) =>
-//     props.userType === "Nicky" ? "#3b82f6" : "#a855f7"};
-// `;
-
-export const ItemPrice = styled.div`
-	color: var(--accent-green); /* Green-600 */
+export const HistoryItem_Amount = styled.div`
+	color: #10b981;
+	font-size: 1rem;
 	font-weight: 700;
 `;

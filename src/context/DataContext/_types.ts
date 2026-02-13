@@ -11,10 +11,10 @@ import type {
 
 export interface Activity {
 	id: string;
-	date: string;
+	date: Date;
 	memberId: string;
 	memberName: string;
-	choreLabel: string;
+	choreId: string;
 	value: number;
 }
 

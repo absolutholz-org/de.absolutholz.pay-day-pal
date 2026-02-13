@@ -1,18 +1,48 @@
-import { ArrowLeft, ArrowUpDown, Euro } from "lucide-react";
+import { ArrowLeft, ArrowUpDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Button } from "../components/Button";
+import { FrostedGlassSection } from "../components/FrostedGlassSection";
+import { HistoryItem } from "../components/HistoryItem";
+import { HistoryItemList } from "../components/HistoryItemList";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { type Activity } from "../context/DataContext/_types";
 import { useLocalization } from "../context/LocalizationContext";
-import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
+import { Subtitle } from "../globalStyles";
+import { useChore } from "../hooks/useChore";
+import { useMember } from "../hooks/useMember";
 import { type Period } from "../types";
 import { formatDate } from "../utils";
 
-type GroupBy = "none" | "date" | "member" | "activity";
+// type GroupBy = "none" | "date" | "member" | "activity";
+
+function HistoryItemWithMember({
+	amountEarned,
+	choreId,
+	date,
+	memberId,
+}: {
+	choreId: string;
+	memberId: string;
+	date: Date;
+	amountEarned: number;
+}) {
+	const chore = useChore(choreId);
+	const member = useMember(memberId);
+
+	return (
+		<HistoryItem
+			icon={chore?.emoji || "❓"}
+			member={member}
+			title={chore?.label || "unknown chore"}
+			amountEarned={amountEarned}
+			date={date}
+		/>
+	);
+}
 
 export default function HistoryScreen() {
 	const { periodId } = useParams<{ periodId: string }>();
@@ -22,8 +52,9 @@ export default function HistoryScreen() {
 	const [period, setPeriod] = useState<Period | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-	const [groupBy, setGroupBy] = useState<GroupBy>("none");
+	// const [groupBy, setGroupBy] = useState<GroupBy>("date");
 	const [filterMemberId, setFilterMemberId] = useState<string>("all");
+	const groupedActivities = null; // temp
 
 	useEffect(() => {
 		if (periodId) {
@@ -45,64 +76,64 @@ export default function HistoryScreen() {
 		return [...result].reverse();
 	}, [activities, sortOrder, filterMemberId]);
 
-	const groupedActivities = useMemo(() => {
-		if (groupBy === "none") return null;
+	// const groupedActivities = useMemo(() => {
+	// 	if (groupBy === "none") return null;
 
-		const groups = new Map<string, Activity[]>();
+	// 	const groups = new Map<string, Activity[]>();
 
-		displayActivities.forEach((activity) => {
-			let key = "";
-			switch (groupBy) {
-				case "date":
-					key = formatDate(new Date(activity.date));
-					break;
-				case "member":
-					key = activity.memberName;
-					break;
-				case "activity":
-					key = activity.choreLabel;
-					break;
-			}
+	// 	displayActivities.forEach((activity) => {
+	// 		let key = "";
+	// 		switch (groupBy) {
+	// 			case "date":
+	// 				key = formatDate(new Date(activity.date));
+	// 				break;
+	// 			case "member":
+	// 				key = activity.memberName;
+	// 				break;
+	// 			case "activity":
+	// 				key = activity.choreLabel;
+	// 				break;
+	// 		}
 
-			if (!groups.has(key)) {
-				groups.set(key, []);
-			}
-			groups.get(key)!.push(activity);
-		});
+	// 		if (!groups.has(key)) {
+	// 			groups.set(key, []);
+	// 		}
+	// 		groups.get(key)!.push(activity);
+	// 	});
 
-		return Array.from(groups.entries()).map(([key, items]) => ({
-			items,
-			key,
-			totalValue: items.reduce((sum, item) => sum + item.value, 0),
-		}));
-	}, [displayActivities, groupBy]);
+	// 	return Array.from(groups.entries()).map(([key, items]) => ({
+	// 		items,
+	// 		key,
+	// 		totalValue: items.reduce((sum, item) => sum + item.value, 0),
+	// 	}));
+	// }, [displayActivities, groupBy]);
 
-	const renderActivityCard = (activity: Activity) => (
-		<Card key={activity.id} style={{ cursor: "default" }}>
-			<div
-				style={{
-					alignItems: "center",
-					display: "flex",
-					justifyContent: "space-between",
-				}}
-			>
-				<CardTitle>{activity.choreLabel}</CardTitle>
-				<span
-					style={{
-						alignItems: "center",
-						color: "#2ecc71",
-						display: "flex",
-						gap: "0.25rem",
-					}}
-				>
-					<Euro size={20} /> {activity.value.toFixed(2)}
-				</span>
-			</div>
-			<CardMeta>
-				{formatDate(new Date(activity.date))} • {activity.memberName}
-			</CardMeta>
-		</Card>
-	);
+	// const renderActivityCard = (activity: Activity) => (
+	// 	<Card key={activity.id} style={{ cursor: "default" }}>
+	// 		<div
+	// 			style={{
+	// 				alignItems: "center",
+	// 				display: "flex",
+	// 				justifyContent: "space-between",
+	// 			}}
+	// 		>
+	// 			<CardTitle>{activity.choreLabel}</CardTitle>
+	// 			<span
+	// 				style={{
+	// 					alignItems: "center",
+	// 					color: "#2ecc71",
+	// 					display: "flex",
+	// 					gap: "0.25rem",
+	// 				}}
+	// 			>
+	// 				<Euro size={20} /> {activity.value.toFixed(2)}
+	// 			</span>
+	// 		</div>
+	// 		<CardMeta>
+	// 			{formatDate(new Date(activity.date))} • {activity.memberName}
+	// 		</CardMeta>
+	// 	</Card>
+	// );
 
 	return (
 		<>
@@ -208,7 +239,7 @@ export default function HistoryScreen() {
 						</button>
 					))}
 				</div>
-				<div
+				{/* <div
 					style={{
 						alignItems: "center",
 						display: "flex",
@@ -251,68 +282,30 @@ export default function HistoryScreen() {
 							</button>
 						),
 					)}
-				</div>
+				</div> */}
 
 				{loading ? (
 					<Subtitle>Loading...</Subtitle>
 				) : displayActivities.length === 0 ? (
 					<Subtitle>No activities found.</Subtitle>
 				) : groupedActivities ? (
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "1.5rem",
-						}}
-					>
-						{groupedActivities.map((group) => (
-							<div key={group.key}>
-								<h3
-									style={{
-										alignItems: "center",
-										color: "#7f8c8d",
-										display: "flex",
-										fontSize: "1rem",
-										justifyContent: "space-between",
-										margin: "0 0 0.5rem 0",
-										padding: "0 0.25rem",
-									}}
-								>
-									<span>{group.key}</span>
-									<span
-										style={{
-											alignItems: "center",
-											color: "#27ae60",
-											display: "flex",
-											gap: "0.25rem",
-										}}
-									>
-										<Euro size={14} />{" "}
-										{group.totalValue.toFixed(2)}
-									</span>
-								</h3>
-								<div
-									style={{
-										display: "flex",
-										flexDirection: "column",
-										gap: "0.5rem",
-									}}
-								>
-									{group.items.map(renderActivityCard)}
-								</div>
-							</div>
-						))}
-					</div>
+					<>{console.log({ groupedActivities })}</>
 				) : (
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "1rem",
-						}}
-					>
-						{displayActivities.map(renderActivityCard)}
-					</div>
+					<FrostedGlassSection>
+						<HistoryItemList>
+							{displayActivities.map(
+								({ choreId, date, id, memberId, value }) => (
+									<HistoryItemWithMember
+										key={id}
+										date={date}
+										amountEarned={value}
+										choreId={choreId}
+										memberId={memberId}
+									/>
+								),
+							)}
+						</HistoryItemList>
+					</FrostedGlassSection>
 				)}
 			</PageContainer>
 		</>

@@ -1,25 +1,36 @@
-import { ArrowLeft, Calendar } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "../components/Button";
+import { FrostedGlassSection } from "../components/FrostedGlassSection";
+import {
+	HistoryItem,
+	HistoryItem_Content,
+	HistoryItem_Icon,
+	HistoryItem_Title,
+} from "../components/HistoryItem/_HistoryItem.styles";
+import { HistoryItemList } from "../components/HistoryItemList";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
+import { PageSection } from "../components/PageSection";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import { Card, CardMeta, CardTitle, Subtitle } from "../globalStyles";
+import { Subtitle } from "../globalStyles";
+import { useDateFormatter } from "../hooks/useDateFormatter";
 import { type Period } from "../types";
-import { formatDate } from "../utils";
 
 export default function PeriodSelectionScreen() {
 	const { getPastPeriods } = useData();
 	const { t } = useLocalization();
 	const [periods, setPeriods] = useState<Period[]>([]);
 	const [loading, setLoading] = useState(true);
+	const dateFormatter = useDateFormatter();
 
 	useEffect(() => {
 		getPastPeriods().then((data) => {
 			setPeriods(data);
+			console.log({ data });
 			setLoading(false);
 		});
 	}, [getPastPeriods]);
@@ -39,52 +50,66 @@ export default function PeriodSelectionScreen() {
 				}
 			/>
 			<PageContainer>
-				<Subtitle>Select a Period</Subtitle>
-				{loading ? (
-					<Subtitle>Loading...</Subtitle>
-				) : periods.length === 0 ? (
-					<Subtitle>No past periods found.</Subtitle>
-				) : (
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: "1rem",
-						}}
-					>
-						{periods.map((period) => (
-							<Link
-								key={period.id}
-								to={`/history/${period.id}`}
-								style={{
-									color: "inherit",
-									textDecoration: "none",
-								}}
-							>
-								<Card style={{ cursor: "pointer" }}>
-									<CardTitle>
-										{formatDate(new Date(period.startDate))}{" "}
-										-{" "}
-										{period.endDate
-											? formatDate(
-													new Date(period.endDate),
-												)
-											: "Now"}
-									</CardTitle>
-									<CardMeta>
-										<Calendar size={16} />
-										Ended:{" "}
-										{period.endDate
-											? formatDate(
-													new Date(period.endDate),
-												)
-											: "Active"}
-									</CardMeta>
-								</Card>
-							</Link>
-						))}
-					</div>
-				)}
+				<PageSection headline={t.selectPeriod}>
+					{loading ? (
+						<Subtitle>Loading...</Subtitle>
+					) : periods.length === 0 ? (
+						<Subtitle>No past periods found.</Subtitle>
+					) : (
+						<FrostedGlassSection>
+							<HistoryItemList>
+								{periods.map(({ endDate, id, startDate }) => {
+									const start = new Date(startDate);
+									const end = endDate
+										? new Date(endDate)
+										: null;
+									return (
+										<Link
+											key={id}
+											to={`/history/${id}`}
+											style={{
+												color: "inherit",
+												display: "block",
+												textDecoration: "none",
+											}}
+										>
+											<HistoryItem>
+												<HistoryItem_Icon>
+													📅
+												</HistoryItem_Icon>
+												<HistoryItem_Content>
+													<HistoryItem_Title>
+														<time
+															dateTime={start.toISOString()}
+														>
+															<span aria-hidden="true"></span>{" "}
+															{dateFormatter.format(
+																start,
+															)}
+														</time>{" "}
+														-{" "}
+														{!end ? (
+															"now"
+														) : (
+															<time
+																dateTime={end.toISOString()}
+															>
+																<span aria-hidden="true"></span>{" "}
+																{dateFormatter.format(
+																	end,
+																)}
+															</time>
+														)}
+													</HistoryItem_Title>
+												</HistoryItem_Content>
+											</HistoryItem>
+										</Link>
+									);
+								})}
+							</HistoryItemList>
+						</FrostedGlassSection>
+					)}
+				</PageSection>
 			</PageContainer>
 		</>
 	);

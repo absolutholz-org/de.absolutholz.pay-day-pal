@@ -46,7 +46,8 @@ export type TranslationKey =
 	| "backToHome"
 	| "backToSettings"
 	| "backToHistory"
-	| "backToTop";
+	| "backToTop"
+	| "selectPeriod";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 	de: {
@@ -89,6 +90,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Bist du sicher, dass du den aktuellen Zahlungszeitraum beenden möchtest?",
 		paydayTitle: "Zahltag!",
 		periodManagement: "Zeitraumverwaltung",
+		selectPeriod: "Zeitraum auswählen",
 		settings: "Einstellungen",
 		startNewPeriod: "Sofort einen neuen Zeitraum beginnen",
 		startNewPeriodButton: "Neuen Zeitraum starten",
@@ -139,6 +141,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 		paydayMessage: "Are you sure you want to end the current pay period?",
 		paydayTitle: "Payday!",
 		periodManagement: "Period Management",
+		selectPeriod: "Select a Period",
 		settings: "Settings",
 		startNewPeriod: "Start a new period immediately",
 		startNewPeriodButton: "Start New Period",
@@ -189,6 +192,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Êtes-vous sûr de vouloir terminer la période de paie actuelle ?",
 		paydayTitle: "Jour de paie !",
 		periodManagement: "Gestion de la période",
+		selectPeriod: "Sélectionner une période",
 		settings: "Paramètres",
 		startNewPeriod: "Commencer une nouvelle période immédiatement",
 		startNewPeriodButton: "Commencer une nouvelle période",
@@ -240,6 +244,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Tem certeza de que deseja encerrar o período de pagamento atual?",
 		paydayTitle: "Dia de Pagamento!",
 		periodManagement: "Gestão de Período",
+		selectPeriod: "Selecionar um Período",
 		settings: "Configurações",
 		startNewPeriod: "Iniciar um novo período imediatamente",
 		startNewPeriodButton: "Iniciar Novo Período",

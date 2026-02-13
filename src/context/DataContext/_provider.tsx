@@ -298,8 +298,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
 			);
 			if (member) {
 				activities.push({
-					choreLabel: data.choreLabel,
-					date: data.date,
+					choreId: data.choreId,
+					date: new Date(data.date),
 					id: doc.id,
 					memberId: data.memberId,
 					memberName: member.name,
@@ -359,8 +359,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
 				);
 				if (member) {
 					activities.push({
-						choreLabel: data.choreLabel,
-						date: data.date,
+						choreId: data.choreId,
+						date: new Date(data.date),
 						id: doc.id,
 						memberId: data.memberId,
 						memberName: member.name,
@@ -368,7 +368,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 					});
 				}
 			});
-			activities.sort((a, b) => a.date.localeCompare(b.date));
+			activities.sort((a, b) => a.date.getTime() - b.date.getTime());
 		} else {
 			// Fallback to old logic for periods before /* activity */_records
 			const memberActivity: Record<string, ChoreData> = {};
@@ -410,8 +410,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
 						if (count > 0 && chore.value > 0) {
 							for (let i = 0; i < count; i++) {
 								activities.push({
-									choreLabel: chore.labels["en"],
-									date: dateKey,
+									choreId: chore.id,
+									date: new Date(dateKey),
 									id: `${member.id}_${key}_${i}`,
 									memberId: member.id,
 									memberName: member.name,
