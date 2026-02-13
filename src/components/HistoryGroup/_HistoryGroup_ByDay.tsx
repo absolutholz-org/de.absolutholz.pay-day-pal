@@ -1,5 +1,5 @@
 import { useCurrency } from "../../hooks/useCurrency";
-import { HistoryItem } from "../HistoryItem";
+// import { HistoryItem } from "../HistoryItem";
 import * as S from "./_HistoryGroup.styles";
 import { type HistoryGroup_ByDayProps } from "./_HistoryGroup.types";
 
@@ -26,9 +26,9 @@ export function HistoryGroup_ByDay({ items }: HistoryGroup_ByDayProps) {
 				</S.HistoryGroupHeader_Amount>
 			</S.HistoryGroupHeader_Day>
 			<div>
-				{items.map((item, idx) => (
+				{/* {items.map((item, idx) => (
 					<HistoryItem />
-				))}
+				))} */}
 			</div>
 		</S.HistoryCard>
 	);

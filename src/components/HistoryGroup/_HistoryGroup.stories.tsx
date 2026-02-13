@@ -1,16 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { HistoryGroup } from ".";
+import { HistoryGroup_ByDay } from ".";
 
 const meta = {
-	argTypes: {
-		emoji: { control: "text" },
-	},
-	component: HistoryGroup,
+	argTypes: {},
+	component: HistoryGroup_ByDay,
 
 	tags: ["autodocs"],
 	title: "Components/HistoryGroup",
-} satisfies Meta<typeof HistoryGroup>;
+} satisfies Meta<typeof HistoryGroup_ByDay>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -19,36 +17,14 @@ export const Default: Story = {
 	args: {
 		items: [
 			{
-				icon: "🍽️",
-				meta: "Completed 2 times",
-				price: "€2.00",
-				title: "Do Dishes",
-			},
-			{
-				icon: "👕",
-				meta: "Completed 2 times",
-				price: "€1.50",
-				title: "Fold Laundry",
-			},
-			{
-				icon: "🗑️",
-				meta: "Completed 1 time",
-				price: "€0.50",
-				title: "Take Out Trash",
-			},
-			{
-				icon: "🛏️",
-				meta: "Completed 5 times",
-				price: "€2.50",
-				title: "Make Bed",
+				choreId: "hang-laundry",
+				choreLabel: "Hang Laundry",
+				createdAt: new Date(),
+				date: "2026-01-01",
+				id: "one",
+				memberId: "",
+				value: 0,
 			},
 		],
-		member: {
-			color: "blue",
-			icon: "🚀",
-			name: "Nicky",
-			stats: "7 chore types",
-			total: "€11.25",
-		},
 	},
 };

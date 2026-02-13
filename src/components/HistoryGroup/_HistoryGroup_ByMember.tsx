@@ -1,5 +1,5 @@
 import { useCurrency } from "../../hooks/useCurrency";
-import { HistoryItem } from "../HistoryItem";
+// import { HistoryItem } from "../HistoryItem";
 import * as S from "./_HistoryGroup.styles";
 import { type HistoryGroup_ByMemberProps } from "./_HistoryGroup.types";
 
@@ -35,9 +35,9 @@ export function HistoryGroup_ByMember({
 				</S.HistoryGroupHeader_Amount>
 			</S.HistoryGroupHeader_Member>
 			<div>
-				{items.map((item, idx) => (
+				{/* {items.map((item, idx) => (
 					<HistoryItem />
-				))}
+				))} */}
 			</div>
 		</S.HistoryCard>
 	);
