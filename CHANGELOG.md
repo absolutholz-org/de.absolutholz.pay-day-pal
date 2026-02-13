@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.6.0...v1.7.0) (2026-02-13)
+
+
+### Features
+
+* update history screens and components ([c2764d2](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/c2764d277ec4b20083558c290dbf31c05ab82b88))
+
 # [1.6.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.5.0...v1.6.0) (2026-02-13)
 
 
