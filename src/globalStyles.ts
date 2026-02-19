@@ -160,6 +160,7 @@ export const globalStyles = css`
 				);
 			`,
 		})}
+		background-attachment: fixed;
 		color: var(--on-surface);
 	}
 
