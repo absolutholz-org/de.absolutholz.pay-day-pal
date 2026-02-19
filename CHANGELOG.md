@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.7.1...v1.8.0) (2026-02-19)
+
+
+### Features
+
+* make body background fixed ([3293e5c](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/3293e5c1ae95419d4744893933c42d552aa25aeb))
+
 ## [1.7.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.7.0...v1.7.1) (2026-02-13)
 
 
