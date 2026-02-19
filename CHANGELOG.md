@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.7.0...v1.7.1) (2026-02-13)
+
+
+### Bug Fixes
+
+* some dead component bugs ([c505f44](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/c505f44fd78d11cd02ebf616986aa0cd0ba4cab6))
+
 # [1.7.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.6.0...v1.7.0) (2026-02-13)
 
 
