@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.8.0...v1.9.0) (2026-02-19)
+
+
+### Features
+
+* add history groups ([f654c6d](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/f654c6d9b1915fa4b9f9ead8443b9d14a4b9fedc))
+
 # [1.8.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.7.1...v1.8.0) (2026-02-19)
 
 
