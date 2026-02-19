@@ -68,7 +68,7 @@ export type ActivityRecord = {
 	id: string;
 	choreId: string;
 	memberId: string;
-	date: string;
+	date: Date;
 	createdAt: Date;
 	value: number;
 	choreLabel: string;

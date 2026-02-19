@@ -2,21 +2,13 @@ import type { Firestore } from "firebase/firestore";
 
 import type {
 	AccentColor,
+	ActivityRecord,
 	Currency,
 	Household,
 	HouseholdMember,
 	Language,
 	Period,
 } from "../../types";
-
-export interface Activity {
-	id: string;
-	date: Date;
-	memberId: string;
-	memberName: string;
-	choreId: string;
-	value: number;
-}
 
 export interface DataContextType {
 	db: Firestore;
@@ -40,7 +32,7 @@ export interface DataContextType {
 	getPastPeriods: () => Promise<Period[]>;
 	getPeriodActivities: (periodId: string) => Promise<{
 		period: Period;
-		activities: Activity[];
+		activities: ActivityRecord[];
 	}>;
 	addActivityRecord: (
 		memberId: string,
@@ -52,5 +44,5 @@ export interface DataContextType {
 		choreId: string,
 		dateKey: string,
 	) => Promise<void>;
-	getRecentActivities: (limitCount?: number) => Promise<Activity[]>;
+	getRecentActivities: (limitCount?: number) => Promise<ActivityRecord[]>;
 }

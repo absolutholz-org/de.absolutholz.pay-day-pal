@@ -1,35 +1,47 @@
 import { useCurrency } from "../../hooks/useCurrency";
-// import { HistoryItem } from "../HistoryItem";
+import { type ActivityRecord } from "../../types";
+import { HistoryItemList } from "../HistoryItemList";
+import { HistoryItemWithMember } from "../HistoryItemWithMember";
 import * as S from "./_HistoryGroup.styles";
-import { type HistoryGroup_ByDayProps } from "./_HistoryGroup.types";
+import { type IHistoryGroup_ByDay } from "./_HistoryGroup.types";
 
-export function HistoryGroup_ByDay({ items }: HistoryGroup_ByDayProps) {
-	const date = items[0]?.date;
-	const choreCount = items.length;
-	const totalEarned = useCurrency(
-		items.reduce((sum, item) => sum + item.value, 0),
+export function HistoryGroup_ByDay({ activities, date }: IHistoryGroup_ByDay) {
+	const activityCount = activities.length;
+	const formattedTotalEarned = useCurrency(
+		activities.reduce(
+			(sum: number, activity: ActivityRecord) => sum + activity.value,
+			0,
+		),
 	);
 
 	return (
-		<S.HistoryCard>
+		<S.HistoryGroup>
 			<S.HistoryGroupHeader_Day>
 				<S.HistoryGroupHeader_Main>
 					<S.HistoryGroupHeader_Title>
 						{date}
 					</S.HistoryGroupHeader_Title>
 					<S.HistoryGroupHeader_Subtitle>
-						{choreCount} chores
+						{activityCount} activities
 					</S.HistoryGroupHeader_Subtitle>
 				</S.HistoryGroupHeader_Main>
 				<S.HistoryGroupHeader_Amount>
-					{totalEarned}
+					{formattedTotalEarned}
 				</S.HistoryGroupHeader_Amount>
 			</S.HistoryGroupHeader_Day>
-			<div>
-				{/* {items.map((item, idx) => (
-					<HistoryItem />
-				))} */}
-			</div>
-		</S.HistoryCard>
+
+			<S.HistoryGroup_Content>
+				<HistoryItemList>
+					{activities.map(({ choreId, id, memberId, value }) => (
+						<HistoryItemWithMember
+							key={id}
+							amountEarned={value}
+							choreId={choreId}
+							memberId={memberId}
+						/>
+					))}
+				</HistoryItemList>
+			</S.HistoryGroup_Content>
+		</S.HistoryGroup>
 	);
 }

@@ -1,12 +1,23 @@
 import styled from "@emotion/styled";
 
+import { FrostedGlassSection } from "../FrostedGlassSection/_FrostedGlassSection.styles";
+
+export const HistoryGroup = styled(FrostedGlassSection)`
+	padding: 0;
+`;
+
+export const HistoryGroup_Content = styled.div`
+	padding: 1.5rem;
+`;
+
 export const HistoryGroupHeader = styled.div`
 	align-items: center;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
 	color: white;
 	display: flex;
 	gap: 0.75rem;
-	padding: 1.25rem 1.5rem;
-	padding: 1rem;
+	padding: 1rem 1.5rem;
 `;
 
 export const HistoryGroupHeader_Day = styled(HistoryGroupHeader)`

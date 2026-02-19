@@ -1,4 +1,4 @@
-import type { ActivityRecord, HouseholdMember } from "../../types";
+import type { ActivityRecord } from "../../types";
 
 declare module "react" {
 	interface CSSProperties {
@@ -6,11 +6,12 @@ declare module "react" {
 	}
 }
 
-export interface HistoryGroup_ByMemberProps {
-	member: HouseholdMember;
-	items: ActivityRecord[];
+export interface IHistoryGroup_ByMember {
+	memberId: string;
+	activities: ActivityRecord[];
 }
 
-export interface HistoryGroup_ByDayProps {
-	items: ActivityRecord[];
+export interface IHistoryGroup_ByDay {
+	date: string; // string because of logic for grouping by date in HistoryScreen
+	activities: ActivityRecord[];
 }

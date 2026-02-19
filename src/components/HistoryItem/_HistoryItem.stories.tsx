@@ -9,7 +9,7 @@ const meta = {
 	component: HistoryItem,
 
 	tags: ["autodocs"],
-	title: "Components/HistoryItem",
+	title: "Contextual/History/HistoryItem",
 } satisfies Meta<typeof HistoryItem>;
 
 export default meta;

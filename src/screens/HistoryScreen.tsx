@@ -4,57 +4,32 @@ import { Link, useParams } from "react-router-dom";
 
 import { Button } from "../components/Button";
 import { FrostedGlassSection } from "../components/FrostedGlassSection";
-import { HistoryItem } from "../components/HistoryItem";
+import {
+	HistoryGroup_ByDay,
+	HistoryGroup_ByMember,
+} from "../components/HistoryGroup";
 import { HistoryItemList } from "../components/HistoryItemList";
+import { HistoryItemWithMember } from "../components/HistoryItemWithMember";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
-import { type Activity } from "../context/DataContext/_types";
 import { useLocalization } from "../context/LocalizationContext";
 import { Subtitle } from "../globalStyles";
-import { useChore } from "../hooks/useChore";
-import { useMember } from "../hooks/useMember";
-import { type Period } from "../types";
+import { type ActivityRecord, type Period } from "../types";
 import { formatDate } from "../utils";
 
-// type GroupBy = "none" | "date" | "member" | "activity";
-
-function HistoryItemWithMember({
-	amountEarned,
-	choreId,
-	date,
-	memberId,
-}: {
-	choreId: string;
-	memberId: string;
-	date: Date;
-	amountEarned: number;
-}) {
-	const chore = useChore(choreId);
-	const member = useMember(memberId);
-
-	return (
-		<HistoryItem
-			icon={chore?.emoji || "❓"}
-			member={member}
-			title={chore?.label || "unknown chore"}
-			amountEarned={amountEarned}
-			date={date}
-		/>
-	);
-}
+type GroupBy = "none" | "date" | "member" | "activity";
 
 export default function HistoryScreen() {
 	const { periodId } = useParams<{ periodId: string }>();
 	const { currentHousehold, getPeriodActivities } = useData();
 	const { t } = useLocalization();
-	const [activities, setActivities] = useState<Activity[]>([]);
+	const [activities, setActivities] = useState<ActivityRecord[]>([]);
 	const [period, setPeriod] = useState<Period | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-	// const [groupBy, setGroupBy] = useState<GroupBy>("date");
+	const [groupBy, setGroupBy] = useState<GroupBy>("none");
 	const [filterMemberId, setFilterMemberId] = useState<string>("all");
-	const groupedActivities = null; // temp
 
 	useEffect(() => {
 		if (periodId) {
@@ -76,64 +51,38 @@ export default function HistoryScreen() {
 		return [...result].reverse();
 	}, [activities, sortOrder, filterMemberId]);
 
-	// const groupedActivities = useMemo(() => {
-	// 	if (groupBy === "none") return null;
+	const groupedActivities = useMemo(() => {
+		if (groupBy === "none") return null;
 
-	// 	const groups = new Map<string, Activity[]>();
+		const groups = new Map<string, ActivityRecord[]>();
 
-	// 	displayActivities.forEach((activity) => {
-	// 		let key = "";
-	// 		switch (groupBy) {
-	// 			case "date":
-	// 				key = formatDate(new Date(activity.date));
-	// 				break;
-	// 			case "member":
-	// 				key = activity.memberName;
-	// 				break;
-	// 			case "activity":
-	// 				key = activity.choreLabel;
-	// 				break;
-	// 		}
+		displayActivities.forEach((activity) => {
+			let key = "";
+			switch (groupBy) {
+				case "date":
+					key = formatDate(new Date(activity.date));
+					break;
+				case "member":
+					key = activity.memberId;
+					break;
+				// case "activity":
+				// 	key = activity.choreId;
+				// 	break;
+			}
 
-	// 		if (!groups.has(key)) {
-	// 			groups.set(key, []);
-	// 		}
-	// 		groups.get(key)!.push(activity);
-	// 	});
+			if (!groups.has(key)) {
+				groups.set(key, []);
+			}
+			groups.get(key)!.push(activity);
+		});
 
-	// 	return Array.from(groups.entries()).map(([key, items]) => ({
-	// 		items,
-	// 		key,
-	// 		totalValue: items.reduce((sum, item) => sum + item.value, 0),
-	// 	}));
-	// }, [displayActivities, groupBy]);
-
-	// const renderActivityCard = (activity: Activity) => (
-	// 	<Card key={activity.id} style={{ cursor: "default" }}>
-	// 		<div
-	// 			style={{
-	// 				alignItems: "center",
-	// 				display: "flex",
-	// 				justifyContent: "space-between",
-	// 			}}
-	// 		>
-	// 			<CardTitle>{activity.choreLabel}</CardTitle>
-	// 			<span
-	// 				style={{
-	// 					alignItems: "center",
-	// 					color: "#2ecc71",
-	// 					display: "flex",
-	// 					gap: "0.25rem",
-	// 				}}
-	// 			>
-	// 				<Euro size={20} /> {activity.value.toFixed(2)}
-	// 			</span>
-	// 		</div>
-	// 		<CardMeta>
-	// 			{formatDate(new Date(activity.date))} • {activity.memberName}
-	// 		</CardMeta>
-	// 	</Card>
-	// );
+		return Array.from(groups.entries()).map(([key, items]) => ({
+			items,
+			key,
+			totalValue: items.reduce((sum, item) => sum + item.value, 0),
+		}));
+	}, [displayActivities, groupBy]);
+	console.log({ groupedActivities });
 
 	return (
 		<>
@@ -239,7 +188,7 @@ export default function HistoryScreen() {
 						</button>
 					))}
 				</div>
-				{/* <div
+				<div
 					style={{
 						alignItems: "center",
 						display: "flex",
@@ -259,7 +208,7 @@ export default function HistoryScreen() {
 					>
 						Group:
 					</span>
-					{(["none", "date", "member", "activity"] as const).map(
+					{(["none", "date", "member" /*, "activity"*/] as const).map(
 						(g) => (
 							<button
 								key={g}
@@ -282,14 +231,30 @@ export default function HistoryScreen() {
 							</button>
 						),
 					)}
-				</div> */}
+				</div>
 
 				{loading ? (
 					<Subtitle>Loading...</Subtitle>
 				) : displayActivities.length === 0 ? (
 					<Subtitle>No activities found.</Subtitle>
 				) : groupedActivities ? (
-					<>{console.log({ groupedActivities })}</>
+					<>
+						{groupedActivities.map((group, idg) =>
+							groupBy === "date" ? (
+								<HistoryGroup_ByDay
+									key={idg}
+									date={group.key}
+									activities={group.items}
+								/>
+							) : (
+								<HistoryGroup_ByMember
+									key={idg}
+									memberId={group.key}
+									activities={group.items}
+								/>
+							),
+						)}
+					</>
 				) : (
 					<FrostedGlassSection>
 						<HistoryItemList>

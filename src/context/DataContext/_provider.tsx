@@ -31,7 +31,6 @@ import {
 } from "../../types";
 import { formatDateKey } from "../../utils";
 import { DataContext } from "./_context";
-import { type Activity } from "./_types";
 
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -290,19 +289,27 @@ export function DataProvider({ children }: { children: ReactNode }) {
 		);
 		const snapshot = await getDocs(q);
 
-		const activities: Activity[] = [];
+		const activities: ActivityRecord[] = [];
 		snapshot.forEach((doc) => {
 			const data = doc.data() as ActivityRecord;
 			const member = currentHousehold.members.find(
 				(m) => m.id === data.memberId,
 			);
 			if (member) {
+				const chore = currentHousehold.chores.find(
+					(c) => c.id === data.choreId,
+				);
 				activities.push({
 					choreId: data.choreId,
+					choreLabel:
+						data.choreLabel ||
+						chore?.labels[currentHousehold.language] ||
+						chore?.labels["en"] ||
+						"",
+					createdAt: toDate(data.createdAt) || new Date(),
 					date: new Date(data.date),
 					id: doc.id,
 					memberId: data.memberId,
-					memberName: member.name,
 					value: data.value,
 				});
 			}
@@ -349,7 +356,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
 		);
 		const snapshot = await getDocs(q);
 
-		const activities: Activity[] = [];
+		const activities: ActivityRecord[] = [];
 
 		if (!snapshot.empty) {
 			snapshot.forEach((doc) => {
@@ -358,12 +365,20 @@ export function DataProvider({ children }: { children: ReactNode }) {
 					(m) => m.id === data.memberId,
 				);
 				if (member) {
+					const chore = currentHousehold.chores.find(
+						(c) => c.id === data.choreId,
+					);
 					activities.push({
 						choreId: data.choreId,
+						choreLabel:
+							data.choreLabel ||
+							chore?.labels[currentHousehold.language] ||
+							chore?.labels["en"] ||
+							"",
+						createdAt: toDate(data.createdAt) || new Date(),
 						date: new Date(data.date),
 						id: doc.id,
 						memberId: data.memberId,
-						memberName: member.name,
 						value: data.value,
 					});
 				}
@@ -411,10 +426,16 @@ export function DataProvider({ children }: { children: ReactNode }) {
 							for (let i = 0; i < count; i++) {
 								activities.push({
 									choreId: chore.id,
+									choreLabel:
+										chore.labels[
+											currentHousehold.language
+										] ||
+										chore.labels["en"] ||
+										"",
+									createdAt: new Date(dateKey),
 									date: new Date(dateKey),
 									id: `${member.id}_${key}_${i}`,
 									memberId: member.id,
-									memberName: member.name,
 									value: chore.value,
 								});
 							}

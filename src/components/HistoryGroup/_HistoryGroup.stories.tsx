@@ -15,16 +15,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		items: [
+		activities: [
 			{
 				choreId: "hang-laundry",
 				choreLabel: "Hang Laundry",
 				createdAt: new Date(),
-				date: "2026-01-01",
+				date: new Date("2026-01-01"),
 				id: "one",
 				memberId: "",
 				value: 0,
 			},
 		],
+		date: "2026-01-01",
 	},
 };
