@@ -8,7 +8,7 @@ const meta = {
 		layout: "fullscreen",
 	},
 	tags: ["autodocs"],
-	title: "Components/BackToTop",
+	title: "Primitives/BackToTop",
 } satisfies Meta<typeof BackToTop>;
 
 export default meta;
