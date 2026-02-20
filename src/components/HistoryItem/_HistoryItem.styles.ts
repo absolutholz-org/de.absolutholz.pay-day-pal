@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const HistoryItem = styled.div`
 	align-items: center;
 	background-color: var(--card-bg);
+	/* background: oklch(0.985 0.002 247.839); */
 	border-radius: 0.875rem;
 	display: flex;
 	gap: 0.75rem;
