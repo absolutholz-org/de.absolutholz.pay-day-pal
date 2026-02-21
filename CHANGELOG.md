@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.9.0...v1.9.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* update history and section background and shadow ([9664fa4](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/9664fa4b13e914f15811e398d67298bce7de7070))
+
 # [1.9.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.8.0...v1.9.0) (2026-02-19)
 
 
