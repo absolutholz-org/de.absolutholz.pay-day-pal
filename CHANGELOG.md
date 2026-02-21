@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.9.1...v1.10.0) (2026-02-21)
+
+
+### Features
+
+* add page width and padding for new full bleed scrollable container component ([548ac3d](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/548ac3d5af8a2de98b381b52be6ba6df12b3e885))
+
 ## [1.9.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.9.0...v1.9.1) (2026-02-20)
 
 
