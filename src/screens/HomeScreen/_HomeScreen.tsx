@@ -13,34 +13,30 @@ import { Loader, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { BackToTop } from "../components/BackToTop";
-import { BalanceDisplay } from "../components/BalanceDisplay";
-import { Button } from "../components/Button";
-import { ChoreCardList } from "../components/ChoreCardList";
-import { DateScroll } from "../components/DateScroll";
-import { HouseholdMemberSelector } from "../components/HouseholdMemberSelector";
-import { PageContainer } from "../components/PageContainer";
-import { PageHeader } from "../components/PageHeader";
-import { LOCAL_STORAGE_KEY_PREFIX } from "../constants";
-import { useData } from "../context/DataContext";
-import { useLocalization } from "../context/LocalizationContext";
-import { LoadingIndicator, Subtitle } from "../globalStyles";
-import { type ChoreData, type Household, type Period } from "../types";
-import { formatDateKey } from "../utils";
+import { Button } from "../../components/Button";
+import { PageContainer } from "../../components/PageContainer";
+import { PageHeader } from "../../components/PageHeader";
+import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
+import { useLocalization } from "../../context/LocalizationContext";
+import { LoadingIndicator, Subtitle } from "../../globalStyles";
+import { type ChoreData, type Household, type Period } from "../../types";
+import { formatDateKey } from "../../utils";
+import { ActivePeriodView } from "./_ActivePeriodView";
+import { NoActivePeriodView } from "./_NoActivePeriodView";
 
 interface HomeScreenProps {
 	household: Household;
 	db: Firestore;
 }
 
-export default function HomeScreen({ db, household }: HomeScreenProps) {
-	const { finishPeriod } = useData();
+export function HomeScreen({ db, household }: HomeScreenProps) {
 	const [householdData, setHouseholdData] = useState<Household>(household);
 	const [choreData, setChoreData] = useState<ChoreData>({});
 	const [isSyncing, setIsSyncing] = useState(false);
 	const [selectedDate, setSelectedDate] = useState(formatDateKey(new Date()));
 	const [activePeriod, setActivePeriod] = useState<Period | null>(null);
 	const todayKey = formatDateKey(new Date());
+	const { t } = useLocalization();
 
 	useEffect(() => {
 		const unsub = onSnapshot(
@@ -194,8 +190,6 @@ export default function HomeScreen({ db, household }: HomeScreenProps) {
 		return total;
 	};
 
-	const { language, t } = useLocalization();
-
 	return (
 		<>
 			<PageHeader
@@ -211,73 +205,30 @@ export default function HomeScreen({ db, household }: HomeScreenProps) {
 					/>
 				}
 			/>
-			<PageContainer>
-				{isSyncing && (
+			{isSyncing && (
+				<PageContainer>
 					<LoadingIndicator>
 						<Loader size={20} />
 					</LoadingIndicator>
-				)}
+				</PageContainer>
+			)}
 
-				{!activePeriod ? (
-					<div
-						style={{
-							alignItems: "center",
-							color: "#7f8c8d",
-							display: "flex",
-							flex: 1,
-							flexDirection: "column",
-							gap: "1rem",
-							justifyContent: "center",
-							padding: "2rem",
-						}}
-					>
-						<p style={{ fontSize: "1.2rem" }}>{t.noActivePeriod}</p>
-						<p>{t.startNewPeriodDescription}</p>
-
-						<button
-							onClick={() => finishPeriod(true)}
-							style={{
-								backgroundColor: "#3498db",
-								border: "none",
-								borderRadius: "5px",
-								boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-								color: "white",
-								cursor: "pointer",
-								fontSize: "16px",
-								padding: "10px 20px",
-							}}
-						>
-							{t.startNewPeriodButton}
-						</button>
-					</div>
-				) : (
-					<>
-						<HouseholdMemberSelector
-							members={householdData.members}
-							activeMemberId={activeChild}
-							onSelectMember={setActiveChild}
-						/>
-
-						<BalanceDisplay total={calculateTotal()} />
-
-						<DateScroll
-							dates={periodDates}
-							selectedDate={selectedDate}
-							onDateSelect={setSelectedDate}
-							getDailyTotal={calculateDailyTotal}
-						/>
-
-						<ChoreCardList
-							chores={chores}
-							counts={choreData}
-							currentActivityDate={selectedDate}
-							currentMemberId={activeChild}
-							language={language}
-						/>
-					</>
-				)}
-			</PageContainer>
-			<BackToTop label={t.backToTop} />
+			{!activePeriod ? (
+				<NoActivePeriodView />
+			) : (
+				<ActivePeriodView
+					members={householdData.members}
+					activeChild={activeChild}
+					setActiveChild={setActiveChild}
+					totalBalance={calculateTotal()}
+					periodDates={periodDates}
+					selectedDate={selectedDate}
+					setSelectedDate={setSelectedDate}
+					getDailyTotal={calculateDailyTotal}
+					chores={chores}
+					choreData={choreData}
+				/>
+			)}
 		</>
 	);
 }

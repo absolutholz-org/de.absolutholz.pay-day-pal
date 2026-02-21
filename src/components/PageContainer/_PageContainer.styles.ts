@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 
 export const PageContainer = styled.div`
 	margin: 0 auto;
-	max-width: 53rem;
+	max-width: var(--page-content-max-width);
 	/* min-height: 100vh; */
-	padding: 1rem;
+	padding: var(--page-content-padding);
 	width: 100%;
 `;

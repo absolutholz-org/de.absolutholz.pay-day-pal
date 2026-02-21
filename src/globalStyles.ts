@@ -79,7 +79,6 @@ export const globalStyles = css`
 	}
 
 	:root {
-		/* The "Minimalist" Stack */
 		--font-stack:
 			"Avenir Next", "Avenir", "Century Gothic", "Segoe UI", Roboto,
 			Helvetica, Arial, sans-serif;
@@ -87,6 +86,13 @@ export const globalStyles = css`
 
 		--radius-pill: calc(infinity * 1px);
 		--shadow-color: 0 0 0;
+
+		--page-content-padding: 1rem;
+		--page-content-max-width: 52rem;
+
+		@media screen and (max-width: 600px) {
+			--page-content-padding: 3rem;
+		}
 
 		color: var(--on-surface);
 		color-scheme: light dark;
