@@ -5,13 +5,14 @@ import { Link, useParams } from "react-router-dom";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
-import { Subtitle } from "../globalStyles";
+import { useLocalization } from "../context/LocalizationContext";
 import { type Period } from "../types";
 import { formatDate } from "../utils";
 
 export default function HistoryDetailScreen() {
 	const { periodId } = useParams<{ periodId: string }>();
 	const { currentHousehold, getPeriodActivities } = useData();
+	const { t } = useLocalization();
 	const [period, setPeriod] = useState<Period | null>(null);
 	const [loading, setLoading] = useState(true);
 
@@ -33,13 +34,13 @@ export default function HistoryDetailScreen() {
 	if (loading)
 		return (
 			<PageContainer>
-				<Subtitle>Loading...</Subtitle>
+				<p>{t.loading}</p>
 			</PageContainer>
 		);
 	if (!period || !currentHousehold)
 		return (
 			<PageContainer>
-				<Subtitle>Period not found.</Subtitle>
+				<p>Period not found.</p>
 			</PageContainer>
 		);
 
@@ -65,10 +66,10 @@ export default function HistoryDetailScreen() {
 				}
 			/>
 			<PageContainer>
-				<Subtitle style={{ marginBottom: "1rem" }}>
+				<p style={{ marginBottom: "1rem" }}>
 					{formatDate(period.startDate)} -{" "}
 					{period.endDate ? formatDate(period.endDate) : "Now"}
-				</Subtitle>
+				</p>
 
 				{/* <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
         <select
@@ -138,7 +139,7 @@ export default function HistoryDetailScreen() {
           </Card>
         ))}
         {activities.length === 0 && (
-          <Subtitle>No activity recorded for this period.</Subtitle>
+          <p>No activity recorded for this period.</p>
         )}
       </div> */}
 			</PageContainer>

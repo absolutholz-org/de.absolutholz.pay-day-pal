@@ -3,22 +3,24 @@ import { useCurrency } from "../../hooks/useCurrency";
 import { useDateFormatter } from "../../hooks/useDateFormatter";
 import { HouseholdMemberPill } from "../HouseholdMemberPill";
 import * as S from "./_HistoryItem.styles";
-import { type HistoryItemProps } from "./_HistoryItem.types";
+import { type IHistoryItem } from "./_HistoryItem.types";
 
 export function HistoryItem({
 	amountEarned,
+	children, // temporary
 	date,
 	icon,
 	member,
+	onClick, // temporary
 	title,
-}: HistoryItemProps) {
+}: IHistoryItem) {
 	const { language } = useLocalization();
-	const formattedValue = useCurrency(amountEarned, language, "EUR");
+	const formattedValue = useCurrency(amountEarned ?? 0, language, "EUR");
 	const dateFormatter = useDateFormatter();
 
 	return (
-		<S.HistoryItem>
-			<S.HistoryItem_Icon>{icon}</S.HistoryItem_Icon>
+		<S.HistoryItem onClick={onClick}>
+			{icon && <S.HistoryItem_Icon>{icon}</S.HistoryItem_Icon>}
 			<S.HistoryItem_Content>
 				<S.HistoryItem_Title>{title}</S.HistoryItem_Title>
 				<S.HistoryItem_Children>
@@ -37,9 +39,12 @@ export function HistoryItem({
 							{dateFormatter.format(date)}
 						</time>
 					)}
+					{children}
 				</S.HistoryItem_Children>
 			</S.HistoryItem_Content>
-			<S.HistoryItem_Amount>{formattedValue}</S.HistoryItem_Amount>
+			{amountEarned && (
+				<S.HistoryItem_Amount>{formattedValue}</S.HistoryItem_Amount>
+			)}
 		</S.HistoryItem>
 	);
 }

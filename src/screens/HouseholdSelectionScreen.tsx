@@ -8,8 +8,12 @@ import { Loader, Plus, Trash2, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "../components/Button";
+import { FrostedGlassSection } from "../components/FrostedGlassSection";
+import { HistoryItem } from "../components/HistoryItem";
+import { HistoryItemList } from "../components/HistoryItemList";
 import { Input } from "../components/Input";
 import { Label } from "../components/Label";
+import { LoadingIndicator } from "../components/LoadingIndicator";
 import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { Select } from "../components/Select";
@@ -18,15 +22,7 @@ import {
 	LOCAL_STORAGE_KEY_PREFIX,
 	SUPPORTED_LANGUAGES,
 } from "../constants";
-import {
-	Card,
-	CardMeta,
-	CardTitle,
-	FormGroup,
-	IconButton,
-	LoadingIndicator,
-	Subtitle,
-} from "../globalStyles";
+import { useLocalization } from "../context/LocalizationContext";
 import { type AccentColor, type Household, type Language } from "../types";
 
 const LOCAL_STORAGE_KEY = `${LOCAL_STORAGE_KEY_PREFIX}selectedHouseholdId`;
@@ -38,6 +34,7 @@ export default function HouseholdSelectionScreen({
 	onSelectHousehold: (household: Household) => void;
 	db: Firestore;
 }) {
+	const { t } = useLocalization();
 	const [view, setView] = useState<"list" | "create">("list");
 	const [households, setHouseholds] = useState<Household[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -135,18 +132,14 @@ export default function HouseholdSelectionScreen({
 		}
 	};
 
-	if (loading) return <PageContainer>Loading...</PageContainer>;
+	if (loading) return <PageContainer>{t.loading}</PageContainer>;
 
 	if (error) {
 		return (
 			<>
 				<PageHeader
 					title={"Connection Error"}
-					slotMain={
-						<Subtitle style={{ color: "#e74c3c" }}>
-							{error}
-						</Subtitle>
-					}
+					slotMain={<p style={{ color: "#e74c3c" }}>{error}</p>}
 				/>
 			</>
 		);
@@ -157,13 +150,7 @@ export default function HouseholdSelectionScreen({
 			<>
 				<PageHeader title={"New Household"} />
 				<PageContainer>
-					{/* <Header>
-          <BackButton onClick={() => setView("list")}>
-            <ArrowLeft size={24} />
-          </BackButton>
-          <PageHeadline>New Household</PageHeadline>
-        </Header> */}
-					<FormGroup>
+					<div style={{ marginBottom: "1rem" }}>
 						<Label>Household Name</Label>
 						<Input
 							placeholder="e.g. The Smiths"
@@ -172,8 +159,8 @@ export default function HouseholdSelectionScreen({
 								setNewHouseholdName(e.target.value)
 							}
 						/>
-					</FormGroup>
-					<FormGroup>
+					</div>
+					<div style={{ marginBottom: "1rem" }}>
 						<Label>Language</Label>
 						<Select
 							value={newHouseholdLanguage}
@@ -184,8 +171,8 @@ export default function HouseholdSelectionScreen({
 							}
 							options={SUPPORTED_LANGUAGES}
 						/>
-					</FormGroup>
-					<FormGroup>
+					</div>
+					<div style={{ marginBottom: "1rem" }}>
 						<Label>Members</Label>
 						{newMembers.map((member, index) => (
 							<div
@@ -207,7 +194,16 @@ export default function HouseholdSelectionScreen({
 									style={{ marginBottom: 0 }}
 								/>
 								{newMembers.length > 1 && (
-									<IconButton
+									<Button
+										color="danger"
+										variant="text"
+										label={"remove member"}
+										startIcon={
+											<Trash2
+												size={24}
+												aria-hidden="true"
+											/>
+										}
 										onClick={() =>
 											setNewMembers(
 												newMembers.filter(
@@ -215,13 +211,7 @@ export default function HouseholdSelectionScreen({
 												),
 											)
 										}
-										style={{
-											color: "#e74c3c",
-											position: "static",
-										}}
-									>
-										<Trash2 size={20} />
-									</IconButton>
+									/>
 								)}
 							</div>
 						))}
@@ -231,7 +221,7 @@ export default function HouseholdSelectionScreen({
 						>
 							Add Member
 						</Button>
-					</FormGroup>
+					</div>
 					<Button
 						onClick={handleCreateHousehold}
 						style={{ marginTop: "2rem" }}
@@ -248,10 +238,10 @@ export default function HouseholdSelectionScreen({
 			<PageHeader
 				title={"Payday Pal"}
 				slotMain={
-					<Subtitle>
+					<p>
 						Manage chores, track allowances, and teach financial
 						responsibility.
-					</Subtitle>
+					</p>
 				}
 			/>
 			<PageContainer>
@@ -280,20 +270,20 @@ export default function HouseholdSelectionScreen({
 				</div>
 
 				{households.length > 0 && (
-					<div style={{ margin: "0 auto", maxWidth: "600px" }}>
-						{households.map((h) => (
-							<Card
-								key={h.id}
-								onClick={() => onSelectHousehold(h)}
-							>
-								<CardTitle>{h.name}</CardTitle>
-								<CardMeta>
+					<FrostedGlassSection>
+						<HistoryItemList>
+							{households.map((h) => (
+								<HistoryItem
+									key={h.id}
+									onClick={() => onSelectHousehold(h)}
+									title={h.name}
+								>
 									<Users size={16} /> {h.members.length}{" "}
 									Members
-								</CardMeta>
-							</Card>
-						))}
-					</div>
+								</HistoryItem>
+							))}
+						</HistoryItemList>
+					</FrostedGlassSection>
 				)}
 			</PageContainer>
 		</>

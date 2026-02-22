@@ -47,7 +47,8 @@ export type TranslationKey =
 	| "backToSettings"
 	| "backToHistory"
 	| "backToTop"
-	| "selectPeriod";
+	| "selectPeriod"
+	| "loading";
 
 export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 	de: {
@@ -83,6 +84,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Bist du sicher, dass du diesen Haushalt verlassen möchtest? Du musst ihn im Hauptmenü erneut auswählen, um zurückzukehren.",
 		leaveHouseholdConfirmTitle: "Haushalt verlassen?",
 		light: "Hell",
+		loading: "Laden...",
 		members: "Mitglieder",
 		newMemberName: "Neuer Name",
 		noActivePeriod: "Kein aktiver Zeitraum.",
@@ -135,6 +137,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Are you sure you want to leave this household? You will need to select it again from the main menu to return.",
 		leaveHouseholdConfirmTitle: "Leave Household?",
 		light: "Light",
+		loading: "Loading...",
 		members: "Members",
 		newMemberName: "New Member Name",
 		noActivePeriod: "No active period.",
@@ -185,6 +188,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Êtes-vous sûr de vouloir quitter ce ménage ? Vous devrez le sélectionner à nouveau dans le menu principal pour y revenir.",
 		leaveHouseholdConfirmTitle: "Quitter le ménage ?",
 		light: "Clair",
+		loading: "Chargement...",
 		members: "Membres",
 		newMemberName: "Nouveau nom",
 		noActivePeriod: "Aucune période active.",
@@ -237,6 +241,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 			"Tem certeza de que deseja sair desta família? Você precisará selecioná-la novamente no menu principal para retornar.",
 		leaveHouseholdConfirmTitle: "Sair da Família?",
 		light: "Claro",
+		loading: "Carregando...",
 		members: "Membros",
 		newMemberName: "Novo Nome",
 		noActivePeriod: "Nenhum período ativo.",

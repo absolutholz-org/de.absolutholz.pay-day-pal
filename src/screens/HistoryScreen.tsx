@@ -14,7 +14,6 @@ import { PageContainer } from "../components/PageContainer";
 import { PageHeader } from "../components/PageHeader";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import { Subtitle } from "../globalStyles";
 import { type ActivityRecord, type Period } from "../types";
 import { formatDate } from "../utils";
 
@@ -234,9 +233,9 @@ export default function HistoryScreen() {
 				</div>
 
 				{loading ? (
-					<Subtitle>Loading...</Subtitle>
+					<p>{t.loading}</p>
 				) : displayActivities.length === 0 ? (
-					<Subtitle>No activities found.</Subtitle>
+					<p>No activities found.</p>
 				) : groupedActivities ? (
 					<>
 						{groupedActivities.map((group, idg) =>

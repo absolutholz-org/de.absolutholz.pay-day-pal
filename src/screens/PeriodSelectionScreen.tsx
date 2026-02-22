@@ -16,7 +16,6 @@ import { PageHeader } from "../components/PageHeader";
 import { PageSection } from "../components/PageSection";
 import { useData } from "../context/DataContext";
 import { useLocalization } from "../context/LocalizationContext";
-import { Subtitle } from "../globalStyles";
 import { useDateFormatter } from "../hooks/useDateFormatter";
 import { type Period } from "../types";
 
@@ -52,9 +51,9 @@ export default function PeriodSelectionScreen() {
 			<PageContainer>
 				<PageSection headline={t.selectPeriod}>
 					{loading ? (
-						<Subtitle>Loading...</Subtitle>
+						<p>{t.loading}</p>
 					) : periods.length === 0 ? (
-						<Subtitle>No past periods found.</Subtitle>
+						<p>No past periods found.</p>
 					) : (
 						<FrostedGlassSection>
 							<HistoryItemList>

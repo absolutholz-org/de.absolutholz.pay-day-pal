@@ -14,11 +14,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "../../components/Button";
+import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { PageContainer } from "../../components/PageContainer";
 import { PageHeader } from "../../components/PageHeader";
 import { LOCAL_STORAGE_KEY_PREFIX } from "../../constants";
 import { useLocalization } from "../../context/LocalizationContext";
-import { LoadingIndicator, Subtitle } from "../../globalStyles";
 import { type ChoreData, type Household, type Period } from "../../types";
 import { formatDateKey } from "../../utils";
 import { ActivePeriodView } from "./_ActivePeriodView";
@@ -194,7 +194,7 @@ export function HomeScreen({ db, household }: HomeScreenProps) {
 		<>
 			<PageHeader
 				title={`Payday Pal for ${householdData.name}`}
-				slotMain={<Subtitle>{t.trackChores}</Subtitle>}
+				slotMain={<p>{t.trackChores}</p>}
 				slotTrail={
 					<Button
 						as={Link}
