@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.10.0...v1.10.1) (2026-02-22)
+
+
+### Bug Fixes
+
+* add extra spacing to date scroll to show shadows ([eaeb8ba](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/eaeb8ba766bdc4ddda5b1d8d4c0ba3cd7daf636f))
+
 # [1.10.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.9.1...v1.10.0) (2026-02-21)
 
 
