@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: "filled" | "outline";
 	color?: "primary" | "secondary" | "success" | "danger" | "warning";
 	size?: "small" | "medium" | "large";

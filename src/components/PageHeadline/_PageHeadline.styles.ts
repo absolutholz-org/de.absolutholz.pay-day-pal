@@ -22,8 +22,8 @@ export const PageHeadline = styled.h1`
 		`,
 	})}
 	color: transparent;
-	font-size: 1.875rem;
+	font-size: 2.25rem;
 	font-weight: 700;
-	line-height: 1.2;
+	line-height: 1.11;
 	margin-block: 0;
 `;
