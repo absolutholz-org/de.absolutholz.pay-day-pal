@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.10.1...v1.11.0) (2026-02-22)
+
+
+### Features
+
+* update the page header and headline components ([2d6071d](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/2d6071d49ffcba97c1506eef3c52a868ca85b53c))
+
 ## [1.10.1](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.10.0...v1.10.1) (2026-02-22)
 
 
