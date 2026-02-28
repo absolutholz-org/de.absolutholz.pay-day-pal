@@ -9,6 +9,7 @@ export type TranslationKey =
 	| "householdName"
 	| "editHouseholdName"
 	| "members"
+	| "chores"
 	| "newMemberName"
 	| "periodManagement"
 	| "viewHistory"
@@ -62,6 +63,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 		backToSettings: "Zurück zu Einstellungen",
 		backToTop: "Nach oben",
 		cancel: "Abbrechen",
+		chores: "Aufgaben",
 		confirm: "Bestätigen",
 		currentEarnings: "Aktueller Verdienst",
 		dark: "Dunkel",
@@ -115,6 +117,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 		backToSettings: "Back to Settings",
 		backToTop: "Back to top",
 		cancel: "Cancel",
+		chores: "Chores",
 		confirm: "Confirm",
 		currentEarnings: "Current Earnings",
 		dark: "Dark",
@@ -166,6 +169,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 		backToSettings: "Retour aux paramètres",
 		backToTop: "Retour en haut",
 		cancel: "Annuler",
+		chores: "Corvées",
 		confirm: "Confirmer",
 		currentEarnings: "Gains actuels",
 		dark: "Sombre",
@@ -219,6 +223,7 @@ export const TRANSLATIONS: Record<Language, Record<TranslationKey, string>> = {
 		backToSettings: "Voltar para Configurações",
 		backToTop: "Voltar ao topo",
 		cancel: "Cancelar",
+		chores: "Tarefas",
 		confirm: "Confirmar",
 		currentEarnings: "Ganhos Atuais",
 		dark: "Escuro",

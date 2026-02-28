@@ -32,7 +32,7 @@ export default function SettingsScreen() {
 		updateHouseholdName,
 		updateMember,
 	} = useData();
-	const { t } = useLocalization();
+	const { language, t } = useLocalization();
 
 	const version = import.meta.env.PACKAGE_VERSION;
 
@@ -134,6 +134,22 @@ export default function SettingsScreen() {
 						>
 							{t.leaveHousehold}
 						</Button>
+					</FrostedGlassSection>
+
+					<FrostedGlassSection headline={t.chores}>
+						{household.chores.map((chore) => (
+							<DataDisplay
+								key={chore.id}
+								label={
+									chore.labels[language] || chore.labels.en
+								}
+							>
+								{new Intl.NumberFormat(household.language, {
+									currency: household.currency,
+									style: "currency",
+								}).format(chore.value)}
+							</DataDisplay>
+						))}
 					</FrostedGlassSection>
 				</PageSection>
 
