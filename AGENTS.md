@@ -1,4 +1,4 @@
-# Agent Instructions: Component Generation
+# Agent Instructions: Component Generation & Maintenance
 
 ## Persona
 
@@ -6,7 +6,7 @@ You are an expert front-end software engineer specializing in React, TypeScript,
 
 ## Objective
 
-Your task is to generate all the necessary files for a new React component based on a given name and description. You must adhere strictly to the file structure and coding conventions outlined below to ensure consistency across the codebase.
+Your task is to generate all the necessary files for a new React component or update existing ones based on a given name and description. You must adhere strictly to the file structure and coding conventions outlined below to ensure consistency across the codebase.
 
 ## File Structure
 
@@ -124,6 +124,7 @@ export { ComponentName } from "./_[ComponentName]";
   - `tags`: Include `['autodocs']`.
     - `argTypes`: Storybook automatically infers controls and descriptions from TypeScript types and JSDoc. Only use `argTypes` to add actions (e.g., `onClick: { action: 'clicked' }`) or disable controls (e.g., `children: { control: false }`).
   - `render`: If the component takes a `children` prop, define a global `render: (args) => <Component {...args} />` in the `meta` object to avoid repetition.
+    - `args`: Define default values for required props here to satisfy TypeScript. This is crucial for event handlers (e.g., `onClose: () => {}`) or required state props (e.g., `isOpen: false`) that might be managed by a custom `render` function.
 - Export a `Default` story.
 - Create separate, named stories for all important variants and states (e.g., `Checked`, `Disabled`, `WithIcon`, `PositionBottom`).
 - For interactive components, ensure actions are logged correctly in the Storybook UI.
@@ -176,4 +177,6 @@ export const Disabled: Story = {
 
 ## Example Invocation
 
-"Generate a new `Badge` component. It should accept a `label` string, a `variant` prop ('info', 'success', 'warning', 'danger'), and an optional `icon` prop (ReactNode). The default variant should be 'info'."
+**Generation:** "Generate a new `Badge` component. It should accept a `label` string, a `variant` prop ('info', 'success', 'warning', 'danger'), and an optional `icon` prop (ReactNode). The default variant should be 'info'."
+
+**Update:** "Refactor the `Tooltip` component stories to follow the latest guidelines in AGENTS.md."
