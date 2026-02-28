@@ -49,7 +49,7 @@ export const ChoreCard = styled.div`
 	})}
 
 	color: var(--on-surface);
-	border-radius: 1.5rem;
+	border-radius: var(--radius-lg);
 	box-shadow:
 		0 10px 15px -3px rgb(var(--shadow-color) / 10%),
 		0 4px 6px -4px rgb(var(--shadow-color) / 10%);
@@ -73,13 +73,12 @@ export const ChoreCard_TopImage = styled.div`
 
 export const ChoreCard_TopImage_Bubbles = styled.div`
 	inset: 0;
-	opacity: 0.1;
 	position: absolute;
 `;
 
 const ChoreCard_TopImage_Bubble = styled.div`
-	background-color: var(--surface);
-	border-radius: calc(infinity * 1px);
+	background-color: oklch(from var(--surface) l c h / 0.1);
+	border-radius: var(--radius-pill);
 	position: absolute;
 `;
 
@@ -106,7 +105,7 @@ export const ChoreCard_TopIcon = styled.div`
 export const ChoreCard_TopPill = styled.span`
 	// background-color: oklch(0.546 0.245 262.881);
 	background-color: var(--chore-color);
-	border-radius: calc(infinity * 1px);
+	border-radius: var(--radius-pill);
 	box-shadow:
 		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
 		rgba(0, 0, 0, 0) 0px 0px 0px 0px,
@@ -151,7 +150,7 @@ export const ChoreCard_Stepper = styled.div`
 const ChoreCard_StepperButton = styled.button`
 	align-items: center;
 	border: 2px solid;
-	border-radius: calc(infinity * 1px);
+	border-radius: var(--radius-pill);
 	// color: var(--accent);
 	color: var(--chore-color);
 	display: flex;
@@ -201,4 +200,19 @@ export const ChoreCard_StepperValue = styled.span`
 	line-height: 1.25;
 	min-width: 2.5rem;
 	text-align: center;
+`;
+
+export const ChoreCard_PortionBadge = styled.span`
+	align-items: center;
+	background-color: oklch(from var(--on-surface) l c h / 0.75);
+	border: 4px solid oklch(from currentColor l c h / 0.5);
+	border-radius: var(--radius-pill);
+	color: white;
+	display: flex;
+	font-size: 2.5rem;
+	font-weight: 700;
+	inset: 0;
+	justify-content: center;
+	padding-bottom: 0.125em;
+	position: absolute;
 `;

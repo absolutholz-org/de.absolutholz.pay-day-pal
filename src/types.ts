@@ -58,6 +58,7 @@ export type Chore = {
 	effort: "low" | "medium" | "high";
 	category: ChoreCategoryId;
 	disabled?: boolean;
+	portion?: number;
 };
 
 export type ChoreData = {

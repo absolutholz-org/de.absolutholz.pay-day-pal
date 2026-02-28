@@ -34,6 +34,7 @@ export function ChoreCardList({
 								]
 							}
 							value={chore.value}
+							portion={chore.portion}
 							count={choreCount}
 							currentMemberId={currentMemberId}
 							currentActivityDate={currentActivityDate}

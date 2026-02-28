@@ -16,6 +16,7 @@ export interface ChoreCardProps {
 	value: number;
 	currentMemberId: string;
 	currentActivityDate: string;
+	portion?: number;
 }
 
 export function ChoreCard({
@@ -25,6 +26,7 @@ export function ChoreCard({
 	currentMemberId,
 	id,
 	label,
+	portion,
 	value,
 }: ChoreCardProps) {
 	const { addActivityRecord, removeActivityRecord } = useData();
@@ -71,7 +73,7 @@ export function ChoreCard({
 			setOptimisticCount(count); // Revert on error
 		}
 	};
-
+	console.log({ portion });
 	return (
 		<S.ChoreCard
 			role="group"
@@ -85,7 +87,13 @@ export function ChoreCard({
 				{/* The Icon */}
 				<S.ChoreCard_TopImage>
 					<S.ChoreCard_TopImage_Bubbles>
-						<S.ChoreCard_TopImage_Bubble1 />
+						<S.ChoreCard_TopImage_Bubble1>
+							{portion && portion > 0 && (
+								<S.ChoreCard_PortionBadge>
+									{portion === 0.5 ? "½" : portion}
+								</S.ChoreCard_PortionBadge>
+							)}
+						</S.ChoreCard_TopImage_Bubble1>
 						<S.ChoreCard_TopImage_Bubble2 />
 					</S.ChoreCard_TopImage_Bubbles>
 					<S.ChoreCard_TopIcon>{icon}</S.ChoreCard_TopIcon>
