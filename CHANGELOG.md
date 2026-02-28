@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.11.0...v1.12.0) (2026-02-28)
+
+
+### Features
+
+* add option for half portion chore ([9aca4dd](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/9aca4dd5d81f00eb7bdc69f082c2bceb0d9075ab))
+* create tooltip component ([abb2de7](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/abb2de7be5f7e1766eef19b9ba6b934673647320))
+
 # [1.11.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.10.1...v1.11.0) (2026-02-22)
 
 
