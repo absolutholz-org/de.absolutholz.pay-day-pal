@@ -116,7 +116,7 @@ export { ComponentName } from "./_[ComponentName]";
 ### 5. `_[ComponentName].stories.tsx` (Storybook Stories)
 
 - Use Storybook 7+ with CSF 3.0 (`StoryObj`).
-- Import `Meta` and `StoryObj` from `@storybook/react-vite`.
+- Import `Meta` and `StoryObj` from `@storybook/react-vite` (not `@storybook/react`).
 - The `meta` object must be fully typed and include:
   - `title`: In the format `Primitives/[ComponentName]` or `Components/[ComponentName]`.
   - `component`: The component itself.
