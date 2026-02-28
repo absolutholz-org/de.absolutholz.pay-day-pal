@@ -18,7 +18,7 @@ export const CardLabel = styled.label<{ isSelected?: boolean }>`
 	/* BASE STATE */
 	background-color: var(--card-bg);
 	border-color: var(--card-border);
-	border-radius: 0.75rem;
+	border-radius: var(--radius-md);
 	border-style: solid;
 	border-width: 2px;
 	color: var(--text-sub);
@@ -69,7 +69,7 @@ export const CheckBadge = styled.div`
 	align-items: center;
 	animation: ${zoomIn} 0.2s ease-out;
 	background-color: var(--accent);
-	border-radius: 9999px;
+	border-radius: var(--radius-pill);
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 	color: #fff; /* Always white text on the filled badge */
 	display: flex;

@@ -6,7 +6,7 @@ export const BalanceDisplay = styled.div`
 		oklch(0.792 0.209 151.711) 0%,
 		oklch(0.696 0.17 162.48) 100%
 	);
-	border-radius: 24px;
+	border-radius: var(--radius-lg);
 	box-shadow:
 		rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
 		rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;

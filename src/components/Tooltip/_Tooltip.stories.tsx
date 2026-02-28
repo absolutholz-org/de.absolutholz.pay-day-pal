@@ -6,16 +6,6 @@ const meta = {
 	argTypes: {
 		children: {
 			control: false,
-			description: "The trigger element for the tooltip.",
-		},
-		content: {
-			control: "text",
-			description: "The content to display inside the tooltip.",
-		},
-		position: {
-			control: "select",
-			description: "The preferred position of the tooltip.",
-			options: ["top", "bottom", "left", "right"],
 		},
 	},
 	component: Tooltip,

@@ -12,7 +12,7 @@ export const Switch_Track = styled.button<{ $checked: boolean }>`
 	position: relative;
 	width: 48px;
 	height: 28px;
-	border-radius: 9999px;
+	border-radius: var(--radius-pill);
 	border: none;
 	/* Colors carefully chosen for 3:1+ UI contrast ratio */
 	background-color: ${({ $checked }) => ($checked ? "#005a9e" : "#6b7280")};
@@ -39,7 +39,7 @@ export const Switch_Thumb = styled.span<{ $checked: boolean }>`
 	left: 2px;
 	width: 24px;
 	height: 24px;
-	border-radius: 50%;
+	border-radius: var(--radius-pill);
 	background-color: #ffffff;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);

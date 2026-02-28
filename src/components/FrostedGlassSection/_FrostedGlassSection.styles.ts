@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const FrostedGlassSection = styled.section`
 	background-color: var(--section-bg);
 	border: 1px solid var(--section-border);
-	border-radius: 1.5rem;
+	border-radius: var(--radius-lg);
 	/* box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); */
 	box-shadow:
 		rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,

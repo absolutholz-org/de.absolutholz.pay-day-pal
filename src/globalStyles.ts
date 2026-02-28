@@ -50,6 +50,8 @@ const darkTokens = `
   --dialog-overlay:   oklch(10% 0.042 265 / 0.7);
   --title-gradient:   linear-gradient(135deg, oklch(70% 0.265 300) 0%, oklch(75% 0.2 340) 100%);
   --close-btn-hover:  oklch(35% 0.05 265);
+
+  
 `;
 
 export const globalStyles = css`
@@ -84,6 +86,9 @@ export const globalStyles = css`
 		--font-spacing-primary: 0.05em;
 
 		--radius-pill: calc(infinity * 1px);
+		--radius-sm: 8px;
+		--radius-md: 12px;
+		--radius-lg: 1.5rem;
 		--shadow-color: 0 0 0;
 
 		--page-content-padding: 1rem;
@@ -189,7 +194,7 @@ export const globalStyles = css`
 		appearance: none;
 		background: none;
 		border: none;
-		border-radius: 0px;
+		border-radius: 0;
 		color: inherit;
 		cursor: pointer;
 		font: inherit;
@@ -215,7 +220,7 @@ export const globalStyles = css`
 export const baseInputStyles = css`
 	background-color: var(--surface);
 	border: 2px solid oklch(from var(--on-surface) l c h / 0.5);
-	border-radius: 8px;
+	border-radius: var(--radius-sm);
 	color: var(--on-surface);
 	font-family: inherit;
 	font-size: 1rem;

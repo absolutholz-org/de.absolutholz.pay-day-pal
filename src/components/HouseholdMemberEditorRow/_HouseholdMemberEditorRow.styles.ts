@@ -29,7 +29,7 @@ export const HouseholdMemberEditorRow = styled.div`
 		transparent 50%
 	);
 	border: 2px solid var(--card-border);
-	border-radius: 0.75rem;
+	border-radius: var(--radius-md);
 	color: var(--text-sub);
 	display: flex;
 	gap: 1rem;
@@ -39,7 +39,7 @@ export const HouseholdMemberEditorRow = styled.div`
 export const HouseholdMemberEditorRow_Icon = styled.div`
 	align-items: center;
 	background-color: var(--member-color);
-	border-radius: 0.75rem;
+	border-radius: var(--radius-md);
 	display: flex;
 	font-size: 1.5rem;
 	height: 3rem;

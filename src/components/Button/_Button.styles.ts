@@ -66,13 +66,13 @@ const SIZES: Record<ButtonSize, SerializedStyles> = {
 		padding: 0.75rem 1.5rem;
 	`,
 	medium: css`
-		border-radius: 12px;
+		border-radius: var(--radius-md)
 		font-size: 1rem;
 		height: 3rem;
 		padding: 0.675rem 1.25rem;
 	`,
 	small: css`
-		border-radius: 12px;
+		border-radius: var(--radius-md)
 		font-size: 0.875rem; /* text-sm */
 		height: 2.5625rem;
 		padding: 0.5rem 1rem;
@@ -183,7 +183,7 @@ export const Button = styled.button<ButtonProps>`
 export const Spinner = styled.div`
 	animation: ${spin} 0.6s linear infinite;
 	border: 2px solid currentColor;
-	border-radius: 50%;
+	border-radius: var(--radius-pill);
 	border-top-color: transparent;
 	height: 1em;
 	width: 1em;
