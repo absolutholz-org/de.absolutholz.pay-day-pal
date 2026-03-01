@@ -1,3 +1,11 @@
+# [1.13.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.12.0...v1.13.0) (2026-03-01)
+
+
+### Features
+
+* add chore list to settings page ([ed54355](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/ed54355e3ee13efbf0dab3d2273e03039a61e012))
+* **ui:** add Logo component ([1a6a3e8](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/1a6a3e8d01ad868bd64975fe8a9e37a4c40f044a))
+
 # [1.12.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.11.0...v1.12.0) (2026-02-28)
 
 
