@@ -54,7 +54,7 @@ export interface IMyComponent {
 **Example:**
 
 ```typescript
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 export const MyComponent = styled.div<{ $disabled?: boolean }>`
   /* Base styles */
@@ -89,15 +89,15 @@ export function MyComponent({ label, disabled = false, onClick }: IMyComponent) 
 	const id = useId();
 
 	return (
-		<S.MyComponentContainer
+		<S.MyComponent
 			id={id}
 			$disabled={disabled}
 			onClick={!disabled ? onClick : undefined}
 			role="button"
 			tabIndex={disabled ? -1 : 0}
 		>
-			<S.MyComponentLabel>{label}</S.MyComponentLabel>
-		</S.MyComponentContainer>
+			<S.MyComponent_Label>{label}</S.MyComponent_Label>
+		</S.MyComponent>
 	);
 }
 ```
