@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.13.0...v1.14.0) (2026-03-01)
+
+
+### Features
+
+* **data:** add multi-language chore support ([b008db4](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/commit/b008db4191db5f61f134d4fc53e2679406b225f2))
+
 # [1.13.0](https://github.com/absolutholz-org/de.absolutholz.pay-day-pal/compare/v1.12.0...v1.13.0) (2026-03-01)
 
 
