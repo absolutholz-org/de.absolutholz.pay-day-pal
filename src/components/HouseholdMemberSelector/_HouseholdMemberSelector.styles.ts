@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 
 export const HouseholdMemberSelector = styled.div`
 	display: flex;
-	gap: 1rem;
-	margin-bottom: 2rem;
+	gap: var(--sys-spacing-md);
+	margin-bottom: var(--sys-spacing-xl);
 `;
 
 export const HouseholdMemberSelector_Member = styled.button<{
@@ -16,11 +16,11 @@ export const HouseholdMemberSelector_Member = styled.button<{
 	border-radius: var(--radius-pill);
 	color: var(--member-color);
 	display: flex;
-	font-size: 1rem;
+	font-size: var(--sys-font-size-base);
 	font-weight: 600;
-	gap: 0.5rem;
+	gap: var(--sys-spacing-sm);
 	justify-content: center;
-	padding: 0.5rem 1rem;
+	padding: var(--sys-spacing-sm) var(--sys-spacing-md);
 	transition: all 0.2s ease;
 
 	&:hover {

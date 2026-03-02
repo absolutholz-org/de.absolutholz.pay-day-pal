@@ -58,7 +58,7 @@ export const DialogHeader = styled.div`
 	border-bottom: 1px solid var(--card-border);
 	display: flex;
 	justify-content: space-between;
-	padding: 1.25rem 1.5rem;
+	padding: var(--sys-spacing-md) var(--sys-spacing-lg);
 `;
 
 export const DialogTitle = styled.h2`
@@ -66,7 +66,7 @@ export const DialogTitle = styled.h2`
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
-	font-size: 1.5rem;
+	font-size: var(--sys-font-size-2xl);
 	font-weight: 700;
 	margin: 0;
 	-webkit-text-fill-color: transparent;
@@ -81,7 +81,7 @@ export const CloseButton = styled.button`
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
-	padding: 0.5rem;
+	padding: var(--sys-spacing-sm);
 	transition: all 0.2s;
 
 	&:hover {
@@ -99,12 +99,12 @@ export const DialogContent = styled.div`
 	color: var(--text-sub);
 	font-size: 0.9375rem;
 	line-height: 1.5;
-	padding: 1.5rem;
+	padding: var(--sys-spacing-lg);
 `;
 
 export const DialogFooter = styled.div`
 	display: flex;
-	gap: 0.5rem;
+	gap: var(--sys-spacing-sm);
 	justify-content: flex-end;
-	padding: 0 1.5rem 1.5rem 1.5rem;
+	padding: 0 var(--sys-spacing-lg) var(--sys-spacing-lg) var(--sys-spacing-lg);
 `;

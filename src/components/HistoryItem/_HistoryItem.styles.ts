@@ -4,10 +4,10 @@ export const HistoryItem = styled.div`
 	align-items: center;
 	background-color: var(--card-bg);
 	/* background: oklch(0.985 0.002 247.839); */
-	border-radius: 0.875rem;
+	border-radius: var(--sys-radius-md);
 	display: flex;
-	gap: 0.75rem;
-	padding: 0.75rem;
+	gap: var(--sys-spacing-md);
+	padding: var(--sys-spacing-md);
 	transition: background-color 0.2s;
 `;
 
@@ -25,7 +25,7 @@ export const HistoryItem_Content = styled.div`
 
 export const HistoryItem_Title = styled.div`
 	color: var(--text-main);
-	font-size: 1rem;
+	font-size: var(--sys-font-size-base);
 	font-weight: 600;
 `;
 
@@ -33,14 +33,14 @@ export const HistoryItem_Children = styled.div`
 	color: var(--text-sub);
 	display: flex;
 	flex-wrap: wrap;
-	font-size: 0.875rem;
-	gap: 0.25rem 0.75rem;
+	font-size: var(--sys-font-size-sm);
+	gap: var(--sys-spacing-xs) var(--sys-spacing-md);
 	line-height: 1.42;
-	margin-top: 0.25rem;
+	margin-top: var(--sys-spacing-xs);
 `;
 
 export const HistoryItem_Amount = styled.div`
-	color: #10b981;
-	font-size: 1rem;
+	color: var(--accent-green);
+	font-size: var(--sys-font-size-base);
 	font-weight: 700;
 `;

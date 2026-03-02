@@ -13,7 +13,7 @@ export const FullBleedScrollableContainer = styled.div`
 	);
 
 	display: flex;
-	gap: 1rem;
+	gap: var(--sys-spacing-md);
 	overflow-x: auto;
 	scroll-padding-left: var(--scrollable-container-margin);
 	scroll-snap-type: x mandatory;

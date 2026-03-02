@@ -60,22 +60,22 @@ const COLORS: Record<
 
 const SIZES: Record<ButtonSize, SerializedStyles> = {
 	large: css`
-		border-radius: 16px;
-		font-size: 1.125rem; /* text-lg */
+		border-radius: var(--sys-radius-lg);
+		font-size: var(--sys-font-size-lg);
 		height: 3.4375rem;
-		padding: 0.75rem 1.5rem;
+		padding: var(--sys-spacing-md) var(--sys-spacing-lg);
 	`,
 	medium: css`
-		border-radius: var(--radius-md)
-		font-size: 1rem;
+		border-radius: var(--sys-radius-md);
+		font-size: var(--sys-font-size-base);
 		height: 3rem;
-		padding: 0.675rem 1.25rem;
+		padding: var(--sys-spacing-sm) var(--sys-spacing-lg);
 	`,
 	small: css`
-		border-radius: var(--radius-md)
-		font-size: 0.875rem; /* text-sm */
+		border-radius: var(--sys-radius-md);
+		font-size: var(--sys-font-size-sm);
 		height: 2.5625rem;
-		padding: 0.5rem 1rem;
+		padding: var(--sys-spacing-sm) var(--sys-spacing-md);
 	`,
 };
 
@@ -141,7 +141,7 @@ export const Button = styled.button<ButtonProps>`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
+	gap: var(--sys-spacing-sm);
 	font-weight: 600;
 	cursor: pointer;
 	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -183,7 +183,7 @@ export const Button = styled.button<ButtonProps>`
 export const Spinner = styled.div`
 	animation: ${spin} 0.6s linear infinite;
 	border: 2px solid currentColor;
-	border-radius: var(--radius-pill);
+	border-radius: var(--sys-radius-full);
 	border-top-color: transparent;
 	height: 1em;
 	width: 1em;

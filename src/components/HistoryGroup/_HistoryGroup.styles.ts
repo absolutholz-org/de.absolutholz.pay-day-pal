@@ -7,7 +7,7 @@ export const HistoryGroup = styled(FrostedGlassSection)`
 `;
 
 export const HistoryGroup_Content = styled.div`
-	padding: 1.5rem;
+	padding: var(--sys-spacing-lg);
 `;
 
 export const HistoryGroupHeader = styled.div`
@@ -16,8 +16,8 @@ export const HistoryGroupHeader = styled.div`
 	border-top-right-radius: inherit;
 	color: white;
 	display: flex;
-	gap: 0.75rem;
-	padding: 1rem 1.5rem;
+	gap: var(--sys-spacing-md);
+	padding: var(--sys-spacing-md) var(--sys-spacing-lg);
 `;
 
 export const HistoryGroupHeader_Day = styled(HistoryGroupHeader)`
@@ -42,18 +42,18 @@ export const HistoryGroupHeader_Main = styled.div`
 `;
 
 export const HistoryGroupHeader_Amount = styled.div`
-	font-size: 1.5rem;
+	font-size: var(--sys-font-size-2xl);
 	font-weight: 700;
 	letter-spacing: -0.02em;
 `;
 
 export const HistoryGroupHeader_Title = styled.div`
-	font-size: 1.125rem;
+	font-size: var(--sys-font-size-lg);
 	font-weight: 700;
 `;
 
 export const HistoryGroupHeader_Subtitle = styled.div`
-	font-size: 0.875rem;
+	font-size: var(--sys-font-size-sm);
 	opacity: 0.9;
 `;
 
@@ -72,7 +72,7 @@ export const HistoryHeader = styled.div``;
 export const HeaderLeft = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 0.75rem;
+	gap: var(--sys-spacing-md);
 `;
 
 export const HeaderIcon = styled.div`
@@ -86,7 +86,7 @@ export const HeaderText = styled.div`
 `;
 
 export const HeaderTotal = styled.span`
-	font-size: 1.5rem;
+	font-size: var(--sys-font-size-2xl);
 	font-weight: 700;
 	letter-spacing: -0.02em;
 `;

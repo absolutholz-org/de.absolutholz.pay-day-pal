@@ -26,7 +26,7 @@ export const ConfettiBurst = styled.div`
 
 export const ConfettiBurst_ParticleContainer = styled.div`
 	animation: ${confettiBurstAnimation} var(--duration) ease-out forwards;
-	bottom: 2rem;
+	bottom: var(--sys-spacing-xl);
 	left: 50%;
 	position: absolute;
 	transform: translateX(-50%);

@@ -10,15 +10,15 @@ export const Pill = styled.button`
 `;
 
 export const Pill_Small = styled(Pill)`
-	font-size: 0.875rem;
+	font-size: var(--sys-font-size-sm);
 `;
 
 export const Pill_Medium = styled(Pill)`
-	font-size: 1rem;
+	font-size: var(--sys-font-size-base);
 `;
 
 export const Pill_Large = styled(Pill)`
-	font-size: 1.25rem;
+	font-size: var(--sys-font-size-xl);
 `;
 
 const Pill_Base = styled.span`

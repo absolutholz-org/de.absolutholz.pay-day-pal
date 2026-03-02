@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 
 export const Tooltip = styled.div`
 	margin: 0;
-	padding: 0.375rem 0.75rem;
-	background-color: oklch(0.28 0.03 260); /* slate-800 approx */
-	color: oklch(0.98 0.01 260); /* slate-50 approx */
-	font-size: 0.75rem;
+	padding: var(--sys-spacing-xs) var(--sys-spacing-md);
+	background-color: var(--sys-color-on-surface); /* slate-800 approx */
+	color: var(--sys-color-surface); /* slate-50 approx */
+	font-size: var(--sys-font-size-xs);
 	font-weight: 500;
-	border-radius: 0.375rem;
+	border-radius: var(--sys-radius-sm);
 	border: none;
 	box-shadow:
 		0 4px 6px -1px rgb(0 0 0 / 0.1),

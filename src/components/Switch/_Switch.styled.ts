@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 export const Switch = styled.div<{ $disabled?: boolean }>`
 	display: inline-flex;
 	align-items: center;
-	gap: 12px;
+	gap: var(--sys-spacing-md);
 	/* Dim the entire component if disabled */
 	opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 `;
@@ -15,7 +15,7 @@ export const Switch_Track = styled.button<{ $checked: boolean }>`
 	border-radius: var(--radius-pill);
 	border: none;
 	/* Colors carefully chosen for 3:1+ UI contrast ratio */
-	background-color: ${({ $checked }) => ($checked ? "#005a9e" : "#6b7280")};
+	background-color: ${({ $checked }) => ($checked ? "var(--sys-color-primary)" : "var(--sys-color-border)")};
 	cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 	padding: 0;
 	transition: background-color 0.2s ease-in-out;
@@ -23,7 +23,7 @@ export const Switch_Track = styled.button<{ $checked: boolean }>`
 
 	/* WCAG 2.4.7 Focus Visible: Ensure highly visible focus ring */
 	&:focus-visible {
-		outline: 3px solid #005a9e;
+		outline: 3px solid var(--sys-color-primary);
 		outline-offset: 3px;
 	}
 
@@ -53,8 +53,8 @@ export const Switch_LabelText = styled.label<{ $disabled?: boolean }>`
 		system-ui,
 		-apple-system,
 		sans-serif;
-	font-size: 1rem;
-	color: #111827;
+	font-size: var(--sys-font-size-base);
+	color: var(--sys-color-on-surface);
 	cursor: ${({ $disabled }) => ($disabled ? "not-allowed" : "pointer")};
 	/* Prevent text highlighting when user clicks the label rapidly */
 	user-select: none;

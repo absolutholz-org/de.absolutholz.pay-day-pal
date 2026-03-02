@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 export const Row = styled.div<{ disabled?: boolean }>`
 	align-items: center;
 	display: flex;
-	gap: 0.5rem;
-	margin-bottom: 0.5rem;
+	gap: var(--sys-spacing-sm);
+	margin-bottom: var(--sys-spacing-sm);
 	opacity: ${(props) => (props.disabled ? 0.6 : 1)};
 `;
 
@@ -32,8 +32,8 @@ export const HouseholdMemberEditorRow = styled.div`
 	border-radius: var(--radius-md);
 	color: var(--text-sub);
 	display: flex;
-	gap: 1rem;
-	padding: 0.5rem;
+	gap: var(--sys-spacing-md);
+	padding: var(--sys-spacing-sm);
 `;
 
 export const HouseholdMemberEditorRow_Icon = styled.div`
@@ -41,7 +41,7 @@ export const HouseholdMemberEditorRow_Icon = styled.div`
 	background-color: var(--member-color);
 	border-radius: var(--radius-md);
 	display: flex;
-	font-size: 1.5rem;
+	font-size: var(--sys-font-size-2xl);
 	height: 3rem;
 	justify-content: center;
 	width: 3rem;

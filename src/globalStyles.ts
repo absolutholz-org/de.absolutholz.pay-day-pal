@@ -3,55 +3,75 @@ import { css } from "@emotion/react";
 import { colorSchemeCss } from "./_colorSchemeCss";
 
 const lightTokens = `
-  /* BASE COLORS */
-  --bg-main:       oklch(98.5% 0.002 265);  /* Slate 50 */
-  --text-main:     oklch(20.5% 0.042 265);  /* Slate 900 */
-  --text-sub:      oklch(55.0% 0.025 265);  /* Slate 500 */
-  
-  --card-bg:       oklch(100% 0 0);         /* White */
-  --card-border:   oklch(92.0% 0.006 265);  /* Slate 200 */
-  
-  --accent:        oklch(62.7% 0.265 300);  /* Purple 500 */
-  
-  /* Helper for Section */
-  --section-bg:    oklch(100% 0 0);
-  --section-border: oklch(98.5% 0.002 265);
+	/* BASE COLORS */
+	--bg-main:       oklch(98.5% 0.002 265);  /* Slate 50 */
+	--text-main:     oklch(20.5% 0.042 265);  /* Slate 900 */
+	--text-sub:      oklch(55.0% 0.025 265);  /* Slate 500 */
 
-  /* Dialog Specifics */
-  --dialog-bg:        oklch(100% 0 0);
-  /* Tinted header for Light Mode (Subtle Purple) */
-  --dialog-header-bg: oklch(98% 0.01 300); 
-  --dialog-overlay:   oklch(20.5% 0.042 265 / 0.4);
-  --title-gradient:   linear-gradient(135deg, oklch(62.7% 0.265 300) 0%, oklch(65% 0.25 340) 100%);
-  --close-btn-hover:  oklch(96% 0.01 265); 
+	--card-bg:       oklch(100% 0 0);         /* White */
+	--card-border:   oklch(92.0% 0.006 265);  /* Slate 200 */
+
+	--accent:        oklch(62.7% 0.265 300);  /* Purple 500 */
+
+	/* Helper for Section */
+	--section-bg:    oklch(100% 0 0);
+	--section-border: oklch(98.5% 0.002 265);
+
+	/* Dialog Specifics */
+	--dialog-bg:        oklch(100% 0 0);
+	/* Tinted header for Light Mode (Subtle Purple) */
+	--dialog-header-bg: oklch(98% 0.01 300); 
+	--dialog-overlay:   oklch(20.5% 0.042 265 / 0.4);
+	--title-gradient:   linear-gradient(135deg, oklch(62.7% 0.265 300) 0%, oklch(65% 0.25 340) 100%);
+	--close-btn-hover:  oklch(96% 0.01 265);
+
+	/* SYSTEM COLORS - LIGHT */
+	--sys-color-primary: oklch(62.7% 0.265 300);
+	--sys-color-primary-hover: oklch(55.0% 0.265 300);
+	--sys-color-on-primary: oklch(100% 0 0);
+	--sys-color-background: oklch(98.5% 0.002 265);
+	--sys-color-on-background: oklch(20.5% 0.042 265);
+	--sys-color-surface: oklch(100% 0 0);
+	--sys-color-on-surface: oklch(20.5% 0.042 265);
+	--sys-color-border: oklch(92.0% 0.006 265);
+	--sys-color-focus-ring: oklch(62.7% 0.265 300 / 0.5);
 `;
 
 const darkTokens = `
-  /* BASE COLORS (Dark Scheme) */ 
-  --bg-main:       oklch(20.5% 0.042 265);  /* Slate 900 */
-  --text-main:     oklch(98.0% 0 0);        /* White */
-  --text-sub:      oklch(70.0% 0.030 265);  /* Slate 400 */
-  
-  --card-bg:       oklch(27.5% 0.045 265);  /* Slate 800 */
-  --card-border:   oklch(35.0% 0.050 265);  /* Slate 700 */
-  
-  /* We slightly adjust accent lightness for dark mode contrast if needed, 
-     but often the same color works if chosen well. */
-  --accent:        oklch(65.0% 0.250 300);
-  
-  /* Helper for Section */
-  --section-bg:    oklch(20.5% 0.042 265 / 0.5);
-  --section-border: oklch(27.5% 0.045 265);
+	/* BASE COLORS (Dark Scheme) */ 
+	--bg-main:       oklch(20.5% 0.042 265);  /* Slate 900 */
+	--text-main:     oklch(98.0% 0 0);        /* White */
+	--text-sub:      oklch(70.0% 0.030 265);  /* Slate 400 */
 
-  /* Dialog Specifics */
-  --dialog-bg:        oklch(25% 0.045 265);
-  /* Tinted header for Dark Mode (Dark Purple/Slate mix) */
-  --dialog-header-bg: oklch(30% 0.06 300); 
-  --dialog-overlay:   oklch(10% 0.042 265 / 0.7);
-  --title-gradient:   linear-gradient(135deg, oklch(70% 0.265 300) 0%, oklch(75% 0.2 340) 100%);
-  --close-btn-hover:  oklch(35% 0.05 265);
+	--card-bg:       oklch(27.5% 0.045 265);  /* Slate 800 */
+	--card-border:   oklch(35.0% 0.050 265);  /* Slate 700 */
 
-  
+	/* We slightly adjust accent lightness for dark mode contrast if needed, 
+		but often the same color works if chosen well. */
+	--accent:        oklch(65.0% 0.250 300);
+
+	/* Helper for Section */
+	--section-bg:    oklch(20.5% 0.042 265 / 0.5);
+	--section-border: oklch(27.5% 0.045 265);
+
+	/* Dialog Specifics */
+	--dialog-bg:        oklch(25% 0.045 265);
+	/* Tinted header for Dark Mode (Dark Purple/Slate mix) */
+	--dialog-header-bg: oklch(30% 0.06 300); 
+	--dialog-overlay:   oklch(10% 0.042 265 / 0.7);
+	--title-gradient:   linear-gradient(135deg, oklch(70% 0.265 300) 0%, oklch(75% 0.2 340) 100%);
+	--close-btn-hover:  oklch(35% 0.05 265);
+
+	/* SYSTEM COLORS - DARK */
+	--sys-color-primary: oklch(65.0% 0.250 300);
+	--sys-color-primary-hover: oklch(70.0% 0.250 300);
+	--sys-color-on-primary: oklch(100% 0 0);
+	--sys-color-background: oklch(20.5% 0.042 265);
+	--sys-color-on-background: oklch(98.0% 0 0);
+	--sys-color-surface: oklch(27.5% 0.045 265);
+	--sys-color-on-surface: oklch(98.0% 0 0);
+	--sys-color-border: oklch(35.0% 0.050 265);
+	--sys-color-focus-ring: oklch(65.0% 0.250 300 / 0.5);
 `;
 
 export const globalStyles = css`
@@ -85,17 +105,41 @@ export const globalStyles = css`
 			Helvetica, Arial, sans-serif;
 		--font-spacing-primary: 0.05em;
 
-		--radius-pill: calc(infinity * 1px);
-		--radius-sm: 8px;
-		--radius-md: 12px;
-		--radius-lg: 1.5rem;
+		/* TYPOGRAPHY SCALE */
+		--sys-font-size-xs: 0.75rem;
+		--sys-font-size-sm: 0.875rem;
+		--sys-font-size-base: 1rem;
+		--sys-font-size-lg: 1.125rem;
+		--sys-font-size-xl: 1.25rem;
+		--sys-font-size-2xl: 1.5rem;
+		--sys-font-size-3xl: 2rem;
+
+		/* SPACING SCALE */
+		--sys-spacing-xs: 0.25rem;
+		--sys-spacing-sm: 0.5rem;
+		--sys-spacing-md: 1rem;
+		--sys-spacing-lg: 1.5rem;
+		--sys-spacing-xl: 2rem;
+		--sys-spacing-2xl: 3rem;
+
+		/* RADIUS SCALE */
+		--sys-radius-sm: 8px;
+		--sys-radius-md: 12px;
+		--sys-radius-lg: 1.5rem;
+		--sys-radius-full: 9999px;
+
+		/* Legacy radius bindings */
+		--radius-pill: var(--sys-radius-full);
+		--radius-sm: var(--sys-radius-sm);
+		--radius-md: var(--sys-radius-md);
+		--radius-lg: var(--sys-radius-lg);
 		--shadow-color: 0 0 0;
 
-		--page-content-padding: 1rem;
+		--page-content-padding: var(--sys-spacing-md);
 		--page-content-max-width: 52rem;
 
-		@media screen and (max-width: 600px) {
-			--page-content-padding: 3rem;
+		@media screen and (min-width: 600px) {
+			--page-content-padding: var(--sys-spacing-2xl);
 		}
 
 		color: var(--on-surface);
@@ -218,18 +262,18 @@ export const globalStyles = css`
 `;
 
 export const baseInputStyles = css`
-	background-color: var(--surface);
-	border: 2px solid oklch(from var(--on-surface) l c h / 0.5);
-	border-radius: var(--radius-sm);
-	color: var(--on-surface);
+	background-color: var(--sys-color-surface);
+	border: 2px solid oklch(from var(--sys-color-on-surface) l c h / 0.5);
+	border-radius: var(--sys-radius-sm);
+	color: var(--sys-color-on-surface);
 	font-family: inherit;
-	font-size: 1rem;
-	margin-bottom: 1rem;
-	padding: 0.75rem;
+	font-size: var(--sys-font-size-base);
+	margin-bottom: var(--sys-spacing-md);
+	padding: var(--sys-spacing-sm) var(--sys-spacing-md);
 	width: 100%;
 
 	&:focus {
-		border-color: oklch(from var(--on-surface) l c h / 0.85);
+		border-color: oklch(from var(--sys-color-on-surface) l c h / 0.85);
 		outline: none;
 	}
 `;

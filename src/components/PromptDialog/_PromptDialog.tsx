@@ -47,7 +47,7 @@ export function PromptDialog({
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					gap: "1rem",
+					gap: "var(--sys-spacing-md)",
 				}}
 			>
 				<VisuallyHidden>{message}</VisuallyHidden>

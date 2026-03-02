@@ -13,11 +13,11 @@ export const Pill = styled.button<{
 	border-radius: var(--radius-pill);
 	color: var(--member-color);
 	display: inline-flex;
-	font-size: 1rem;
+	font-size: var(--sys-font-size-base);
 	font-weight: 600;
-	gap: 0.5rem;
+	gap: var(--sys-spacing-sm);
 	justify-content: center;
-	padding: 0.5rem 1rem;
+	padding: var(--sys-spacing-sm) var(--sys-spacing-md);
 	transition: all 0.2s ease;
 
 	&:hover {
@@ -47,10 +47,10 @@ export const Pill = styled.button<{
 		size === "small" &&
 		css`
 			border: 0;
-			font-size: 0.75rem;
+			font-size: var(--sys-font-size-xs);
 			font-weight: 500;
-			gap: 0.375rem;
-			padding: 0.125rem 0.5rem;
+			gap: var(--sys-spacing-xs);
+			padding: 0.125rem var(--sys-spacing-sm);
 		`}
 `;
 
@@ -65,7 +65,7 @@ export const Icon = styled.span<{
 	font-size: 1.125em;
 	height: 2em;
 	justify-content: center;
-	margin-left: -0.5rem;
+	margin-left: calc(var(--sys-spacing-sm) * -1);
 	width: 2em;
 
 	${({ isActive }) =>
