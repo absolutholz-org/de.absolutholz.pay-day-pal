@@ -11,16 +11,12 @@ export const onCardActive = (styles: SerializedStyles) => css`
 
 const lightTheme = css`
 	/* CALCULATED FORMULA:
-		1. Start Color: Lighten base by 0.16 (Matches your 'Fade From' values)
-		2. End Color:   Lighten base by 0.08 (Matches your 'Fade To' values)
-
-		Note: We keep hue (h) and chroma (c) inherited from the base 
-		to ensure the tone remains consistent.
+		Use the raw vibrant chore color, with a slight luminance bump at the top.
 	*/
 	--top-gradient: linear-gradient(
 		to bottom right,
-		oklch(from var(--chore-color) calc(l + 0.16) c h) 0%,
-		oklch(from var(--chore-color) calc(l + 0.08) c h) 100%
+		oklch(from var(--chore-color) calc(l + 0.04) c h) 0%,
+		var(--chore-color) 100%
 	);
 	background-color: var(--sys-color-surface);
 `;
@@ -28,13 +24,12 @@ const lightTheme = css`
 const darkTheme = css`
 	background-color: oklch(0.278 0.033 256.848);
 	/* REFINED GRADIENT FORMULA:
-    Start: Lightness + 0.22 | Chroma * 0.75 (Softer, matte start)
-    End:   Lightness + 0.13 | Chroma * 0.9  (Slightly deeper/richer end)
+		Dark mode uses the raw color too for maximum pop, with slight shift.
   */
 	--top-gradient: linear-gradient(
 		to bottom right,
-		oklch(from var(--chore-color) calc(l + 0.22) calc(c * 0.75) h) 0%,
-		oklch(from var(--chore-color) calc(l + 0.13) calc(c * 0.9) h) 100%
+		oklch(from var(--chore-color) calc(l + 0.05) c h) 0%,
+		var(--chore-color) 100%
 	);
 `;
 

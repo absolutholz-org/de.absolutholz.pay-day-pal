@@ -39,11 +39,11 @@ const lightTokens = `
 
 const darkTokens = `
 	/* BASE COLORS (Dark Scheme) */ 
-	--bg-main:       oklch(20.5% 0.042 265);  /* Slate 900 */
+	--bg-main:       oklch(20% 0.05 275);     /* Deep Indigo/Purple */
 	--text-main:     oklch(98.0% 0 0);        /* White */
 	--text-sub:      oklch(70.0% 0.030 265);  /* Slate 400 */
 
-	--card-bg:       oklch(27.5% 0.045 265);  /* Slate 800 */
+	--card-bg:       oklch(30% 0.06 275);     /* Slightly lighter purple */
 	--card-border:   oklch(35.0% 0.050 265);  /* Slate 700 */
 
 	/* We slightly adjust accent lightness for dark mode contrast if needed, 
@@ -51,13 +51,13 @@ const darkTokens = `
 	--accent:        oklch(65.0% 0.250 300);
 
 	/* Helper for Section */
-	--section-bg:    oklch(20.5% 0.042 265 / 0.5);
-	--section-border: oklch(27.5% 0.045 265);
+	--section-bg:    oklch(20% 0.05 275 / 0.5);
+	--section-border: oklch(30% 0.06 275);
 
 	/* Dialog Specifics */
-	--dialog-bg:        oklch(25% 0.045 265);
+	--dialog-bg:        oklch(30% 0.06 275);
 	/* Tinted header for Dark Mode (Dark Purple/Slate mix) */
-	--dialog-header-bg: oklch(30% 0.06 300); 
+	--dialog-header-bg: oklch(35% 0.08 300); 
 	--dialog-overlay:   oklch(10% 0.042 265 / 0.7);
 	--title-gradient:   linear-gradient(135deg, oklch(70% 0.265 300) 0%, oklch(75% 0.2 340) 100%);
 	--close-btn-hover:  oklch(35% 0.05 265);
@@ -166,14 +166,14 @@ export const globalStyles = css`
 				--on-surface-2: oklch(0.928 0.006 264.531);
 				--on-surface-3: oklch(0.872 0.01 258.338);
 
-				--accent-blue: oklch(0.488 0.243 264.376); // Deep Azure
-				--accent-green: oklch(0.527 0.154 150.069); // Vivid Green
-				--accent-purple: oklch(0.496 0.265 301.924); // Deep Violet
-				--accent-orange: oklch(0.553 0.195 38.402); // Burnt Orange
-				--accent-red: oklch(0.505 0.213 27.518); // Crimson Red
-				--accent-yellow: oklch(0.544 0.135 66.442); // Something Yellow
-				--accent-pink: oklch(0.525 0.223 3.958); // Magenta
-				--accent-indigo: oklch(0.457 0.24 277.023); // Deep Indigo
+				--accent-blue: oklch(62.3% 0.214 259.815); // Deep Azure
+				--accent-green: oklch(72.3% 0.219 149.579); // Vivid Green
+				--accent-purple: oklch(62.7% 0.265 303.9); // Deep Violet
+				--accent-orange: oklch(70.5% 0.213 47.604); // Burnt Orange
+				--accent-red: oklch(63.7% 0.237 25.331); // Crimson Red
+				--accent-yellow: oklch(79.5% 0.184 86.047); // Something Yellow
+				--accent-pink: oklch(65.6% 0.241 354.308); // Magenta
+				--accent-indigo: oklch(71.5% 0.143 215.221); // Cyan-500 from Figma html
 
 				/* Dark text on white can be slightly heavier */
 				--font-weight-primary: 400;
@@ -194,14 +194,14 @@ export const globalStyles = css`
 				--on-surface-2: oklch(0.373 0.034 259.733);
 				--on-surface-3: oklch(0.551 0.027 264.364);
 
-				--accent-blue: oklch(0.546 0.245 262.881); // Deep Azure
-				--accent-green: oklch(0.627 0.194 149.214); // Vivid Green
-				--accent-purple: oklch(0.558 0.288 302.321); // Deep Violet
-				--accent-orange: oklch(0.646 0.222 41.116); // Burnt Orange
-				--accent-red: oklch(0.577 0.245 27.325); // Crimson Red
-				--accent-yellow: oklch(0.681 0.162 75.834); // Something Yellow
-				--accent-pink: oklch(0.592 0.249 0.584); // Magenta
-				--accent-indigo: oklch(0.511 0.262 276.966); // Deep Indigo
+				--accent-blue: oklch(62.3% 0.214 259.815); // Deep Azure
+				--accent-green: oklch(72.3% 0.219 149.579); // Vivid Green
+				--accent-purple: oklch(62.7% 0.265 303.9); // Deep Violet
+				--accent-orange: oklch(70.5% 0.213 47.604); // Burnt Orange
+				--accent-red: oklch(63.7% 0.237 25.331); // Crimson Red
+				--accent-yellow: oklch(79.5% 0.184 86.047); // Something Yellow
+				--accent-pink: oklch(65.6% 0.241 354.308); // Magenta
+				--accent-indigo: oklch(71.5% 0.143 215.221); // Cyan-500 from figma html
 
 				/* Thin text often needs a slight weight boost on dark backgrounds to stay readable */
 				--font-weight-primary: 300;
